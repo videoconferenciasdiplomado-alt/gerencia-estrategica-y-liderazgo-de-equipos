@@ -1,0 +1,1582 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+   <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Bienvenida, presentación del docente y alcance del módulo</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Saludos iniciales y organización del inicio</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Recepción de asistentes con saludos y agradecimientos repetidos en inicio de sesión: Indicaciones del retraso por inconvenientes técnicos. Aviso de empezar en pocos minutos y confirmación de audio.
+              </div>
+              <div class="content-text">
+                Presentación breve del formato de la sesión y expectativa de interacción: Profesor solicita participación activa aun si cámaras están apagadas. Importancia de dinamismo por grupo pequeño.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=579" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(00:09:39)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Formación y experiencia profesional del docente</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Formación académica y especializaciones: Licenciatura en Negocios Internacionales (San Marcos), diplomados en ADEX, especialidades en ORP y USIL. Maestría en Administración con mención en PMP y Supply Chain Management.
+              </div>
+              <div class="content-text">
+                Experiencia laboral y sector objetivo: Más de un año en la empresa actual y trabajo previo en distintas compañías, incluidas transnacionales. Enfoque en logística nacional e internacional con clientes del sector minero.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=1401" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(00:23:21)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.3</span>
+              <span class="subsection-title">Contenido y enfoque del curso</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Temas a abordar durante el módulo: Inventarios, logística, planeamiento, compras, transporte orientados a la minería. Aplicación práctica y específica al sector minero.
+              </div>
+              <div class="content-text">
+                Metodología y expectativas de aprendizaje: Interacción, ejemplos prácticos, participación activa de alumnos. Objetivo: contextualizar logística y supply chain dentro de operaciones mineras.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=1437" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(00:23:57)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Presentación de alumnos y expectativas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Perfiles y objetivos de los estudiantes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Ana Bela Calle: joven ingeniera ambiental, recién egresada y con experiencia en obras: Trabajó en consorcio R en represa de Cascapampa, experiencia en prácticas preprofesionales. Interés en minería y en seguir aprendiendo.
+              </div>
+              <div class="content-text">
+                Roberto Carlos López: militar retirado y gestor de rutas en MMG Las Bambas: 30 años en ejército, 8 meses retirado, 50 años de edad. Objetivo: adaptar liderazgo militar a liderazgo en minería.
+              </div>
+              <div class="content-text">
+                Mijael Karel Solís: egresado de Ingeniería Mecánica Eléctrica, prácticas en importadora de maquinaria y almacén: Buscando oportunidades en mineras; experiencia en almacén apoya comprensión de WMS.
+              </div>
+              <div class="content-text">
+                Ronald Zabala: ingeniero de minas en operaciones (extracción, acarreo, mantenimiento y relaves): Perfil operativo aporta casos reales para discusión.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=1709" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(00:28:29)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Implicaciones para la dinámica de clase</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Grupo pequeño (cinco personas inicialmente) favorece interacción: Profesor enfatiza conocer expectativas para adaptar contenidos. Diversidad de perfiles (jóvenes, retirados, provincianos) aporta distintas perspectivas prácticas.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=2193" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(00:36:33)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Conceptos logísticos y herramientas ERP/ERP</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Definición, finalidad y ventajas del ERP</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                ¿Qué es un ERP y por qué lo usan las empresas?: Sistema/software que integra procesos: finanzas, compras, inventarios, RRHH, CRM, e-commerce, proyectos y reporting. Finalidad: trazabilidad de operaciones y control centralizado.
+              </div>
+              <div class="content-text">
+                Beneficios operativos y estratégicos: Controles de aprobación (candados), usuarios con roles y responsabilidades. Mejora de productividad, optimización de procesos, informes acelerados y generación de KPIs.
+              </div>
+              <div class="content-text">
+                Variedad de ERPs y elección sectorial: SAP predominante en las minas grandes en Perú (incluye versiones como S/4HANA). Otros sistemas mencionados: ICOM, Spring, Oracle, BT, DBS; elección depende de alcance y necesidades.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=2324" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(00:38:44)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Diferencias entre ERP y herramientas manuales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Limitaciones de libros o Excel frente a ERP: Riesgo de errores, manipulaciones o pérdida de datos en Excel. ERP impone flujos de aprobación y trazabilidad que reducen errores.
+              </div>
+              <div class="content-text">
+                Uso complementario de herramientas externas: A pesar del ERP, se suele trabajar con Excel y SharePoint para reportes y autorizaciones digitales. SharePoint se usa para intercambio de documentos, firmas digitales y gestión de autorizaciones.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=2465" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(00:41:05)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.3</span>
+              <span class="subsection-title">Módulos y capacidades dentro de un ERP</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Módulos y capacidades clave: Finanzas, compras, manufactura/MRP, gestión de inventarios, CRM, e-commerce, BI, Project Management, RRHH. Generación de reportes, KPIs, análisis de ventas, rotación de inventarios y control de proveedores.
+              </div>
+              <div class="content-text">
+                Aplicación operativa: ERP permite priorizar clientes/proveedores mediante KPIs y análisis Pareto. Integración desde ingreso de mercadería hasta facturación y gestión comercial.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=2465" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(00:41:05)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Demostración práctica del ERP en minería</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Visualización y flujo de procesos en SAP</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Pantalla de solicitud de pedido y requerimientos dentro del sistema: Visualización de múltiples requerimientos y campos asociados. Módulos visibles: compras, logística, finanzas, recursos humanos, herramientas.
+              </div>
+              <div class="content-text">
+                Uso en la minera y adopción sectorial: SAP identificado como el ERP que trabajan casi todas las minas. Ejemplos de workflows: solicitud de pedido → compras → aprobaciones → registros en módulos relacionados.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=3492" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(00:58:12)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Aplicación de ERP a decisiones operativas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Uso de ERP para priorizar clientes y proveedores según KPIs: Ejemplo: análisis Pareto para identificar clientes que generan mayor facturación y acciones comerciales. CRM permite gestionar referidos y ofertas estratégicas para crecimiento de cartera.
+              </div>
+              <div class="content-text">
+                Cómo ERP facilita control de gestión y reportería: Generación ágil de KPIs para evaluar ventas, rotación de inventario, niveles de compra y desempeño de proveedores.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=3126" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(00:52:06)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Herramientas complementarias: WMS y códigos</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Warehouse Management System (WMS) — definición y beneficios</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Qué es y para qué sirve un WMS: Software y procesos para gestionar y controlar operaciones diarias del almacén desde ingreso hasta despacho. Proporciona visibilidad del inventario en tiempo real y seguimiento de cumplimiento de pedidos.
+              </div>
+              <div class="content-text">
+                Beneficios operativos: Mejora eficiencia y rentabilidad, evita demoras, pérdidas y desperdicios. Facilita coordinación ordenada de recepciones, transferencias internas y despachos.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=4007" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:06:47)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Aplicaciones prácticas del WMS en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Resolución de problemas de stock: Detecta sobrestock, quiebre de stock y apoya en cuadrar inventarios. Permite transferencias entre almacenes para optimizar niveles (ej.: mover sobrantes de almacén B a A).
+              </div>
+              <div class="content-text">
+                Integración con roles y procesos: Soporta procesos de pick, packing, control de ubicaciones y cumplimiento de mantenimientos preventivos.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=4413" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:13:33)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.3</span>
+              <span class="subsection-title">Código de barras y codificación de materiales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Uso y estructura del código de barras: Código como DNI del repuesto: prefijos de compañía, artículo de referencia y dígito de verificación (12-13 dígitos). Ejemplos de estándares: investigar códigos CUPSO.
+              </div>
+              <div class="content-text">
+                Importancia de la codificación: Clasifica materiales por familias (consumibles, EPP, repuestos) y facilita identificación, levantamiento y control de stock. Rol del codificador en la mina para asignar familias y evitar duplicidad o ambigüedad de descripciones.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=5471" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:31:11)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Planificación de materiales: MRP y demanda</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Qué es el MRP y su propósito</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Definición y objetivo: MRP (Material Requirements Planning) apoya la planificación de materiales: generar necesidades en tiempo y cantidad adecuados. Busca evitar fallas en la cadena de suministro mediante planificación anticipada.
+              </div>
+              <div class="content-text">
+                Dificultades en implementación: Alto índice de fracasos por mala planificación y datos incompletos; requiere disciplina y coordinación con proyectos.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=4554" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:15:54)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Flujo de trabajo del MRP y parámetros</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Pasos y entradas del proceso: Calcular demanda, conocer stock on-hand, definir targets (mínimos y máximos), configurar inputs y ejecutar compras o transferencias. Ejemplo: definir mínimo 5 y máximo 15 unidades para un código específico.
+              </div>
+              <div class="content-text">
+                Transferencias entre almacenes: MRP sugiere transferencias cuando hay sobrantes en un almacén y faltantes en otro para suplir necesidades sin comprar.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=4886" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:21:26)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.3</span>
+              <span class="subsection-title">Tipos de demanda y aplicaciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Demanda independiente vs demanda dependiente: Independiente: no depende de otro bien (ej.: repuestos por siniestro o ventas directas). Dependiente: generada por la demanda de productos finales o mantenimientos programados (ej.: piezas para mantenimiento preventivo).
+              </div>
+              <div class="content-text">
+                Aplicaciones en mantenimiento: Preventivo/predictivo: permite planear materiales según horas de operación (ej.: Scoop con 500 horas/mes). Correctivo: demanda inesperada que requiere compras inmediatas.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=5055" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:24:15)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Herramientas avanzadas y tendencias en almacenes</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Tecnologías de picking y gestión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Herramientas y técnicas mencionadas: Picking by voice, picking to light, RFID, slotting (optimización de ubicaciones), sistemas aplicados en centros como Amazon. Se pidió comparar estas soluciones en un cuadro de diferencias y similitudes como tarea.
+              </div>
+              <div class="content-text">
+                Aplicaciones comunes: Mejoran velocidad y precisión en picking, reducen errores y optimizan rutas dentro del almacén.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=5154" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:25:54)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Códigos de clasificación: UNSPSC y CUPSO</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Propósito de códigos estandarizados: UNSPSC: clasifica productos por segmento, familia, clase y producto para uniformar descripciones y declaraciones ante SUNAT. Reduce duplicidad de descripciones y evita ambigüedades en compras y reportes.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=6175" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:42:55)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.3</span>
+              <span class="subsection-title">Sostenibilidad y logística inversa</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Almacenamientos sostenibles y reducción de huella de carbono: Empresas deben adaptar actividades para disminuir emisiones (consumo de combustible, uso eléctrico). La huella de carbono es certificada y auditada; almacenes deben considerar prácticas sostenibles.
+              </div>
+              <div class="content-text">
+                Logística inversa (tema para próxima clase): Recuperación, reciclaje y gestión de retornos como tendencia relevante en la cadena de suministro.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=6093" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:41:33)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Casos, ejemplos y cierre</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Ejemplo práctico de planificación de reactivos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Caso: plan de producción y requerimientos de reactivos I y Z: Datos: lead time de 25 días, consumo mensual y stocks iniciales; cálculo de requerimientos mensuales para compras y negociaciones. Ejemplo numérico: comenzar con $25,000, demanda mensual $50,000, pendiente de recepción $5,000 → stock disponible al cierre $20,000.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=5882" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:38:02)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Tareas, recursos y seguimiento</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Trabajo asignado: Preparar cuadro comparativo sobre aplicaciones de WMS y tecnologías de picking (diferencias y similitudes) y revisar videos compartidos.
+              </div>
+              <div class="content-text">
+                Materiales y comunicación: Profesor compartirá diapositivas; contacto por correo rodolfo.casas@edumina y otros medios para consultas.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=5190" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:26:30)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.3</span>
+              <span class="subsection-title">Cierre de sesión y despedida</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Evaluación general de la clase: Alumnos comentan que algunos términos son nuevos y requieren práctica para consolidarse.
+              </div>
+              <div class="content-text">
+                Mensaje final del docente: Recordatorio de próximas clases, disponibilidad para consultas y buena disposición para compartir casos prácticos. Despedida y agradecimientos finales.
+              </div>
+              <a href="https://www.youtube.com/watch?v=m7EK4u5rb3I&start=6381" class="youtube-link" target="_blank">
+                Ver en YouTube <span class="timestamp">(01:46:21)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 23: SISTEMAS DE GESTIÓN DE ALMACENES (WMS) Y HERRAMIENTAS APLICADAS A LA MINERÍA - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

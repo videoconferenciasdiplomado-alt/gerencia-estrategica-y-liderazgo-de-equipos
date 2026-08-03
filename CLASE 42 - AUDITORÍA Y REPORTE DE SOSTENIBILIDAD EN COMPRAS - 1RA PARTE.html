@@ -1,0 +1,1666 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Introducción a Sostenibilidad y Auditorías</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Definición y propósito de auditoría de sostenibilidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Auditorías sostenibles como procesos de evaluación del rendimiento respecto a objetivos de desarrollo sostenible: Buscan medir, evaluar y corregir prácticas para mejorar sostenibilidad económica, ambiental y social. Promueven transparencia y rendición de cuentas ante grupos de interés internos y externos.</div>
+            
+
+              <div class="content-text">Frecuencia y alcance habituales: Suelen realizarse anualmente y por áreas, con distintos niveles de profundidad según la organización. Pueden abarcar territorios o ámbitos específicos: nacional, regional, provinciales o por sector industrial.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=211" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:03:31)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Tres aspectos clave evaluados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Análisis de inversiones: Identificar inversiones en empresas comprometidas con sostenibilidad y adaptar actividades que no cumplan criterios sostenibles.</div>
+            
+
+              <div class="content-text">Operaciones y procesos productivos: Revisar integración de prácticas sostenibles (reducción consumo, reciclaje, eficiencia energética) y documentar puntos operativos sujetos a requisitos legales.</div>
+            
+
+              <div class="content-text">Evaluación de partes interesadas: Homologación y alineamiento de proveedores y clientes con prácticas sostenibles. Visibilidad para inversores y stakeholders sobre la cadena de valor y la gestión de la cadena de suministro.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=250" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:04:10)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Resultados, beneficios y rol del auditor</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Conclusiones esperadas tras una auditoría sostenible</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Informes con evaluaciones y recomendaciones: Identificación de áreas de mejora y acciones correctivas, generación automática de informes en plataformas como BioKey listos para uso interno y externo. Información que ayuda a comprender situación actual y pasos a seguir, con tablas y gráficas de distribución de cumplimiento.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=333" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:05:33)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Beneficios para la empresa y atracción de inversión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Mitigación de riesgos ESG (ambientales, sociales y de gobernanza): Reducción de impactos reputacionales y operativos; facilita sostenibilidad y rentabilidad a largo plazo.</div>
+            
+
+              <div class="content-text">Mejora de confianza de inversores y acceso a liquidez: Informes auditados y reportes de sostenibilidad incrementan la confianza de capital extranjero y cumplen expectativas regulatorias e inversionistas.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=406" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:06:46)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.3</span>
+              <span class="subsection-title">Rol del auditor en la mejora continua</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Visión global para identificar oportunidades de mejora: Detectar brechas en procesos, normativa aplicable y gestión documental.</div>
+            
+
+              <div class="content-text">Contribución a procesos de gestión y control: Priorizar acciones correctivas y seguimiento mediante planes de acción con responsables y plazos.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=467" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:47)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Presentaciones y experiencias en auditoría ambiental</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Modelos institucionales y normativa internacional</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Adaptación de normas internacionales (IFAC, ISA) por órganos de control externo: Bloques: auditoría financiera, operativa, cumplimiento y TI; uso de guías, manuales e instrucciones internas.</div>
+            
+
+              <div class="content-text">Proceso documental de auditoría en órganos públicos: Planificación, trabajo de campo, borradores, dictamen jurídico, audiencia y aprobación final por autoridad competente.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=525" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:08:45)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Auditorías ambientales en órganos de control</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Objetivo: auditar políticas, programas y gestión del patrimonio ambiental público: Fiscalizar que gobiernos administren protección del medio ambiente usando criterios jurídicos, normativos e internacionales.</div>
+            
+
+              <div class="content-text">Referencias posibles: Constitución, conferencias y acuerdos internacionales (Estocolmo, Kioto, París) y Agenda 2030/ODS.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=702" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:11:42)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Auditoría ambiental: conceptos, flujo, tipos y alcance</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Concepto, principios y flujo de auditoría</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Concepto: proceso sistemático, independiente y documentado para evaluar desempeño ambiental: Verificar cumplimiento de normativas y eficacia de controles operacionales.</div>
+            
+
+              <div class="content-text">Principios: independencia, imparcialidad, sistematicidad, documentación, enfoque preventivo, objetividad y confidencialidad</div>
+            
+
+              <div class="content-text">Flujo de auditoría: planificación, ejecución (reunión inicial, inspecciones, entrevistas), cierre (reunión de cierre, planes de acción) y seguimiento</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=1488" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:24:48)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Tipos de auditoría y alcance</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Auditoría de conformidad legal: Evalúa cumplimiento de leyes y regulaciones ambientales; puede ser voluntaria o por autoridad.</div>
+            
+
+              <div class="content-text">Auditorías de sistemas de gestión (ISO 14001) y otras normas: Revisan planificación, implementación y monitoreo del sistema ambiental; aplicable también a ISO 9001, ISO 45001 y normas sectoriales.</div>
+            
+
+              <div class="content-text">Auditorías internas, externas, de primera/segunda/tercera parte y temáticas: Temáticas: eficiencia energética, gestión de residuos, huella de carbono, manejo del agua, impactos ambientales específicos.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=2088" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:34:48)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Métodos de auditoría, no conformidades y beneficios</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Métodos usados en auditorías</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Revisión documental: Verificación de permisos, registros, procedimientos y políticas; plataformas como BioKey o DIOK facilitan construir matrices sin buscar manualmente normas.</div>
+            
+
+              <div class="content-text">Inspección in situ (trabajo de campo): Evaluación de controles operacionales, señalización, medidas de seguridad e implementación práctica.</div>
+            
+
+              <div class="content-text">Entrevistas con stakeholders: Empleados, gerentes, comunidades para conocer percepciones y conocimiento de prácticas ambientales; pueden usarse listas de chequeo basadas en normativa aplicable.</div>
+            
+
+              <div class="content-text">Evaluación y análisis de datos: Tendencias históricas, frecuencia de eventos, análisis de riesgos y escenarios futuros; posibilidad de filtrar matrices por cuerpo legal o norma específica.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=2517" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:41:57)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">No conformidades frecuentes y beneficios</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">No conformidades comunes: Falta de procedimientos documentados, ausencia de verificación de procesos, objetivos no medibles, falta de política ambiental y pobre gestión de quejas y registros.</div>
+            
+
+              <div class="content-text">Beneficios de auditorías periódicas: Cumplimiento normativo, reducción de sanciones y paradas, identificación de mejoras, reducción de costos, mejor desempeño ambiental y reputación.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=2705" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:45:05)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Tecnología y plataforma BioKey / BOK Compliance</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Introducción a BioKey y su propuesta</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">BioKey como suite tecnológica para gestionar normatividad, huella de carbono, huella hídrica y residuos: Reduce tiempo de gestión normativa hasta 90%, da trazabilidad y facilita toma de decisiones; incorpora módulos multi-país y por sector.</div>
+            
+
+              <div class="content-text">Servicios y características: Compliance, trazabilidad, reportabilidad, actualización normativa y servicio profesional de soporte y capacitación.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=900" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:00)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Demostración y funcionalidades de BOK Compliance</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Gestión de requisitos legales basada en directrices ISO: Identifica, actualiza y evalúa requisitos legales para medio ambiente y SST, apoyando certificaciones ISO 14001/45001/9001.</div>
+            
+
+              <div class="content-text">Construcción de matrices legales sin usar Excel: Formulario guiado donde se selecciona territorio (nacional, regional, provincias), sector o rubro, y elementos presentes en la operación como permisos o RCAs. El sistema devuelve automáticamente una matriz de requisitos legales afinada que suele ser la matriz definitiva con ajustes menores.</div>
+            
+
+              <div class="content-text">Filtrado, evidencias y evaluación: Permite filtrar por norma o cuerpo legal, marcar estado de cumplimiento, adjuntar evidencias (resoluciones, permisos) y fijar deadlines con recordatorios por correo.</div>
+            
+
+              <div class="content-text">Plan de acción y gestión de no cumplimientos: Categorización de gravedad, asignación de responsables, plazos y seguimiento hasta que el no cumplimiento pase a cumplido.</div>
+            
+
+              <div class="content-text">Generación automática de informes: Informes PDF completos con introducción, objetivos, metodología, resultados, tablas y gráficas listos para presentar en auditorías.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=3145" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:52:25)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.3</span>
+              <span class="subsection-title">Matrices legales y ventajas frente a Excel</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Construcción y gestión de matrices de requisitos legales en la plataforma: Base de datos normativa por país, posibilidad de personalizar aplicabilidades y ver normas en trámite para anticipar obligaciones.</div>
+            
+
+              <div class="content-text">Ventajas sobre Excel: Mejor seguimiento, actualización automática, gestión documental integrada, ahorro de tiempo y disponibilidad de evidencias descargables durante fiscalizaciones.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=3310" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:55:10)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Informes de sostenibilidad y estándares de reporte</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Qué es un informe de sostenibilidad y su propósito</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Informe voluntario público sobre impactos positivos y negativos de productos, servicios y operaciones en ámbitos social, económico y ambiental</div>
+            
+
+              <div class="content-text">Proceso de medición, divulgación y rendición de cuentas a grupos de interés internos (accionistas, gerentes, empleados) y externos (proveedores, clientes, Estado, comunidades)</div>
+            
+
+              <div class="content-text">Contenido y formato: Debe incluir retos y riesgos, recursos ambientales, derechos humanos y laborales, estrategias corporativas y indicadores que evalúen riesgos y oportunidades; puede ser impreso o electrónico.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=5681" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:34:41)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Proceso para elaborar un informe de sostenibilidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Pasos principales: Identificación y priorización de grupos de interés. Estimación de asuntos relevantes y consulta de expectativas a partes interesadas. Determinación de asuntos materiales y diagnóstico de la gestión actual. Definición de enfoque de gestión por asunto material y determinación de la estrategia organizacional. Implementación, seguimiento y publicación del informe anual.</div>
+            
+
+              <div class="content-text">Recolección y análisis de datos: Cada área (medioambiente, comunidades, legal, logística) aporta datos; se definen indicadores prioritarios y se preserva confidencialidad sobre temas sensibles.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=5942" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:39:02)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.3</span>
+              <span class="subsection-title">Beneficios de reportar y ejemplos prácticos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Beneficios para públicos internos y externos: Clarificación de visión y estrategia, fortalecimiento del sistema de gestión, fomento de pertenencia, innovación y oportunidades de negocio. Mejora de reputación, generación de confianza en la cadena de valor y base para identificar planes de acción y reducir costos.</div>
+            
+
+              <div class="content-text">Ejemplos prácticos: Gestión de residuos reciclables o venta de chatarra como fuente de ingresos; iniciativas de economía circular en procesos productivos.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=6123" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:42:03)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Estándares GRI y elaboración conforme a GRI 2021</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Estructura y novedades de GRI 2021</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Nuevas categorías de estándares: Estándares universales (GRI 1, GRI 2, GRI 3), estándares temáticos (series GRI 200 económicos, GRI 300 ambientales, GRI 400 sociales) y nuevos estándares sectoriales (GRI 11, 12, 13, etc.).</div>
+            
+
+              <div class="content-text">Enfoque sectorial: Los estándares sectoriales permiten identificar temas materiales con mayor énfasis en industrias específicas, y se irán publicando por sectores.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=6926" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:55:26)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Requisitos para declarar conformidad con GRI</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Nueve requisitos obligatorios para elaborar un informe conforme a GRI 2021: Aplicar principios de elaboración de informes GRI. Presentar contenidos de GRI 2 (contenidos generales). Determinar temas materiales. Presentar contenidos de GRI 3 (temas materiales). Presentar contenidos de estándares temáticos GRI para cada tema material. Proporcionar motivos por omisiones relativas a contenidos o requisitos no cumplidos. Publicar un índice de contenido GRI. Proporcionar la declaración de uso de GRI. Notificar al Global Reporting Initiative la elaboración del documento.</div>
+            
+
+              <div class="content-text">Alternativa: Si no es posible cumplir todos los requisitos, se puede declarar que el documento está elaborado "con referencia a" GRI.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=7063" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:57:43)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Sustentabilidad en la cadena de suministro</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Definición e importancia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Gestión de impactos ambientales, sociales y económicos en la cadena de suministro: Busca crear valor a largo plazo para todas las partes interesadas y asegurar cumplimiento legal y principios internacionales de conducta empresarial.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=6355" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:45:55)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Pasos prácticos y herramientas de gestión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Primeros pasos: Evaluar caso de negocio, entender panorama externo, identificar temas prioritarios, evaluar riesgos y oportunidades y generar apoyo interno.</div>
+            
+
+              <div class="content-text">Gobernanza, transparencia y compromiso: Principios esenciales para cada etapa: segmentación de la cadena, identificación y correlación de riesgos, evaluación de probabilidad e impacto, y definición de medidas de mitigación.</div>
+            
+
+              <div class="content-text">Compromiso con proveedores: Desarrollar mentalidad compartida, usar herramientas de comunicación, foros de proveedores, incentivos y programas de proveedores preferentes para integrar a proveedores en la misión de sostenibilidad.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=6446" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:47:26)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="10">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">10</span>
+          <span class="section-title">Indicadores de sostenibilidad: económicos, ambientales y sociales</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.1</span>
+              <span class="subsection-title">Indicadores económicos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Medición del desempeño financiero ligado a sostenibilidad: Indicadores sugeridos: fondo de maniobra, porcentaje de deuda, estructura de endeudamiento, volumen de negocios, liquidez general y reducida. Indicadores de rentabilidad: rentabilidad líquida, operacional de ventas, rentabilidad sobre activos y sobre capital propio, EBITDA y ratios deuda financiera/EBITDA y valor añadido bruto.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=7236" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:36)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.2</span>
+              <span class="subsection-title">Indicadores ambientales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Medición de la minimización de impactos y del ciclo de vida de productos: Indicadores sugeridos: huella de carbono, consumo de energía (kWh), uso de fuentes renovables (solar, eólica), consumo de combustibles y transición a equipos a gas o eléctricos. Gestión de materiales: cantidad de materiales utilizados, reciclados y tasa de reutilización; calidad y salud ambiental relacionada con procesos. Innovación y sustitución de materias primas para reducir vulnerabilidad a la escasez y costos.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=7544" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:05:44)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.3</span>
+              <span class="subsection-title">Indicadores sociales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Medición de la relación con empleados y comunidades: Indicadores sugeridos: programas de apoyo comunitario, inversión social, impacto de intervenciones, puestos de trabajo creados y grado de satisfacción de empleados. Inclusión y diversidad: porcentaje de contratación de personas con discapacidad, beneficios sociales y frecuencia de uso, formación y contratación de personal local. Actividades complementarias: voluntariado corporativo, compras a proveedores locales, construcción de infraestructura comunitaria y donaciones.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=7732" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:08:52)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="11">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">11</span>
+          <span class="section-title">Presentación de ejemplos y continuidad pedagógica</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.1</span>
+              <span class="subsection-title">Ejemplos reales y próximos recursos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Próxima clase dedicada a casos prácticos de empresas mineras: Ejemplos anunciados: Buenaventura, Cerro Verde, Volcán, Atahualpa/Atamín y Barrick (adaptar nombres reales según contexto). Se mostrarán videos y ejemplos que ilustran la aplicación de indicadores económicos, ambientales y sociales en la práctica.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=8002" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:13:22)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.2</span>
+              <span class="subsection-title">Interacción y seguimiento</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Espacio para preguntas y aclaraciones en clase y por correo: Se anima a plantear dudas sobre temas actuales y anteriores; algunas preguntas pendientes serán respondidas por correo.</div>
+            
+
+              <div class="content-text">Metodología pedagógica: Uso de videos complementarios y ejercicios prácticos para reforzar la elaboración de memorias e informes de sostenibilidad.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=7203" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:03)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="12">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">12</span>
+          <span class="section-title">Cierre y preguntas frecuentes</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.1</span>
+              <span class="subsection-title">Guías y listas de chequeo para entrevistas y auditorías</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Uso de normativa aplicable como base para listas de verificación: Tomar como referencia los requisitos que aplican al sector y a los procesos de la organización para formular preguntas sobre residuos, almacenamiento, transporte y disposición final.</div>
+            
+
+              <div class="content-text">Generación automática de checklists en plataformas: Ordenar matrices por forma de cumplimiento y convertirlas en listas de chequeo; gestionar documentos y evidencias asociados a requisitos legales.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=4158" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:09:18)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.2</span>
+              <span class="subsection-title">Adaptación de plataformas a otras normas y gestión integrada</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Compatibilidad con normas ISO y sistemas de gestión: BioKey/DIOK permite identificar, actualizar y evaluar requisitos legales siguiendo lineamientos ISO; clientes han mantenido certificaciones en la trinorma (ISO 14001, 45001, 9001).</div>
+            
+
+              <div class="content-text">Integración de normas de propiedad intelectual: Si el cliente posee normas de pago (ej. normas chilenas), pueden articularse en la plataforma para su gestión junto a requisitos legales.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=4310" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:11:50)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.3</span>
+              <span class="subsection-title">Preguntas finales y continuidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Respuesta a dudas posteriores y seguimiento: Quedan preguntas pendientes que serán respondidas por correo; se reitera la utilidad de herramientas digitales para contratistas y áreas transversales en minería.</div>
+            
+
+              <div class="content-text">Próximas clases y materiales: En próximas sesiones se mostrarán ejemplos de mineras, uso de GRI y se propondrán videos adicionales y ejercicios prácticos para elaboración de informes de sostenibilidad.</div>
+              <a href="https://www.youtube.com/watch?v=aNa4c_C0Cc8&start=4517" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:15:17)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 42: AUDITORÍA Y REPORTE DE SOSTENIBILIDAD EN COMPRAS - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

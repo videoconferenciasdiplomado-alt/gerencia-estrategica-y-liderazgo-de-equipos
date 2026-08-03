@@ -1,0 +1,1545 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Introducción y repaso mediante juego</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Bienvenida y dinámica inicial</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Saludo y bienvenida a la sesión del diplomado: Anuncio del tema: comercialización y minería de la semana. Uso habitual de un repaso interactivo antes de la clase.</div>
+              <div class="content-text">Preparativos del juego Kahoot para repasar la clase anterior: Compartición del enlace y del código (712-56-59). Indicaciones sobre micrófonos y participación.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=10" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:10)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Resultados y contenido del repaso</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Preguntas y respuestas clave del Kahoot sobre minería y comercialización: Comercialización de productos minerales: actividad libre; no requiere concesión (Ley General de Minería). Metales con mayor pureza: refinados (~99.99%) frente a fundidos (~99.95%).</div>
+              <div class="content-text">Mercado y actores relevantes: Mayor importador de metales: China. Principal bolsa de metales: London Metal Exchange (LME). Condiciones FOC/CIF: comprador asume flete y seguro en entregas FOC.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=241" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:04:01)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Presentación del tema central: comercialización y cálculo del valor del concentrado</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Formas de comercialización y actores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Formas de vender minerales: concentrados o refinados: Minerales refinados: comprados por empresas industriales para uso directo. Concentrados: transacciones más complejas entre mineras, comercializadoras, fundiciones y refinerías.</div>
+              <div class="content-text">Razón de la complejidad en concentrados: Mezcla de metales y no metales; se nombra por el metal mayoritario. Varía según yacimiento y análisis químico. Contratos definen cláusulas sobre recuperación, mínimos pagables y penalidades.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=679" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:11:19)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Variables fundamentales al vender un concentrado</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Peso del concentrado: Se mide en toneladas métricas secas; hay que eliminar la humedad. Conversión desde toneladas métricas húmedas a secas y descontar merma por manipuleo.</div>
+              <div class="content-text">Precio de referencia: Tomado de la cotización internacional del metal (p. ej. LME). Cotizaciones son para productos de alta pureza (99.99%); contratos pueden ajustar la cotización base.</div>
+              <div class="content-text">Calidad del concentrado: Presencia de otros elementos pagables (p. ej. plata, oro) o penalizables (arsénico, mercurio). Afecta ajustes en precio según contrato: factores de recuperación, porcentajes pagables, descuentos sobre cotización.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=1113" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:18:33)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Ejemplo práctico: cálculo paso a paso</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Ajuste del peso: humedad y merma</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Datos iniciales del ejercicio (ejemplo zinc): 100 toneladas métricas húmedas; humedad 10%; merma por manipuleo 0.5%. Conversión a peso seco: 100 - 10 = 90 toneladas métricas secas. Merma 0.5% sobre seco = 0.45 t; peso neto seco final = 89.55 t.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=1372" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:22:52)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Ajuste del contenido fino y pagable</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Determinación del contenido metálico fino: Concentración de zinc en el concentrado: 50%. Contenido fino: 89.55 × 50% = 44.78 toneladas métricas finas (TMF).</div>
+              <div class="content-text">Aplicación del factor de recuperación (rendimiento): Rendimiento de la refinería: 85%. Contenido pagable: 44.78 × 85% = 38.06 TMF. Interpretación: de 100 t húmedas solo se valoriza el equivalente a 38.06 t de metal puro a 99.99%.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=2104" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:35:04)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.3</span>
+              <span class="subsection-title">Ajuste del precio y cálculo del valor base</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Uso de la cotización internacional como referencia: Ejemplo: cotización del zinc = 1.000 USD/tonelada métrica de metal puro (refinado). Valor del contenido de zinc: 38.06 × 1.000 = 38.060 USD.</div>
+              <div class="content-text">Nota sobre cotización base en contratos: Contratos pueden fijar una cotización base distinta o aplicar descuentos/recortes a la cotización internacional.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=2460" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:41:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Cálculos adicionales y cláusulas contractuales</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Maquila: costo de fundición/refinación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Definición y función de la maquila: Costo del proceso de fundición o refinación descontado de los valores pagables. Se negocia entre comprador y vendedor y depende del mercado.</div>
+              <div class="content-text">Aplicación en el ejemplo: Costo de maquila ejemplo: 140 USD por tonelada aplicado al peso neto seco (89.55 t). Total maquila: 89.55 × 140 = 12.537 USD (se resta del valor pagable).</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=2735" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:45:35)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Escaladores: ajuste de maquila por variación de cotización</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Propósito del escalador: Vincular el costo de maquila con variaciones de la cotización internacional. Establecer rangos y pagos o descuentos adicionales según la subida o bajada del metal.</div>
+              <div class="content-text">Ejemplo de ajuste por escalador: Cotización base pactada: 900 USD/t; cotización actual: 1.000 USD/t → diferencia 100 USD. Cláusula de escalador: 0,10 USD de incremento de maquila por cada USD que suba la cotización. Ajuste por tonelada: 100 × 0,10 = 10 USD/t; ajuste total: 10 × 89.55 ≈ 896 USD.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=3084" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:51:24)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.3</span>
+              <span class="subsection-title">Otros pagos y deducciones: penalidades y metales pagables</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Penalidades por impurezas: Elementos que dificultan fundición/refinación (arsénico, mercurio, cloro, molibdeno, antimonio, cadmio, bismuto, etc.) son penalizados en contrato. Penalidades reducen el valor pagable; contratos establecen umbrales mínimos a partir de los cuales se penaliza.</div>
+              <div class="content-text">Metales pagables adicionales: Presencia de metales valiosos (plata, oro, selenio, indio) suma valor al concentrado. Se cuantifican (p. ej. 9 onzas de plata por tonelada) y se pagan según cotización aplicable menos descuentos contractuales. Contrato define porcentaje pagable (p. ej. 90% del contenido que supere un mínimo) y ajustes sobre la cotización (p. ej. cotización menos 2 USD/oz).</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=3439" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:57:19)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Penalidades y metales pagables: ejemplos aplicados</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Reconocimiento de metales valiosos en concentrados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Recuperación de metales preciosos y valiosos en el proceso: Concentrados pueden contener plata y oro además del metal principal. Contrato define límites mínimos para reconocer y pagar estos metales. Si el contenido está por debajo del mínimo, no se paga ni se penaliza.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=3600" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Tabla práctica de pagables y penalizables</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Metales pagables por tipo de concentrado: Concentrado de cobre: cobre, plata, oro (pagables). Concentrado de zinc: zinc, plata, oro (pagables). Concentrado de plomo: plomo, plata, oro (pagables).</div>
+              <div class="content-text">Elementos penalizables comunes: Antimonio, arsénico, mercurio, manganeso, bismuto, plomo (en ciertos casos), cloro, cadmio, flúor, hierro, sílice. Estos elementos dificultan la fundición y se traducen en descuentos o costos adicionales.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=3722" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:02:02)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.3</span>
+              <span class="subsection-title">Cálculo de penalidad por arsénico: ejemplo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Condiciones contractuales del ejemplo: Umbral mínimo de arsénico: 0.2% por tonelada; penalidad: 1.5 USD por cada 0.1% de exceso. Concentrado del ejemplo: 0.5% arsénico → exceso 0.3% → 3 × 1.5 = 4.5 USD por tonelada.</div>
+              <div class="content-text">Aplicación al peso neto seco: Penalidad por tonelada × toneladas netas secas (ej. 89.55 t) → total penalidad (ej. 403 USD) que se resta del valor final.</div>
+              <div class="content-text">Ejemplo extendido y verificado en clase: Método: dividir exceso (0.3) entre incrementos contractuales (0.1) → 3 unidades de penalidad. Cálculo final aplicado en el ejercicio de cobre generó un total aproximado de 685.04 USD en penalidades cuando se aplica sobre 152.23 t netas secas.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=3829" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:03:49)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Valorización final integrando todos los ajustes</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Cálculo y suma de componentes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Componentes que aumentan o disminuyen el valor: Valor del contenido metálico puro (cotización × TMF). Menos: costo de maquila, ajustes por escalador, penalidades por impurezas. Más: créditos por metales pagables (plata, oro) según porcentaje y cotización ajustada.</div>
+              <div class="content-text">Ejemplo integrado (resumen): Valor zinc (38.060 USD) menos maquila (12.537 USD) menos escalador (896 USD) menos penalidad arsénico (403 USD) más crédito por plata (3.546 USD) → valor final = 27.770 USD para las 100 t húmedas del ejemplo.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=4200" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:10:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Métodos contractuales para calcular créditos por metales pagables</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Reglas comunes en contratos: Se reconoce solo el exceso sobre un mínimo (p. ej. plata: mínimo 5 oz/t). Se paga un porcentaje del exceso (p. ej. 90% del exceso). Cotización aplicada suele ajustarse (p. ej. cotización internacional menos 2 USD/oz).</div>
+              <div class="content-text">Ejemplo de cálculo de plata en el ejercicio: Concentrado: 9 oz/t; mínimo 5 oz/t → exceso 4 oz/t. Reconocimiento: 90% de 4 oz/t = 3.6 oz/t valoradas a cotización ajustada (13 - 2 = 11 USD/oz en un ejemplo, o 23 - 2 = 21 USD/oz en otro). Valor total plata sobre toneladas netas secas (ej. 89.55 t) → crédito total ≈ 3.546 USD o, en el caso del ejercicio de cobre con 152.23 t, ≈ 11.508,56 USD.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=4012" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:06:52)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Ejercicio guiado de aplicación práctica: concentrado de cobre</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Planteamiento y datos del ejercicio</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Objetivo: calcular valor del concentrado de cobre para 170 t métricas húmedas: Datos aportados: humedad 10%, merma 0.5%, contenido de cobre 30%, contenido de plata 9 oz/t, arsénico 0.5%, factor de recuperación 85%, costo de maquila 150 USD/t, escalador 10 USD/t, penalidad arsénico 1.5 USD por cada 0.1% sobre 0.2%, cotizaciones: cobre 8.354 USD/t, plata 23 USD/oz (en ejercicio se ajusta -2 USD). Condiciones contractuales: pagar 90% de la plata que supere 5 oz/t; cotización de la plata en contrato = cotización internacional menos 2 USD/oz.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=5065" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:24:25)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Ajuste del peso: resolución en clase</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Cálculo tono a tono: Peso húmedo 170 t; humedad 10% → peso seco = 170 - 17 = 153 t métricas secas. Merma 0.5% sobre seco: 153 × 0.005 = 0.765 t → peso neto seco = 153 - 0.765 = 152.235 ≈ 152.23 t métricas netas secas.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=5684" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:34:44)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.3</span>
+              <span class="subsection-title">Contenido fino y pagable del cobre</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Cálculo del contenido fino: Contenido de cobre 30% → contenido fino = 152.23 × 30% = 45.669 ≈ 45.67 TMF.</div>
+              <div class="content-text">Aplicación del factor de recuperación: Rendimiento 85% → contenido pagable = 45.67 × 85% = 38.82 TMF (contenido pagable de cobre).</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=6053" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:40:53)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.4</span>
+              <span class="subsection-title">Ajuste del precio del cobre y valor del contenido</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Valoración del contenido pagable: Cotización del ejercicio: 8.354 USD/t → valor del contenido: 38.82 × 8.354 ≈ 324.302 USD. Este valor corresponde al cobre a 99.99% aplicado al contenido pagable.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=6300" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:45:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Costos de maquila, penalidades por arsénico y crédito por plata</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Costos de maquila y escalador</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Costo de maquila: Maquila 150 USD/t aplicada al peso neto seco total: 152.23 × 150 = 22.834,5 USD. Se resta del valor total pagable.</div>
+              <div class="content-text">Escalador (simplificado en el ejercicio): Escalador fijado en 10 USD/t aplicado a toneladas netas secas: 152.23 × 10 = 1.522,3 USD. Ajuste que se resta o suma según cláusula (en ejercicio se resta del valor pagable en ajuste de maquila).</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=6668" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:51:08)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Penalidad por arsénico y crédito por plata</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Penalidad por arsénico: Umbral 0.2%; concentrado 0.5% → exceso 0.3% → 3 × 1.5 USD = 4.5 USD/t. Aplicado a toneladas netas secas 152.23 → penalidad total ≈ 684.98 ≈ 685 USD (se resta).</div>
+              <div class="content-text">Reconocimiento de plata pagable: Plata en concentrado: 9 oz/t; mínimo 5 oz/t → exceso 4 oz/t. Pago del 90% del exceso: 4 oz/t × 90% = 3.6 oz/t reconocidas. Cotización aplicada en contrato: 23 - 2 = 21 USD/oz. Valor de la plata calculado sobre toneladas netas secas: 3.6 oz/t × 21 USD/oz × 152.23 t ≈ 11.508,56 USD (se suma).</div>
+              <div class="content-text">Resultado y verificación en clase: Validación práctica mostró el valor de la plata ≈ 11.508,56 USD calculado por un alumno; la clase corroboró procedimiento y cifras.</div>
+              <div class="content-text">Valor de venta final y cierre del ejercicio: Integración final: Sumar valor del cobre pagable y créditos por metales pagables. Restar maquila, escalador y penalidades. Resultado final del ejercicio: valor neto a pagar por el vendedor ≈ 310.778,76 USD tras aplicar deducciones y créditos. Observación metodológica: Importancia de usar las cifras y cotizaciones definidas en el enunciado del ejercicio. Mantener unidades y redondeos consistentes para no perder puntos en evaluaciones.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=6936" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:55:36)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Refinerías y fundiciones en Perú y destino de concentrados</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Principales plantas y su especialización</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Fundición y refinería de Hilo: Producción de cátodos de cobre al 99.998% (grado A). Procesa además oro, plata y selenio.</div>
+              <div class="content-text">Fundición/Refinería MinSur (FunSur): Procesa concentrados de la mina MinSur; produce estaño de alta pureza en lingotes. Metales blandos como estaño y plomo tienen demanda por su bajo punto de fusión.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=4490" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:14:50)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Refinería de Cajamarquilla y complejo de La Oroya</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Refinería de Cajamarquilla (Botorantín): Especializada en zinc metálico de alta pureza; produce lingotes y yumbos (1 t). Cuenta con planta para producir indio refinado.</div>
+              <div class="content-text">Complejo metalúrgico de La Oroya: Actualmente a cargo de Business Perú SAA; tuvo periodos parados y reinició operaciones. Cuenta con tres circuitos para concentrados de cobre, plomo y zinc, y un subcircuito para oro y plata. Importancia estratégica para el procesamiento nacional de concentrados.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=4576" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:16:16)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="10">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">10</span>
+          <span class="section-title">Conclusión y aplicación práctica</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.1</span>
+              <span class="subsection-title">Preparación para el ejercicio y recursos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Descarga de diapositivas y material en la plataforma: Documento "comercialización minería parte 2" disponible en PDF para consulta durante el ejercicio.</div>
+              <div class="content-text">Metodología de trabajo en clase: Resolver por etapas: ajuste de peso → contenido fino → contenido pagable → ajuste de precio → maquila/escalador → penalidades y créditos → valor final. Trabajo individual y participación para confirmar resultados.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=4454" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:14:14)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.2</span>
+              <span class="subsection-title">Observaciones finales y cierre de sesión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Revisión de dudas y confirmación de entendimiento: Se invitó a los participantes a levantar dudas; la mayoría entendió el procedimiento y realizó el ejercicio.</div>
+              <div class="content-text">Pausa y continuidad: Se realizó una breve pausa antes de desarrollar el ejercicio práctico y se concluyó con la proyección de soluciones y la intención de aplicar los procedimientos en prácticas posteriores.</div>
+              <div class="content-text">Cierre y asistencia final: Se tomó lista de asistentes y se confirmó comprensión general; se recordó que la próxima semana inicia el módulo de tecnología e innovación y que se informará sobre exámenes. Mensaje final de tranquilidad respecto a la evaluación y despedida de la sesión.</div>
+              <a href="https://www.youtube.com/watch?v=5FT-2PajwgU&start=4390" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:13:10)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 06: COMERCIALIZACIÓN DE LA MINERÍA - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

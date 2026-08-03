@@ -1,0 +1,1635 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Introducción, identificación y políticas de sostenibilidad corporativa</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Propósito del trabajo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Evaluar visión, misión y política de empresas mineras respecto a responsabilidad social: Buscar si la RSE aparece declarada explícitamente en política, visión o misión. Anotar si figura textualmente o sólo se alude con términos relacionados (inversión social, medio ambiente, diálogo).</div>
+              <div class="content-text">Indicaciones prácticas para los estudiantes: Ingresar a páginas web de empresas (ej.: Carabellí, Raura, Zafranal) y localizar misión/visión/política. Reportar si hablan de responsabilidad social o no en un plazo corto (10 minutos).</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=0" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Casos comparados: Corire y Carabellí</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Corire: misión que menciona salud, seguridad, medio ambiente y relaciones comunitarias: Observación: menciona compromisos pero no declara explícitamente "responsabilidad social".</div>
+              <div class="content-text">Carabellí: modificó misión/visión/política para incluir responsabilidad social cuando cambió la gerencia: Ejemplo de cómo liderazgo influye en declaración pública y énfasis en RSE.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=183" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:03:03)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.3</span>
+              <span class="subsection-title">Zafranal / Safranal: gestión social y pilares</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Proyecto en Majes con política de sostenibilidad y gestión social explícita: Cuatro pilares: educación, salud, infraestructura y fortalecimiento de capacidades. Uso de líneas base, plan de desarrollo concertado y modelos de inversión social (pirámide).</div>
+              <div class="content-text">Relación con EIA y secuencia de ejecución: EIA como marco mandatorio sobre el que se definen compromisos y planes socialmente responsables. Alianzas con municipalidades y organizaciones; necesidad de evaluar su eficacia y continuidad.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=1127" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:18:47)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Liderazgo corporativo y factores críticos de éxito en RSE</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Cambios gerenciales y orientación estratégica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Ejemplo: Raura incorporó enfoque social y ambiental con nuevo gerente social (ingeniero forestal): El liderazgo trae visibilidad y priorización de temas sociales y ambientales.</div>
+              <div class="content-text">Requisito de compromiso de alta gerencia para sostenibilidad de proyectos sociales: Necesidad de involucrar al gerente para asegurar recursos y continuidad del trabajo social.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=996" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:16:36)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">¿Cuándo la RSE es tangible?</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Debe plasmarse en planes concretos (plan de desarrollo, plan de relaciones comunitarias): Línea base y diagnóstico permiten priorizar educación y salud, entre otros.</div>
+              <div class="content-text">Importancia de medir y ejecutar: seguimiento desde EIA hacia implementación del plan: Evita problemas futuros y aumenta legitimidad del proyecto.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=1319" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:21:59)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Lecciones aprendidas y tipos de programas sociales</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Casos de MarCobre, Antapacay, Keyabeco y Keyabeco como proyecto clave</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">MarCobre: visión y misión que declaran responsabilidad socioambiental de forma breve: Declaración suficiente pero requiere documentos alineados para implementación.</div>
+              <div class="content-text">Antapacay (Espinar): inversión social en formación laboral, agua y saneamiento; conflictos pese a inversión: Inversión grande no garantiza paz social; gestión y administración de fondos son claves.</div>
+              <div class="content-text">Keyabeco: amplio aporte económico y cumplimiento de acuerdos de mesa de diálogo: Inversión significativa en obras y programas sociales durante construcción; impacto regional notable.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=1531" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:25:31)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Programas y enfoques recomendados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Programas de comunicación y consulta: Información directa a la población, atención con personal técnico de la empresa para resolver dudas.</div>
+              <div class="content-text">Programas productivos y agrícolas: Cultivos, crianza, riego tecnificado, ensilado para almacenamiento de forraje; impacto sostenible si acompañamiento es multi-anual.</div>
+              <div class="content-text">Programas de salud y respuesta a emergencias: Ejemplo pandemia: provisión de mascarillas, alcohol y apoyo a puestos de salud; oportunidad para extender relaciones con actores locales.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=2293" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:38:13)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Diseño de proyectos sostenibles y principios de RSE</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Proyecto ejemplo: gestión de riesgos climáticos y forraje</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Contexto: comunidades altoandinas afectadas por friaje y pérdida de camélidos: Problema central: muerte de animales afecta patrimonio y economía local; donaciones puntuales no solucionan causa raíz.</div>
+              <div class="content-text">Intervención propuesta: producción local de forraje y transferencia tecnológica: Producción en zonas bajas, compra por gobierno regional, capacitación a productores, comercialización del excedente. Resultados: costo de producción bajo, precio de compra que deja margen para agricultores; proyecto sostenible mantenido por productores tras años.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=3011" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:50:11)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Recomendaciones operativas y sostenibilidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Plasmar la RSE en acciones concretas que atiendan problemas no resueltos por otros actores: Proyectos deben tener diagnóstico, metas claras, seguimiento y plan de salida que permita continuidad local.</div>
+              <div class="content-text">Enfocar en resultados replicables y en fortalecer capacidades locales: Evitar intermediarios cuando sea posible; acompañamiento técnico directo 3–5 años para asegurar sostenibilidad.</div>
+              <div class="content-text">Priorizar proyectos estratégicos para la operación (garantía de tranquilidad para operar): La inversión social también persigue estabilidad operativa; gestión transparente y resultados comprobables generan confianza.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=3300" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:55:00)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Gestión y vinculación directa con productores y comunidades</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Rol del equipo social y trabajo conjunto</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">El personal social debe estar directamente a cargo de los proyectos productivos: Gestionar economía, producción, ventas, capacitaciones y cuentas para generar vínculos sostenidos.</div>
+              <div class="content-text">Trabajo conjunto con productores, no visitas esporádicas: Acompañamiento técnico y contabilidad del negocio permiten identificar actividades rentables y sostenibles.</div>
+              <div class="content-text">Referencias teóricas: importancia de enfoques contemporáneos en relaciones comunitarias: Autores como Bertelt muestran la evolución desde relaciones meramente asistenciales a gestión productiva y asociativa.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=3601" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:01)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Proyectos pequeños, efectos de llegada e infraestructura</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Actividades iniciales (accesos, apertura de trochas) cambian dinámicas locales y generan expectativas: La empresa suele ser el primer actor en zonas remotas donde el Estado no llega.</div>
+              <div class="content-text">Ejemplo de reservorio de geomembrana: alianza entre empresa, comunidad y Estado: Comuneros participan en la ejecución; inclusión de técnicos para tareas especializadas. Críticas surgieron porque algunos esperaban que la empresa financie y ejecute todo, no un trabajo conjunto.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=3679" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:01:19)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Acciones negativas y positivas en mitigación e inversión social</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Neutralización de impactos y acciones preventivas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Acciones negativas: medidas para controlar impactos (p. ej. neutralizar aguas ácidas): Medidas correctivas para evitar daño continuo a fuentes de agua.</div>
+              <div class="content-text">Acciones positivas: potenciar recursos hídricos o infraestructura existente: Ejemplo: bombeo para recuperar nivel de lagunas y prevenir escasez antes de lluvias; identificación de oportunidades a partir de diagnósticos locales.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=3914" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:05:14)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Actividades de acercamiento y campañas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Campañas puntuales (p. ej. navideñas) pueden considerarse RSE según propósito y continuidad: Permiten acercamiento con familias y niños, y comunicación directa sobre necesidades reales.</div>
+              <div class="content-text">Espacios informales facilitan que la población exprese prioridades concretas: Conversaciones fuera de mesas formales revelan necesidades no cubiertas (mantenimiento, servicios) y ayudan a ganar confianza.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=4001" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:06:41)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Comunicación corporativa y manejo de stakeholders</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Identificación de públicos y aprovechamiento del personal</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Públicos: comunidad, alcaldes, salud, presidentes comunales y público interno (trabajadores): Los trabajadores son aliados clave y potenciales voceros hacia sus familias y comunidades.</div>
+              <div class="content-text">Subaprovechamiento del público interno: necesidad de comunicación continua más allá de eventos puntuales: Inducciones puntuales no bastan; se requiere estrategia constante para evitar que otros actores ocupen ese espacio comunicacional.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=4495" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:14:55)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Segmentación de mensajes y elección de voceros</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Adaptar mensajes según audiencia: comuneros, trabajadores, alcaldes, clubes de madres: Formatos y lenguaje distintos para asegurar comprensión y replicabilidad.</div>
+              <div class="content-text">Vocero: elegir por capacidad de comunicación y credibilidad, no solo por cargo: Personas con arraigo local y carisma pueden ser más eficaces que la alta gerencia ausente.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=4601" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:16:41)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.3</span>
+              <span class="subsection-title">Medios y canales eficaces en zonas rurales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Radio comunitaria y comunicación de persona a persona siguen siendo principales medios rurales: WhatsApp o mensajes pueden fallar por baja cobertura; la radio y el contacto directo dominan.</div>
+              <div class="content-text">Herramientas de divulgación: boletines casa por casa, murales y entregas impresas: Contenidos visuales, claros y de interés aumentan la recepción y el seguimiento.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=4727" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:18:47)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.4</span>
+              <span class="subsection-title">Medios complementarios y medición de impacto</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Uso combinado de prensa, radio, organismos locales y redes sociales para alcance amplio: Corporativos usan sitios web y redes; la radio sigue siendo clave donde falta cobertura digital.</div>
+              <div class="content-text">Herramientas prácticas: repartir radios, spots audiovisuales en comedores y emisoras propias: Medir impacto y llegada de mensajes para ajustar estrategia comunicacional.</div>
+              <div class="content-text">Canales formales e informales: correos, WhatsApp y comisiones que gestionan visitas y entregas de documentación: Seguimiento de mensajes claves y evaluación de si llegaron a la población objetivo.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=7203" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:03)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Regulación, declaración de inversiones y fiscalización</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">DACA y cambios normativos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Resolución ministerial Nº 292 (2008): obliga a declarar anualmente inversiones en desarrollo sostenible (DACA): Rubros: educación, nutrición, cultura, economía local, entre otros.</div>
+              <div class="content-text">Proyecto de ley en trámite busca permitir que la comunidad señale incumplimientos históricos: Mayor transparencia y posibilidad de fiscalización de compromisos pasados.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=5078" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:24:38)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Registro de compromisos y manejo histórico</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Riesgos de compromisos informales hechos por exploraciones o personal temporal: Documentos antiguos pueden contener promesas no autorizadas que luego reclaman las comunidades.</div>
+              <div class="content-text">Empresas han procedido a sincerar compromisos para evitar futuras reclamaciones: Ejemplo: mesas de revisión donde comunidades presentan acuerdos firmados históricamente.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=5186" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:26:26)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.3</span>
+              <span class="subsection-title">Dificultades de cooperación entre actores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Trabajo tripartito (empresa, Estado, comunidad) puede frustrarse por desconfianza y acusaciones de colusión: Percepciones de malversación o favoritismo impiden retorno del personal estatal y generan rechazo.</div>
+              <div class="content-text">Importancia de transparencia, rendición de cuentas y mecanismos participativos claros: Monitoreo participativo y comunicación de resultados ayudan a legitimar procesos.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=5011" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:23:31)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Integración de proyectos con prioridades locales y sostenibilidad institucional</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Articulación con gobiernos locales y presupuestos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Proyectos exitosos deben alinearse con prioridades del gobierno local y su presupuesto anual: Inclusión en el presupuesto local facilita continuidad y ejecución por parte del municipio.</div>
+              <div class="content-text">Aspiración: que iniciativas privadas pasen a ser parte del plan municipal de inversión: Requiere coordinación previa y adaptación para que el gobierno ejecute y mantenga los proyectos.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=5389" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:29:49)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Limitaciones y capacidades municipales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Muchos gobiernos locales ejecutan un porcentaje limitado de sus recursos; hay que considerar capacidad de ejecución: Diseñar proyectos compatibles con ritmo y capacidad administrativa local.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=5437" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:30:37)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="10">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">10</span>
+          <span class="section-title">Expectativas laborales, transparencia y riesgos de promesas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.1</span>
+              <span class="subsection-title">Manejo de expectativas y comunicación veraz</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Evitar generar expectativas irreales sobre empleo y beneficios: Ejemplo: confusión entre "horas hombre" y puestos de trabajo generó frustración comunitaria.</div>
+              <div class="content-text">Necesidad de claridad desde el relacionista comunitario para prevenir conflictos posteriores: Informar con precisión reduce expectativas y contribuye a legitimidad.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=5583" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:33:03)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.2</span>
+              <span class="subsection-title">Asunción de responsabilidades y rol del individuo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">La visión de desarrollo requiere recursos y compromiso de empresa, Estado y comunidad: El cambio real depende del individuo y la voluntad local para adoptar prácticas y responsabilidades.</div>
+              <div class="content-text">La minería no puede cubrir todas las demandas; es necesario aclarar límites y fomentar corresponsabilidad: Importancia de explicar fases del proyecto (construcción vs operación) y su impacto en empleo.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=4955" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:22:35)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="11">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">11</span>
+          <span class="section-title">Comunicación interna y prácticas en empresas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.1</span>
+              <span class="subsection-title">Canales internos y prácticas observadas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Canales comunes: correo corporativo, Teams, WhatsApp, boletines y pizarras informativas: Reuniones semanales y firmas de asistencia para transmitir mensajes gerenciales.</div>
+              <div class="content-text">Necesidad de comunicación continua y segmentada para aprovechar a los trabajadores como voceros: Incluir a familias y distribuir boletines puerta a puerta cuando la cobertura digital es limitada.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=6840" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:54:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.2</span>
+              <span class="subsection-title">Comunicación hacia comunidades: formatos y experiencias</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Métodos efectivos: reparto casa por casa de boletines, radio comunitaria y actividades presenciales: Contratación de personal local para difusión aumenta confianza y cobertura.</div>
+              <div class="content-text">Formalidad administrativa: uso de oficios y cartas para respuestas a solicitudes comunitarias: Responder formalmente reduce incertidumbre y demuestra compromiso.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=6930" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:55:30)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.3</span>
+              <span class="subsection-title">Visitas guiadas y actividades demostrativas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Organización de comisiones y visitas a unidades para acercar proyectos a comunidades: Mostrar maquetas y procesos ayuda a que comuneros entiendan objetivos y uso de terrenos.</div>
+              <div class="content-text">Efecto desmitificador: permitir el acceso reduce rumores sobre extracción o uso de recursos: Ejemplo: moradores que desconocían la actividad confundían materiales con oro; visitas aclaran y mitigan temores.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=7402" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:03:22)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="12">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">12</span>
+          <span class="section-title">Conclusión y recomendaciones prácticas finales</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.1</span>
+              <span class="subsection-title">Enfoque estratégico de la inversión social</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">La RSE debe ser inversión estratégica, dirigida a problemas clave y con continuidad: Evitar acciones puntuales sin seguimiento que generan dependencia y expectativas incumplidas.</div>
+              <div class="content-text">Priorizar acciones replicables, medibles y con plan de salida que deje capacidades locales: Acompañamiento técnico 3–5 años y articulación con gobiernos locales para sostenibilidad.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=6720" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:52:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.2</span>
+              <span class="subsection-title">Comunicación como herramienta para prevenir conflictividad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Un plan comunicacional sólido y segmentado reduce malentendidos y ayuda a gestionar expectativas: Elegir voceros creíbles, usar medios locales (radio, boletines) y mantener transparencia sobre compromisos.</div>
+              <div class="content-text">La integración de trabajadores como actores de comunicación y la alineación con planes locales fortalecen la legitimidad del proyecto: Resultado: mayor aceptación social, reducción de conflictos y continuidad operativa.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=6745" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:52:25)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.3</span>
+              <span class="subsection-title">Resumen y despedida</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Revisión de temas: profundidad social, desarrollo sostenible y aspectos comunicacionales: Importancia de decidir y fortalecer la comunicación como parte estratégica del negocio.</div>
+              <div class="content-text">Evaluación y contactos posteriores: Entrega de prueba y disponibilidad del docente para consultas vía enlace personal.</div>
+              <div class="content-text">Clausura y agradecimientos: Registro fotográfico final y despedida de participantes para futuros intercambios.</div>
+              <a href="https://www.youtube.com/watch?v=89AwNejUY2s&start=7579" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:06:19)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 10: RSC: RESPONSABILIDAD SOCIAL CORPORATIVA - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

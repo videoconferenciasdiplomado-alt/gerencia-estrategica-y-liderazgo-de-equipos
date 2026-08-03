@@ -1,0 +1,1387 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Bienvenida y presentación del docente</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Introducción del profesor y modalidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Presentación del docente César Rafael Vizcarra Cárdenas: Ingeniero industrial con experiencia en control de producción e industria textil. Amplia trayectoria como docente en instituciones de educación técnica.</div>
+              <div class="content-text">Organización de las primeras clases: Profesor impartirá la primera clase y la siguiente del jueves. Indicaciones previas sobre participación y normas de la sesión.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=14" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:14)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Interacción inicial con participantes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Ronda de presentaciones y motivaciones: Participantes: Jean Paul, Anabella, Willy, Ronald, Vans, Matt, Roberto, Jennifer y otros. Breves presentaciones: estudios, cargos actuales, expectativas del diplomado.</div>
+              <div class="content-text">Ejemplos de perfiles presentes: Ingeniero en minas, protección interna, administración, ingeniería ambiental, mecatrónica. Expectativas centradas en potenciar habilidades blandas y acceder a empleo minero.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=102" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:01:42)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Conceptos clave: gerencia estratégica y liderazgo</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Definición y alcance de gerencia estratégica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Concepto de estrategia aplicado a la gerencia: Conjunto de actividades destinadas a cumplir objetivos de la manera más eficiente. Considera competencia y posicionamiento frente a otras empresas.</div>
+              <div class="content-text">Elementos de la gerencia estratégica: Planificación, definición de objetivos a mediano/largo plazo, asignación de recursos.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=385" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:06:25)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Definición y características del liderazgo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">¿Qué es liderazgo según participantes y docente?: Influencia sobre un grupo, motivación, guía y capacidad de escuchar e involucrar. Habilidades gerenciales para influir en la forma de actuar de las personas.</div>
+              <div class="content-text">Diferencia entre jefe y líder: Jefe: autoridad formal que puede limitarse a dar órdenes. Líder: motiva, apoya, escucha, capta ideas e invita a participar. Importancia de seleccionar líderes para cargos gerenciales.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=473" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:53)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Panorama de la industria minera y módulo 1</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Contenido general del módulo introductorio</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Temas incluidos en el módulo 1: Panorama de la minería en Perú, beneficios, ciclo de vida de una mina, inversiones y costos. Tipos de minería y problemática de minería informal e ilegal.</div>
+              <div class="content-text">Propósito del módulo: Introducción para quienes no conocen la industria; contextualización para quienes ya trabajan en minería.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=754" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:12:34)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Normas de conducta y evaluación del curso</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Reglas de participación en las sesiones: Duración total de clases, activación de cámaras, toma de lista al inicio y final, micrófonos apagados durante exposiciones. Intervenciones mediante levantar la mano.</div>
+              <div class="content-text">Fórmula de evaluación: 30% examen teórico y 70% evaluación práctica, ponderación del promedio final.</div>
+              <div class="content-text">Registro de asistencia y procedimiento final de sesión: Profesor captura pantalla de presentes y envía evidencia al área académica para registrar asistencia. Comunicación sobre imposibilidad temporal de registrar en plataforma y alternativa aplicada.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=840" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:14:00)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Importancia social y económica de la minería en Perú</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Impacto, controversias y medio ambiente</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Aportes y oposición a la minería: Minería como motor de crecimiento y fuente de divisas; enfrentamiento con oposición social y política. Casos emblemáticos: Tía María y antecedentes que afectan la percepción pública.</div>
+              <div class="content-text">Gestión ambiental y tecnologías actuales: Existencia de normas más exigentes y tecnologías que reducen impacto. Reconocimiento de que ninguna actividad humana es totalmente libre de impacto; objetivo minimizarlo y cumplir normativa.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=932" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:32)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Generación de empleo y cadena económica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Empleo directo e indirecto: En 2022 fueron 242.616 empleos directos en minería, crecimiento 6.4% respecto a 2021. Por cada empleo directo se generan 6.25 empleos adicionales (3.25 por consumo y 2 por inversión).</div>
+              <div class="content-text">Efectos en comunidades y contratación local: Minería activa cadenas de contratistas y servicios (comedores, mantenimientos, logística). Dificultades para contratar localmente por falta de capacitación; necesidad de programas de formación técnica y profesional.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=2522" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:42:02)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Perfiles profesionales para minería y distribución de proyectos locales</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Principales disciplinas, funciones y otras profesiones necesarias</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Carreras técnicas y de ingeniería relevantes: Ingeniería geológica: prospección y control de suelos y yacimientos. Ingeniería de minas: planeamiento y explotación del recurso. Ingeniería metalúrgica: beneficio y control en plantas. Ingeniería química: control de laboratorio y análisis de minerales. Ingeniería industrial: optimización de procesos y métodos de trabajo. Ingeniería ambiental: prevención, control y mitigación de impactos. Ingeniería mecánica, mecatrónica y eléctrica: mantenimiento y supervisión de equipos y maquinaria.</div>
+              <div class="content-text">Perfiles no ingenieriles que forman parte de la minería: Administradores, contadores, psicólogos ocupacionales, médicos ocupacionales, ingenieros de seguridad. Roles en administración, seguridad, salud ocupacional, y servicios generales dentro de la operación minera.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=1751" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:29:11)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Distribución de proyectos y ejemplos locales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Ubicación geográfica de proyectos mineros: Concentración en zonas central y sur del país; ejemplos regionales como Arequipa (Cerro Verde), Las Bambas, Safranal, Tía María.</div>
+              <div class="content-text">Conflictos sociales y licencias: Proyectos en stand-by por oposición social; importancia de la licencia social y estrategias de relacionamiento con la población.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=2163" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:36:03)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Canon minero, manejo de recursos y dependencia regional</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Canon minero y manejo de recursos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Estructura de distribución del canon: 10% a municipalidades distritales donde se explotan recursos; si hay más de una municipalidad se reparten partes iguales. 25% a municipalidades provinciales, distribuidas según población y necesidades básicas insatisfechas. 40% a municipios del departamento, con criterios similares (población, pobreza). 25% al gobierno regional; de ese 25%, 80% va al gobierno regional y 20% a la universidad pública local.</div>
+              <div class="content-text">Ejemplo y efectos prácticos: Universidad Nacional de San Agustín en Arequipa recibe parte de ese 20% del gobierno regional. Casos de municipios que reciben grandes sumas pero carecen de capacidad de gestión para invertir eficientemente. Problemas frecuentes: inversiones en proyectos inadecuados (elefantes blancos), falta de priorización de servicios básicos, sobrevaloración y corrupción.</div>
+              <div class="content-text">Propuestas y observaciones sobre distribución y gestión: Necesidad de capacitación previa a autoridades para administrar recursos y diseñar proyectos de impacto. Revisión de criterios de distribución para mayor equidad entre distritos cercanos. Importancia de fortalecer capacidad de gestión regional y local para evitar malversación y proyectos mal orientados.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=3604" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:04)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Estadísticas, variaciones y dependencia regional</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Evolución de transferencias por canon: Transferencias crecieron notablemente entre 2013 y 2022, con salto importante en 2022 (por ejemplo de ~2.947 millones a 7.844 millones). Incremento atribuible a ampliaciones de producción y entrada en operación de nuevos proyectos mineros.</div>
+              <div class="content-text">Distribución por departamentos y efectos económicos: Ancash y Arequipa entre las regiones con mayores incrementos; Antamina y Cerro Verde mencionadas como factores relevantes. Variabilidad según presencia de minería: regiones sin minería significativa reciben casi nada de canon. Dependencia económica: algunas regiones dependen fuertemente del canon; otras diversifican con agroindustria, pesca u otras actividades.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=4465" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:14:25)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Beneficios y problemas asociados a la actividad minera</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Beneficios directos e indirectos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Beneficios económicos y sociales: Ingresos por canon, impuestos y empleo directo/indirecto. Desarrollo de infraestructura: caminos, pistas, postas, colegios, comisarías, locales comunales y complejos deportivos vía convenios o inversiones de la mina. Transferencia de tecnología por empresas transnacionales y modernización de capacidades locales. Facilita negocios y actividades económicas complementarias en zonas de influencia.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=4901" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:21:41)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Problemas y retos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Conflictos sociales y su impact o: Conflictos latentes por demandas de beneficios, a veces con motivaciones políticas u oportunistas. Bloqueos y paralización de operaciones implican costos elevados y riesgos para la continuidad del proyecto. Presencia de promotores de minería ilegal que se oponen a la formalización por mantener actividades ilícitas.</div>
+              <div class="content-text">Gestión de proyectos y pasivos ambientales: Lenta ejecución de obras públicas y debilidades en la gestión pública regional/provincial. Necesidad de planes de cierre y manejo de pasivos (relaves, rehabilitación de suelos y aguas). Dificultad para agregar valor en país: exportación mayoritariamente de concentrados, limitada industrialización local.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=6388" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:46:28)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Etapas y ciclo de vida de un proyecto minero</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Fases del proyecto y tiempos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Etapas principales: Exploración: búsqueda, identificación y mediciones de zonas mineralizadas; dura aproximadamente 1–3 años. Desarrollo: estudios y preparación; inversión creciente en 2–5 años. Construcción: ejecución de infraestructura, tajo (abierto o subterráneo), planta de concentrados y vías; mayor desembolso de capital. Producción: extracción, procesamiento, transporte y comercialización; puede durar 25–30 años o más según reservas. Cierre y post-explotación: cese de operaciones, desmantelamiento, rehabilitación y gestión de pasivos ambientales.</div>
+              <div class="content-text">Relación entre inversión e ingresos: Periodo inicial con desembolso sin ingresos; ingresos comienzan en la producción y se mantienen hasta el agotamiento del yacimiento. Importancia del planning financiero y regulatorio para cubrir las distintas etapas.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=6703" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:51:43)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Consideraciones técnicas, ambientales y futuras</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Gestión de relaves y rehabilitación: Necesidad de mecanismos para evitar dispersión de contaminantes y proteger suelos y aguas. Los relaves no pueden desecharse sin control; se requiere reacondicionamiento y cumplimiento legal.</div>
+              <div class="content-text">Recursos no renovables y perspectivas: Minerales finitos; eventual agotamiento obliga a buscar nuevos yacimientos o alternativas tecnológicas. Comentario sobre posibles explotaciones futuras fuera de la Tierra (asteroides) como discusión teórica a largo plazo.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=6932" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:55:32)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Material audiovisual y cierre de la sesión</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Presentación de video y discusión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Video sobre componentes minerales en productos cotidianos (ej. smartphone): Problemas y beneficios ligados al uso de minerales. Se identificaron dificultades de audio durante la reproducción; enlace compartido para visualización posterior.</div>
+              <div class="content-text">Reflexión final y próximos temas: Reconocimiento de beneficios y costos de la minería formal frente a la informal/ilegal. Anuncio de que en la siguiente clase se abordará con más detalle la minería informal, ilegal y su impacto. Invitación a participación continua y aporte de experiencias de campo para enriquecer las próximas sesiones.</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=5395" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:29:55)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Cierre administrativo y despedida</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Profesor informó que no pudo registrar la asistencia en la plataforma y realizó captura de pantalla para enviar al área académica</div>
+              <div class="content-text">Verificación y envío de evidencia de presencias como procedimiento alternativo para el registro</div>
+              <div class="content-text">Confirmación de horario y fecha de la próxima clase: jueves a las 7:45</div>
+              <div class="content-text">Intercambio final de saludos y despedidas entre profesor y participantes, marcando el cierre de la sesión</div>
+              <a href="https://www.youtube.com/watch?v=skxg0zmBDN0&start=7202" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:02)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 01: PANORAMA ACTUAL DE LA INDUSTRIA MINERA A NIVEL MUNDIAL Y EN EL PERÚ - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

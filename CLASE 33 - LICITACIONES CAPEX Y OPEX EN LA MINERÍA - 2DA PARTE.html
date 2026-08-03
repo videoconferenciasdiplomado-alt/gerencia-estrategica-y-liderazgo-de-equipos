@@ -1,0 +1,1701 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Inicio y repaso caso 1</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Preguntas iniciales y continuación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Inicio de la clase retomando lo visto en la sesión anterior: Se consulta si hay dudas antes de comenzar con casos prácticos. Profesor confirma que mostrará nuevamente la evaluación técnico-económica.
+              </div>
+              <div class="content-text">
+                Objetivo inmediato: avanzar con casos prácticos de licitación: Enfocado en compra de tanques mayores, tanques para reactivos y tanques para destrucción de cianuro.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=0" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Resumen del caso 1 y metodología de evaluación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Presentación de la matriz de evaluación técnico-económica ya vista: Parte técnica: cinco variables evaluadas por área técnica. Parte económica: costo total de pertenencia, transporte, repuestos, capacitación, garantía.
+              </div>
+              <div class="content-text">
+                Fórmula de ponderación y resultado: Peso 50% técnico / 50% económico; puntajes convertidos a porcentaje y sumados. Ejemplo: proveedor G resultó ganador por mayor puntaje combinado.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=66" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:01:06)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Caso 2 — licitación de tanques</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Documentos técnicos y alcance</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Estructura de las bases técnicas para tanques mayores: Contenido: descripción del proyecto, ubicación, objetivos, condiciones de sitio (altitud 4.000–4.700 m.s.n.m.). Requerimientos: diseño, suministro, fabricación, pre-ensamble, embalaje, pintura, repuestos y planos.
+              </div>
+              <div class="content-text">
+                Especificaciones por tipo y tag de equipos: Listado de tanques con códigos (ej. AYA 540.000, AYA 710), dimensiones (diámetro, H). Inclusiones y exclusiones en la propuesta (trabajo incluido/excluido).
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=444" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:24)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Control de calidad, pruebas e inspecciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Requisitos de calidad y pruebas en fábrica y en sitio: Plan de calidad, certificados de materiales, pruebas no destructivas y pruebas finales en campo. Entrega de reportes de inspección y protocolos de ensayos al comprador.
+              </div>
+              <div class="content-text">
+                Documentación que deben presentar los proveedores: Planos en AutoCAD/PDF, lista de materiales, catálogo de repuestos, programas de pruebas y QA/QC.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=600" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:10:00)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Propuestas de proveedores y evaluación técnica</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Presentación de propuestas y aspectos comerciales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Formato de propuestas: carta, anexos, excepciones, términos comerciales y estados financieros: Detalle de costos unitarios por tag, peso unitario, cantidad, tiempo de entrega, forma de pago. Conceptos adicionales: embalaje, transporte, repuestos 1 año, supervisión, capacitación y puesta en marcha.
+              </div>
+              <div class="content-text">
+                Condiciones comunes y exclusiones: Garantía (12 meses en almacén o 18 meses desde fabricación), responsabilidad tras entrega "puesto en camión".
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=1170" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:19:30)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Evaluación técnica detallada</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Matriz técnica por proveedor y por tipo de tanque: Criterios: equipo mecánico, alcance general, gestión de la empresa, pruebas y documentación. Puntajes asignados según cumplimiento (ej. cumple = 8; parcial = 5; no cumple = 0).
+              </div>
+              <div class="content-text">
+                Comentarios y observaciones técnicas por proveedor: Listado de fallas o faltantes documentados y recomendaciones de la parte técnica.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=1861" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:31:01)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Análisis económico y decisión estratégica</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Cuadro de evaluación técnico-económica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Integración de la versión técnica y económica en un solo cuadro: Colocación de costos totales de pertenencia por equipo y proveedor. Ponderación 50% técnico / 50% económico para obtener puntaje final y determinar ganadores por segmento (tanques mayores vs tanques con agitadores).
+              </div>
+              <div class="content-text">
+                Ajustes estratégicos y búsqueda directa a fabricante: Identificación de ahorro al cotizar componentes (ej. agitadores) directamente al fabricante internacional.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=2098" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:34:58)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Detección de solapamientos y estrategia de compra</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Identificación de proveedores que ofertan componentes idénticos (agitadores): Observación: proveedor MA y otro ofrecían el mismo agitador de la misma marca y procedencia. Acción: separar la compra de tanques y agitadores para optimizar costo.
+              </div>
+              <div class="content-text">
+                Búsqueda directa al fabricante como fuente de ahorro: Ejemplo: cotización directa del fabricante en Sudáfrica redujo el costo de agitadores significativamente. Resultado estratégico: adjudicar tanques al proveedor con mejor puntaje y adquirir agitadores al fabricante más barato.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=2220" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:37:00)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Caso 3 — compra de bolas de acero (molinos)</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Bases técnicas y pruebas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Objetivo y alcance de la adquisición OPEX (bolas de acero para molienda): Requisitos técnicos: composición química (C, Mn, Si, Cr, Mo), dureza Rockwell y dureza volumétrica, diámetros y pesos por medida. Consumo proyectado y plan de suministro por 6 meses para evaluación de rendimiento.
+              </div>
+              <div class="content-text">
+                Ensayos y control de calidad asumidos por proveedor: Muestreo por lote, análisis químico mensual, pruebas de dureza volumétrica y metodográficas en laboratorio independiente.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=2732" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:45:32)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Bases comerciales, logística y garantías</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Condiciones de licitación y fotograma del proceso: Separación de sobres técnico y comercial, envío de documentos, plazos de consulta y recepción de propuestas.
+              </div>
+              <div class="content-text">
+                Condiciones comerciales: entrega (Lima o FOB), forma de pago (90 días estándar), cartas fianza y penalidades: Carta fianza por fin cumplimiento (10% estándar) y carta por adelanto si aplica. Penalidades por incumplimiento de calidad o entrega; posibilidad de cancelar orden tras repeticiones de fallos.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=3051" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:50:51)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Primera ronda de proveedores y evaluación económica</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Recepción de propuestas y datos financieros</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Participación amplia: 11 proveedores en primera ronda: Cada proveedor presenta propuesta técnica, estados financieros, plan de entrega y precios por medida. Ejemplos: proveedores internacionales (China) y locales, opciones FOB o puesto en almacén.
+              </div>
+              <div class="content-text">
+                Plantilla de evaluación económica usada: Suma de precios por ítem, posibles ajustes de precio y fórmulas de variación indicadas por proveedores. Requisito de fórmulas polinómicas para variaciones de precio con índices y fuentes trazables.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=3412" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:56:52)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Modelo de evaluación económico-técnico mejorado</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Ajustes en ponderaciones y variables económicas (modelo en evolución): Económica compuesta por: precio (75%), condición de entrega (10%), forma de pago (10%), variabilidad de precios (2.5%), integridad de propuesta (2.5%). Técnica con variables específicas: versión técnica (70%), variación de alcance (20%), gestión de la empresa (10%).
+              </div>
+              <div class="content-text">
+                Uso de terna final y pruebas piloto: Con terna final se planificó compra de prueba de 6 meses para evaluar desempeño antes de adjudicación mayor.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=6360" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:46:00)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Detalle práctico: comparación puestos en almacén y costos de importación</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Requisito de comparación homogénea y costes a incluir</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Regla para evaluar proveedores locales vs extranjeros: todos cotizados puestos en el mismo punto (p. ej. almacén de la mina): Para proveedores FOB o en puerto origen hay que calcular flete marítimo, emisión de BL, seguro, agente aduanero, gastos operativos y transporte interno hasta almacén. Para proveedores locales hay que calcular transporte desde planta al almacén comprador, almacenamiento, y riesgos asumidos por el proveedor local.
+              </div>
+              <div class="content-text">
+                Componentes típicos del costo de importación y su cálculo: Tarifas por contenedor, número total de contenedores (ej. 255 contenedores por 6 meses), y costo por contenedor. Emisión de BL (conocimientos de embarque), seguro, comisión de agente aduana (% del FOB), gastos operativos por embarque, transporte desde puerto hasta almacén.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=3600" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Ejemplo aplicado y riesgo logístico</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Desagregado de costos en ejemplo de 6 meses y 255 contenedores: Cálculo del flete marítimo total, costos por BL, seguro y agencia aduanera para consolidar costo puesto en almacén. Inclusión de costos de transporte interno a mina si corresponde (puesto en mina).
+              </div>
+              <div class="content-text">
+                Riesgos y ventajas de proveedores locales vs extranjeros: Proveedores locales suelen reflejar mayor precio por asumir logística, stock y servicio inmediato. Proveedores extranjeros ofrecen precio de fábrica bajo, pero el comprador asume mayor riesgo si la carga no se embarca o hay problemas en tránsito.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=4141" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:09:01)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Cierre del proceso de licitación: control de consultas y transparencia</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Manejo de consultas y comunicación a proveedores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Consolidación de todas las preguntas técnicas y comerciales en tablas con respuestas uniformes para todos los postores: Envío de respuestas a todos los proveedores (copias ocultas o generales) para garantizar transparencia.
+              </div>
+              <div class="content-text">
+                Tratamiento de excepciones y decisiones del comité: Ejemplo: se exoneró la exigencia de carta fianza de cumplimiento para proveedores extranjeros en compra de muestra por seis meses. Actas del comité para cambios formales en bases o condiciones.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=3996" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:06:36)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Gobernanza del proceso y actas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Importancia del comité que define variables, pesos y decisiones de avance a segunda ronda: Cualquier modificación de criterios debe quedar registrada en acta y aprobada por el comité.
+              </div>
+              <div class="content-text">
+                Uso de rondas sucesivas para filtrar y mejorar ofertas: Segunda ronda permite ajustes de precios, mejoras técnicas y confirmación de soluciones antes de adjudicación final.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=4090" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:08:10)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Evaluación práctica de la primera y segunda ronda — método de puntaje</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Construcción de la versión económica y criterios de puntuación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Paso a paso del llenado de la plantilla: ficha de cotización, vigencia, moneda, cantidades, precio unitario y total: Conversión de todos los precios a puesto en almacén o puesto en mina para comparación uniforme.
+              </div>
+              <div class="content-text">
+                Matriz de criterios y ejemplo de escalas ABC para variables: Tiempo de primera entrega: A (15 días) = 100%; B (70 días) = 50%; C (>30 días) = 0%. Forma de pago: 90 días = 100%; 60 días = 80%; 30 días = 20%. Propuesta de precios unitarios: mantenimiento de precio fijo = 100%; variación = 50% o 0%. Integridad de la propuesta (todas las medidas ofrecidas): completo = 100%; parcial = 50%.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=4129" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:08:49)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Ponderación y cálculo del puntaje económico final</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Procedimiento de ponderación: Asignación de pesos (ej. precio 75%, tiempo entrega 10%, forma de pago 10%, variabilidad 2.5%, integral 2.5%). Cálculo de puntajes por variable, multiplicación por peso y suma para obtener puntaje económico al 100%.
+              </div>
+              <div class="content-text">
+                Evolución entre rondas y adiciones por comité: En segunda ronda se añadieron variables como experiencia regional y experiencia con el cliente (ej. Buenaventura). Pesos finales aprobados por comité antes de la licitación; cualquier cambio requiere acta del comité.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=4309" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:11:49)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="10">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">10</span>
+          <span class="section-title">Evaluación técnica aplicada y combinación final</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.1</span>
+              <span class="subsection-title">Componentes de la evaluación técnica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Elementos evaluados: composición química por tipo de bola, rango de dureza, peso, servicio técnico, capacitación y simulación por software: Niveles de asistencia técnica: regular, especial; evidencia de control de calidad y normas ambientales.
+              </div>
+              <div class="content-text">
+                Puntaje técnico y consolidación: Cada experto técnico asigna puntaje por proveedor; sumatoria y conversión a porcentaje.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=4496" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:14:56)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.2</span>
+              <span class="subsection-title">Integración técnico-económica y selección de finalistas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Fórmula final y ponderaciones aplicadas en ejemplo práctico: En una versión se aplicó económica 40% / técnica 60% (pesos definidos antes de licitación). Puntaje económico ponderado + puntaje técnico ponderado = puntaje final.
+              </div>
+              <div class="content-text">
+                Resultado y decisiones operativas: Ranking final con primeros tres lugares; se seleccionaron PROGO (75%) y otros finalistas. Decisión estratégica de traer lotes de prueba de los dos siguientes para evaluación en planta antes de adjudicación mayor.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=4542" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:15:42)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="11">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">11</span>
+          <span class="section-title">Resultados operativos y lecciones prácticas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.1</span>
+              <span class="subsection-title">Decisiones finales y pruebas piloto</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Selección de finalistas y compras piloto: Se adjudicó contrato principal y se compraron contenedores de otros finalistas para pruebas en mina. Objetivo: validar desempeño real antes de compromisos a largo plazo.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=4579" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:16:19)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.2</span>
+              <span class="subsection-title">Principales lecciones y recomendaciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Definir criterios y pesos antes de iniciar la licitación; no cambiarlos salvo acta del comité: Exigir fórmulas de ajuste de precios trazables (polinómicas) para variaciones y evitar riesgos.
+              </div>
+              <div class="content-text">
+                Siempre comparar ofertas «puestas en» un mismo punto (almacén o mina) incluyendo todos los costos de importación y logística: Evaluar riesgos logísticos, stock disponible, tiempo de entrega y experiencia previa del proveedor en la región.
+              </div>
+              <div class="content-text">
+                Aplicar combinación técnico-económica apropiada según criticidad del insumo (ej. mayor peso técnico para insumos críticos o peligrosos)
+              </div>
+              <div class="content-text">
+                Recordar la importancia de la comunicación final y cierre claro con los participantes para mantener la transparencia y la confianza en procesos futuros
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=4937" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:22:17)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="12">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">12</span>
+          <span class="section-title">Caso 4 — compra de cianuro de sodio y gestión logística compleja</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.1</span>
+              <span class="subsection-title">Particularidades del producto y requisitos de embalaje y permisos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Requisitos estrictos por naturaleza peligrosa del cianuro: Código internacional, permisos de importación y permisos para uso en mina; embalajes especiales (bolsas dentro de cajas de madera con tornillos, no clavos). Riesgos asociados: manejo, posible liberación de gas si hay rotura; existencia de kits y protocolos de emergencia.
+              </div>
+              <div class="content-text">
+                Evaluación del embalaje y manejo como variable de la oferta: Tipos de embalaje (big-bags de 1 t, cajas de madera, cilindros metálicos) y requerimientos de desmontaje y seguridad.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=6623" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:50:23)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.2</span>
+              <span class="subsection-title">Logística por mina y cálculo puesto en mina</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Necesidad de desagregar costos por unidad minera (transporte marítimo, desagüe/descarga, transporte a depósito, transporte a mina): Cada mina tiene su costo puesto en mina; el comprador debe consolidar por total de consumo (ej. 2 años) y por mina.
+              </div>
+              <div class="content-text">
+                Variables económicas específicas y su ponderación: En Fase larga se ponderó el costo puesto en mina 80% dentro de la evaluación económica consolidada. Consideración de repetición de proveedores por ofrecer distintos orígenes o condiciones (FOB vs puesto en almacén).
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=6771" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:52:51)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.3</span>
+              <span class="subsection-title">Evaluación técnica del cianuro y criterios ambientales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Criterios técnicos: composición química, evidencia de normas de seguridad, capacitación en manipuleo, control ambiental: Asistencia técnica especial para emergencias y protocolos de mitigación.
+              </div>
+              <div class="content-text">
+                Integración técnico-económica y resultado: Puntajes económicos y técnicos ponderados (ej. 40% económico / 60% técnico o variación aprobada) y elección final basada en puntaje total. En el caso presentado, ganó un proveedor extranjero por precio muy competitivo, validando la metodología de comparación puesto en mina.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=7103" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:58:23)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="13">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">13</span>
+          <span class="section-title">Cierre de la clase y despedida</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">13.1</span>
+              <span class="subsection-title">Pregunta final y verificación de comprensión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Turno de preguntas cortas y comprobación de entendimiento por parte de estudiantes: Profesor solicita retroalimentación y confirma que la figura y el proceso se entendieron. Interacción rápida con alumnos (nombres mencionados: Jean Paul, Anabella, Jennifer) para validar comprensión.
+              </div>
+              <div class="content-text">
+                Mensaje de cierre sobre etapas y evaluaciones de una licitación: Recordatorio de cómo se hace una licitación y cuáles son sus etapas y criterios de evaluación.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=7200" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">13.2</span>
+              <span class="subsection-title">Despedida y próximos pasos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Agradecimientos y cierre de la sesión: Profesor agradece el tiempo y confirma fecha de la próxima clase (martes siguiente) con nuevo tema. Saludos finales de varios participantes en español e inglés como señal de cierre y cortesía.
+              </div>
+              <div class="content-text">
+                Mensaje de seguimiento: Invitación a revisar materiales y prepararse para la siguiente sesión; fin de la clase y buenos deseos para el fin de semana.
+              </div>
+              <a href="https://www.youtube.com/watch?v=aSenbeSclMo&start=7232" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:32)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 33: LICITACIONES CAPEX Y OPEX EN LA MINERÍA - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

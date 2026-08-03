@@ -1,0 +1,1740 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Introducción y bienvenida</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Saludo y apertura</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Inicio de la clase y comprobación de asistentes: Saludos a Jennifer y Jean Paul. Invitación a repetir o ampliar conceptos si hay dudas. Comprobación final de asistencia y cierre cordial al terminar la sesión.</div>
+            
+
+              <div class="content-text">Objetivo inmediato: Presentar casos y ejemplos relacionados con CAPEX y OPEX. Preparar a los estudiantes para ejercicios prácticos posteriores. Anuncio de que la siguiente clase se dedicará principalmente a resolver ejemplos prácticos.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=253" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:04:13)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Confirmaciones finales y agradecimientos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Recapitulación y despedida: Agradecimiento por el tiempo y la paciencia de los asistentes. Confirmación de las fechas de las próximas sesiones y recordatorio de enviar dudas o preguntas.</div>
+            
+
+              <div class="content-text">Invitación a la participación continua: Estímulo a que los alumnos planteen consultas no solo sobre los temas vistos sino sobre cualquier asunto logístico relacionado. Cierre cordial y despedida formal hasta la siguiente clase.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=7547" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:05:47)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Conceptos básicos: CAPEX y OPEX</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Definiciones y diferencias generales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">CAPEX: Capital Expenditure, gastos de capital asociados a bienes físicos de alto valor: Se capitaliza y se deprecia o amortiza porque su vida útil supera un año fiscal. Ejemplo: compra de un vehículo para la empresa.</div>
+            
+
+              <div class="content-text">OPEX: Operational/Operating Expenditure, gastos operativos relacionados con la operación diaria: Se deducen en el mismo año fiscal. Ejemplo: servicio de transporte puntual.</div>
+            
+
+              <div class="content-text">Fórmula práctica para CAPEX en estados financieros: CAPEX ≈ variación de activos durante el año menos variación de pasivos durante el año.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=299" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:04:59)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Casos especiales y criterios de clasificación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Bienes con vida útil intermedia pueden clasificarse según uso y políticas contables: Ejemplo: una mesa que dura más de un año puede ser CAPEX. Ejemplo: cámara costosa usada en obra de un año puede tratarse como OPEX.</div>
+            
+
+              <div class="content-text">Revisión caso por caso necesaria: Decisiones en clasificación pueden requerir análisis contable y técnico.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=376" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:06:16)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Material didáctico, ejemplos y tipos de CAPEX</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Video explicativo: conceptos, ejemplos y cálculos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Contenido del video Suricata Labs y material adicional: Definición de CAPEX y OPEX, ejemplos típicos y cómo afectan la generación de ingresos. Diferenciación entre costos directos del equipo y costos indirectos (sueldos de jefaturas, supervisión no incluidos).</div>
+            
+
+              <div class="content-text">Indicadores y decisiones: Uso de ROI, TIR y margen operativo para evaluar impacto. Ejemplos prácticos: costos fijos (salarios, alquiler) y variables (materiales, envío). Estadística referencial: costo de operación ~76% y costo de posesión ~24% en ejemplos de equipos.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=472" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:52)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Tutorial aplicado a minería: clasificación práctica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">CAPEX en minería: inversiones duraderas relacionadas con infraestructura y equipos: Ejemplos: labores de desarrollo (rampas, ventilación, piques), plantas, talleres, postes y sistemas de energía. Reparaciones totales o reposición de equipos se consideran CAPEX.</div>
+            
+
+              <div class="content-text">OPEX en minería: costos operativos diarios de extracción y procesamiento: Ejemplos: explosivos, pernos, combustibles, mano de obra, contratistas, mantenimiento por partes, preparación y botaje de explotación.</div>
+            
+
+              <div class="content-text">Imágenes y diferenciación práctica: Plantas, chancado, molienda, flotación y disposición de relaves asociados mayormente a costos operativos.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=889" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:14:49)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.3</span>
+              <span class="subsection-title">CAPEX inicial, sostenimiento y crecimiento</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">CAPEX inicial: Gastos destinados a activos fijos para poner en marcha operaciones (plantas, equipos, obras de acceso). Ejemplo: labores de servicio por vía de escape.</div>
+            
+
+              <div class="content-text">CAPEX de sostenimiento (sustaining): Mantener niveles de producción actuales, reemplazo o reposición de equipos. Ejemplo: reemplazo de un scoop o jumbo usado.</div>
+            
+
+              <div class="content-text">CAPEX de crecimiento: Inversiones para aumentar producción o expandir proyectos (greenfield y brownfield). Ejemplo: perforaciones para recategorizar recursos y convertir recursos en reservas.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=1260" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:21:00)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Cálculos prácticos y ejercicios</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Ejercicio OPEX: costo de preparación por tonelada</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Datos de ejemplo y procedimiento: Reservas probadas: 137.110 toneladas. Costos de preparación: bypass 691.000, cruceros 133.000 => total 825.000. Cálculo: costo de preparación = costo total / toneladas => US$6.02 por tonelada.</div>
+            
+
+              <div class="content-text">Aplicación en estados financieros: Suma de componentes operativos da costo operativo unitario que se multiplica por tonelaje extraído para obtener costo operativo total. Promesa de ver más ejercicios prácticos en la próxima clase para afianzar conceptos.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=1725" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:28:45)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Ejercicio CAPEX: cálculo por metraje</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Ejemplo de rampa: Metros avanzados: 1.414,4 m. Costo por metro: US$840 (dato de ejemplo alternativo US$140 mencionado en ejercicio). Cálculo: multiplicar metros por costo por metro para obtener CAPEX total (ejemplo dado: US$1.188.000).</div>
+            
+
+              <div class="content-text">Integración en flujo de caja y estado de resultados: CAPEX aparece como egreso en el periodo (por ejemplo año cero) y afecta disponibilidad de caja.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=1886" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:31:26)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Proyección financiera y cierre contable</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Proyección de P&G, balance y flujo de efectivo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Metodología para mantener ecuación contable: Usar utilidad neta proyectada y tomar flujo de caja final como disponible inicial. Llevar utilidad neta a patrimonio (utilidades retenidas) y flujo de caja al activo (disponible).</div>
+            
+
+              <div class="content-text">Trucos prácticos y comprobaciones: Revisar que el balance cuadre con la última transacción. Aceptar soluciones conceptuales temporales mientras se completa conciliación de cuentas.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=2215" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:36:55)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Cómo proyectar CAPEX en modelos financieros</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Opciones para estimar CAPEX futuro: Usar relación histórica CAPEX/ingresos como factor porcentual. Hacer benchmark sectorial y promediar compañías comparables. Solicitar plan de inversiones a gerencia técnica para detalle de reposición y crecimiento.</div>
+            
+
+              <div class="content-text">Ejemplo práctico: Uso temporal de un factor 7,8% de ventas como CAPEX conceptual. Ajustar con reuniones técnicas y revisar depreciaciones asociadas.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=2509" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:41:49)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Depreciación, matrices de CAPEX y flujo de dividendos</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Tratamiento de depreciación en proyecciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">División de depreciación: Depreciación de activos existentes proyectada en línea recta. Depreciación generada por nuevos CAPEX que se añade periódicamente.</div>
+            
+
+              <div class="content-text">Herramientas prácticas: Matriz de depreciación automatizada para replicar propiedad planta y equipo bruto y asignar vidas útiles. Uso en modelos conceptuales versus detalle por activo en modelos de ingeniería.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=2907" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:48:27)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Decisiones sobre reparto y consecuencias</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Ejemplo de política: Repartir la mitad de la utilidad neta como dividendos. Impacto en caja y necesidad de coherencia con la planificación financiera.</div>
+            
+
+              <div class="content-text">Indicadores resultantes: Cálculo de dividendos sostenibles como porcentaje de ingresos (ejemplo: 2,8%–3%). Relación entre tamaño de facturación y atractivo del dividendo para fundadores/accionistas.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=3241" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:54:01)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Consideraciones para licitaciones y adquisiciones</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Proceso y criterios para licitaciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Definir claramente el activo o producto a licitar: Usar matrices de comparación, matrices de criterios y protocolos de prueba. Incluir requerimientos técnicos y alcance detallado.</div>
+            
+
+              <div class="content-text">Selección de proveedores y comités evaluadores: Formar equipo multidisciplinar: logística, operaciones, finanzas, técnica. Establecer cronograma, políticas de licitación y criterios técnico-económicos con pesos.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=3483" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:58:03)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Identificación y cuantificación de costos totales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Incluir todas las dimensiones que afectan el costo total: Precio, forma de pago, fecha de entrega, costos logísticos y de destino (mina o almacén).</div>
+            
+
+              <div class="content-text">Evaluar impacto en CAPEX/OPEX: Determinar si la adquisición implica inversión de capital (CAPEX) o gasto operativo (OPEX) según uso y duración.</div>
+            
+
+              <div class="content-text">Recomendaciones de proceso: Preparar bases comerciales y técnicas, y un borrador de contrato para ahorrar tiempo. Realizar RFI previo para obtener estados financieros y prefiltrar proveedores antes del RFP. Responder consultas en rondas públicas y uniformes a todos los proveedores. Digitalizar apertura de ofertas y dejar actas y evidencias para auditoría y transparencia. Incluir hitos de fabricación y exigir programas de actividades (ingeniería, fabricación, inspección y entrega). Asegurar seguimiento de pagos, entregas y facturas; gestionar adelantos para no retrasar el trabajo.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=3493" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:58:13)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Proceso detallado de licitación y evaluación técnica-económica</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Preparación documental y requisitos técnicos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Contenido técnico exigido al proveedor: Documento de especificaciones: descripción del proyecto, objetivo, ubicación, condiciones de operación y normas aplicables. Fichas técnicas por equipo con parámetros de proceso, diagramas, planos en AutoCAD y PDF, listas de repuestos y embalaje. Plan de calidad, control de calidad, pruebas en fábrica y en sitio, ensayos no destructivos y checklist de inspección.</div>
+            
+
+              <div class="content-text">Costos adicionales a considerar: Montaje, herramientas de montaje, embalaje especial, transporte, entrenamiento, repuestos iniciales y servicios de asesoría.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=4045" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:07:25)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Recepción de propuestas y formato de cotización</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Recomendaciones prácticas: Proveer un formato Excel estándar para la oferta económica y la ficha técnica para facilitar comparación y consolidación. Pedir estados financieros y documentación administrativa en la etapa de RFI para prefiltrar proveedores.</div>
+            
+
+              <div class="content-text">Componentes de la oferta comercial: Precio base, exclusiones, plazos de entrega, cronograma (firma de planos, fabricación y despacho), forma de pago y garantías (12–18 meses según condición).</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=4851" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:20:51)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Evaluación técnica, ponderación y costo total de pertenencia</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Evaluación técnica y ponderación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Criterios técnicos y pesos: Definidos por el usuario técnico: evaluación mecánica, alcance de partidas, gestión de empresa, tiempo de entrega, consumo energético, etc. Ejemplo práctico: técnica 50% / económica 50% y subcomponentes con puntajes máximos por variable.</div>
+            
+
+              <div class="content-text">Proceso de scoring: Cada requisito tiene puntaje; proveedores que no llenan quedan con 0 en esa variable. Puntajes técnicos se normalizan y multiplican por su peso; mismo procedimiento para parte económica. Suma de puntaje técnico y económico da el puntaje final técnico-económico para adjudicación.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=5699" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:34:59)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Consolidación del costo total de pertenencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Componentes incluidos en el costo total: Precio de equipo, embalaje, transporte, capacitación, repuestos, puesta en marcha, ingeniería de detalle, manuales y pruebas.</div>
+            
+
+              <div class="content-text">Comparación entre proveedores: Consolidar costos por equipo y por proveedor, sumar costo total de pertenencia y ajustar por tiempo de entrega y condiciones comerciales. Evaluar exclusiones y obligaciones del comprador (ej. plataformas de concreto, anclajes) que incrementan el costo real del proyecto.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=5921" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:38:41)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="10">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">10</span>
+          <span class="section-title">Gestión de cumplimiento, auditoría y control</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.1</span>
+              <span class="subsection-title">Transparencia y trazabilidad en compras</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Requisitos de cumplimiento: Mantener evidencia documental, actas, correos y registros para auditoría y tranquilidad de gerencia o directorio.</div>
+            
+
+              <div class="content-text">Control de hitos y seguimiento: Revisar avances de fabricación periódicamente, levantar observaciones ante desviaciones y verificar entregas en almacén de destino.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=3607" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:07)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.2</span>
+              <span class="subsection-title">Riesgos en el proceso de adquisición</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Factores que llevan a pérdida de licitaciones por proveedores: Documentación incompleta, ofertas técnicas insuficientes, discrepancias en formato de precios, incapacidad de cumplir plazos o recursos insuficientes.</div>
+            
+
+              <div class="content-text">Riesgos desde el comprador: Comunicar criterios claros en RFI/RFP, evitar especificaciones que direccionen la licitación hacia un solo proveedor, gestionar adelantos y pagos oportunos.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=3807" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:03:27)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="11">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">11</span>
+          <span class="section-title">Casos reales y ejemplos de licitación</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.1</span>
+              <span class="subsection-title">Caso 1: distribuidores dinámicos de pulpa (CAPEX)</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Contexto y datos del caso real: Requisitos técnicos detallados, cuatro proveedores, ronda de consultas y respuestas. Peso técnico 50% y económico 50% para evaluación.</div>
+            
+
+              <div class="content-text">Resultados y lecciones: Propuestas incluyen detalles técnicos, cronograma, garantías, horas de ingeniería, cargos por cancelación y formatos completados. Adjudicación basada en puntaje final (ejemplo: oferta ganadora con 96%).</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=4045" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:07:25)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.2</span>
+              <span class="subsection-title">Otros casos: tanques mayores y OPEX</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Diferentes tipos de adquisiciones: CAPEX: tanques para reactivos y grandes equipos fabricados por terceros. OPEX: compras recurrentes como bolas de acero (consumo y reposición).</div>
+            
+
+              <div class="content-text">Complejidad y tiempo: Licitaciones grandes pueden tomar meses; coordinación entre operaciones y logística es crítica para evitar retrasos.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=6230" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:43:50)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="12">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">12</span>
+          <span class="section-title">Cálculo del costo de posesión y operación de equipos</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.1</span>
+              <span class="subsection-title">Costo de posesión (ownership cost)</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Componentes del costo de posesión: Costo de adquisición, financiamiento (intereses), seguros, valor de rescate. Ejemplo: motoniveladora costo $500.000, valor rescate 40% ($200.000), financiar 70% a 6 años con 1% mensual → costo financiero e incremento del monto financiado.</div>
+            
+
+              <div class="content-text">Cálculo por hora de vida útil: Sumar adquisición menos rescate más intereses y dividir entre horas proyectadas (ej. 15.000 horas) para obtener $/hora de posesión.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=6451" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:47:31)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.2</span>
+              <span class="subsection-title">Costo de operación (operational cost)</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Componentes del costo de operación: Combustible, reparaciones, operador, llantas, mantenimientos preventivos y correctivos. Medición en $/hora y factores dependientes de potencia, condiciones de operación y disponibilidad.</div>
+            
+
+              <div class="content-text">Ejemplos y ratios: Consumo en galones/hora por HP, costo de llantas prorrateado por horas de vida útil. Uso de indicadores para comparar equipos (productividad en m3 por dólar).</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=6890" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:54:50)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.3</span>
+              <span class="subsection-title">Comparación de escenarios y selección de equipo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Metodología para elegir entre alternativas: Sumar costo de posesión y operación para cada opción y dividir por producción esperada para obtener productividad ($/m3 o m3/$). Seleccionar la opción con mejor productividad ajustada por disponibilidad y eficiencia.</div>
+            
+
+              <div class="content-text">Consideraciones adicionales: Impacto de mantenimiento, repuestos y estructura de financiamiento en costo total.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=7044" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:57:24)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="13">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">13</span>
+          <span class="section-title">Consideraciones finales y cierre</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">13.1</span>
+              <span class="subsection-title">Resumen y recomendaciones prácticas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Resumen del flujo completo: Desde preparación de bases, RFI, RFP, recepción de ofertas, rondas de consultas, evaluación técnica, consolidación económica y adjudicación.</div>
+            
+
+              <div class="content-text">Buenas prácticas: Estandarizar formatos, separar documentación administrativa en RFI, exigir planes de calidad y programas de fabricación, prever hitos de pago y penalidades, y coordinar estrechamente con operaciones para evitar retrasos.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=6109" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:41:49)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">13.2</span>
+              <span class="subsection-title">Próximos pasos y tareas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Continuación en próximas clases: Revisar restantes casos reales (otros CAPEX y OPEX) y video complementario como tarea para profundizar en ejemplos prácticos. Confirmación de que la siguiente sesión mostrará los tres casos pendientes y ejercicios completos.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=6230" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:43:50)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="14">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">14</span>
+          <span class="section-title">Integración de casos adicionales y detalles prácticos</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">14.1</span>
+              <span class="subsection-title">Organización de próximas clases y dinámica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Plan de actividades futuras: Dedicación de la siguiente clase a resolver ejemplos prácticos completos y revisar formulaciones. Entrega previa de avance teórico para que los alumnos lleguen preparados a los ejercicios.</div>
+            
+
+              <div class="content-text">Comunicación y soporte: Invitación a enviar preguntas de logística o temas relacionados antes de la próxima sesión. Disponibilidad del profesor para responder dudas fuera de clase y coordinar consultas.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=7200" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">14.2</span>
+              <span class="subsection-title">Casos complementarios detallados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Tanques mayores y distribuidores dinámicos: Presentación de cuatro proveedores, rondas de consultas y matriz de evaluación con peso técnico 50% y económico 50%. Variables técnicas y económicas detalladas en la matriz del comité evaluador.</div>
+            
+
+              <div class="content-text">Caso de bolas de acero (OPEX): Primera ronda con ~10–11 proveedores, segunda ronda con tres finalistas. Peso de evaluación típico: 40% económico / 60% técnico en versiones avanzadas. Componentes económicos: valor de venta 75%, condición de entrega 10%, condición de pago y otras variables. Componentes técnicos: experiencia regional y experiencia con el cliente añadidas como variables en la segunda ronda.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=7322" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:02:02)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">14.3</span>
+              <span class="subsection-title">Caso de insumos críticos: cianuro para lixiviación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Particularidades del insumo: Producto highly peligroso y regulado, requiere permisos de importación, almacenamiento y manejo especial en mina. Necesidad de embalaje y transporte específicos, y entrenamiento y equipos de protección para su manipulación.</div>
+            
+
+              <div class="content-text">Evaluación técnica y económica: Variables económicas incluyen precio, condiciones de entrega, condiciones de pago, integridad de la propuesta y embalaje. Variables técnicas contemplan seguridad, certificaciones, experiencia en operaciones similares y capacidad de respuesta ante contingencias.</div>
+              <a href="https://www.youtube.com/watch?v=_1ckKAy9kuY&start=7481" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:04:41)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 32: LICITACIONES CAPEX Y OPEX EN LA MINERÍA - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

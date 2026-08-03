@@ -1,0 +1,1647 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Bienvenida, dinámica del curso y conflictos de interés</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Bienvenida y dinámica del curso</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Saludos iniciales y comprobación de seguimiento de los participantes: Invitación a interacción: preguntas, levantar la mano, chat. Recordatorio de materiales en la plataforma Edumina.
+              </div>
+            
+
+              <div class="content-text">
+                Estructura de la sesión: revisión de códigos y políticas de conducta de mineras: Presentación de cuatro empresas-mina: Antamina, Buenaventura, Minsur y otra por decidir. Actividad práctica posterior a la explicación de documentos.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=0" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Conflictos de interés y reportes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Definición de conflicto de interés: interés personal contrario a obligaciones de la empresa: Obligación de evitar situaciones que limiten tiempo, concentración o juicio. Reporte por escrito al área de cumplimiento antes de que ocurra el conflicto.
+              </div>
+            
+
+              <div class="content-text">
+                Ejemplos y consecuencias: Seleccionar contratistas por interés personal vs. interés de la compañía. Medidas administrativas y sanciones por incumplimiento.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=388" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:06:28)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Regalos, protección de activos y prevención de delitos</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Regalos, protección de activos e información confidencial</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Normas sobre regalos y atenciones: pueden ser percibidos como soborno según contexto: Procedimiento específico en intranet y límites monetarios (ejemplos: S/50-S/100). Regalos inapropiados deben subastarse o gestionarse según política.
+              </div>
+            
+
+              <div class="content-text">
+                Protección de activos tangibles e intangibles: Uso exclusivo para fines laborales; prohibido uso privado de herramientas y recursos. Obligación de confidencialidad sobre información no pública y uso prohibido para lucro personal. Tipos de información confidencial: registros, planes, presupuestos, información de proveedores y clientes.
+              </div>
+            
+
+              <div class="content-text">
+                Monitoreo y conducta esperada: Derecho de la empresa a monitorear correos y sistemas. Principio de buena fe: probidad, lealtad, honestidad; cumplimiento contractual y contable. Canal de denuncias y posibles acciones civiles/penales por infracciones.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=526" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:08:46)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Prevención de delitos y medio ambiente</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Prevención de lavado de activos y financiamiento del terrorismo: Prohibición explícita y cumplimiento de normas peruanas.
+              </div>
+            
+
+              <div class="content-text">
+                Contribuciones políticas y diversidad: Prohibición de usar recursos de la empresa para partidos o campañas sin autorización. Permiso a trabajadores para actividad política a título personal, fuera del horario laboral.
+              </div>
+            
+
+              <div class="content-text">
+                Compromisos ambientales y de derechos humanos: Gestión responsable del agua desde enfoque de cuenca y gestión de riesgos ambientales. Promoción de no discriminación, seguridad y cultura preventiva.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=723" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:12:03)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Código y políticas de Buenaventura</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Valores, alcance y deber de diligencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Valores institucionales: respeto, lealtad, honestidad, transparencia, etc.: Código aplicable a trabajadores, colaboradores adheridos y terceros.
+              </div>            
+
+              <div class="content-text">
+                Deber de diligencia: actuar con prudencia, oportunidad y buena fe en interés de la compañía: Líneas éticas y relación con stakeholders (grupos de interés).
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=1151" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:19:11)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Conflictos de interés, obsequios y uso de activos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Prohibición de abuso de posición para obtener ventajas indebidas: No participar en negocios personales que compitan o afecten a la compañía sin autorización.
+              </div>
+            
+
+              <div class="content-text">
+                Obsequios y cortesías: no aceptar ni ofrecer gratificaciones que comprometan imparcialidad: Extensión de la norma a familiares inmediatos.
+              </div>
+            
+
+              <div class="content-text">
+                Uso responsable de viajes y tecnologías: Recursos tecnológicos y activos para fines laborales únicamente.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=1286" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:21:26)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.3</span>
+              <span class="subsection-title">Prevención de fraude, soborno y cumplimiento</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Prohibición de sobornos tanto en ámbito público como privado: No ofrecer, prometer, aceptar compensaciones para obtener negocios. Registros contables veraces; prohibición de cuentas o fondos no revelados.
+              </div>
+            
+
+              <div class="content-text">
+                Prevención de lavado de activos y financiamiento del terrorismo: No participar en transacciones que encubran bienes de actividades ilícitas.
+              </div>
+            
+
+              <div class="content-text">
+                Contribuciones políticas y sanciones por incumplimiento: Donaciones políticas prohibidas salvo aprobación y conforme a ley. Sanciones disciplinarias según gravedad: amonestaciones, suspensiones, despido, acciones civiles y penales.
+              </div>
+            
+
+              <div class="content-text">
+                Mecanismo de denuncias y ejemplos prácticos: Canal telefónico/web y anexos con ejemplos de conducta esperada.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=1368" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:22:48)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Política anticorrupción y prácticas en compras/proveedores</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Marco general y definiciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Objetivo: identificar, prevenir y mitigar actos de corrupción en todas las actividades del grupo: Cero tolerancia a la corrupción; aplicación de buenas prácticas anticorrupción.
+              </div>
+            
+
+              <div class="content-text">
+                Definición de "algo de valor" y personas políticamente expuestas (PEP): Incluye dinero, servicios, regalos, ordenadores; PEP: funcionarios y sus familiares hasta segundo grado.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=1688" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:28:08)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Control en compras, due diligence y registros de proveedores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Procedimientos de verificación para proveedores: Confirmar capacidad técnica, experiencia, relación con PEP, y precios de mercado. Realizar debida diligencia mediante sistemas internos y reportar hallazgos adversos al oficial de cumplimiento. Mantener registros actualizados de proveedores y re-evaluarlos periódicamente (ej. cada 2 años).
+              </div>
+            
+
+              <div class="content-text">
+                Controles en logística y procesos de adquisición: Centralización de compras en logística para evitar interferencias. Verificación de facturas y rechazo de pagos sospechosos; reporte inmediato al cumplimiento corporativo.
+              </div>
+            
+
+              <div class="content-text">
+                Evidencias y papelera documental: Importancia de dejar registros escritos (correos, órdenes de compra) como sustento ante solicitudes o controversias.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=2105" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:35:05)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.3</span>
+              <span class="subsection-title">Excepciones, autorizaciones y transparencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Reglas sobre obsequios y autorizaciones excepcionales: Prohibición general de obsequios a funcionarios o terceros; posibles autorizaciones para gerentes según política documentada. Crítica a la excepción que permite a altos cargos autorizar, y la necesidad de transparencia.
+              </div>
+            
+
+              <div class="content-text">
+                Certificación de proveedores y obligaciones contractuales: Proveedores deben firmar aceptación de políticas anticorrupción como condición para contratación. Comunicación en español e inglés cuando sea necesario para claridad legal.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=2273" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:37:53)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Códigos y políticas de Minsur y cierre de la primera parte</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Código de ética de Minsur: misión, valores y responsabilidades</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Misión y valores: seguridad, compromiso, confianza, responsabilidad e integridad: Aplicabilidad del código a colaboradores, proveedores y terceros en representación de Minsur.
+              </div>
+            
+
+              <div class="content-text">
+                Responsabilidades de líderes y cultura corporativa: Líderes como modelos, fomentar capacitación y reforzar cumplimiento. Promoción de igualdad, respeto, ambiente de trabajo seguro y libre de discriminación.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=2701" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:45:01)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Integridad, relaciones con comunidades y cumplimiento legal</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Selección de proveedores basada en mérito y criterios técnicos claros: Procesos de selección sin favoritismos ni discriminación.
+              </div>
+            
+
+              <div class="content-text">
+                Relaciones con comunidades y protección ambiental: Compromiso con desarrollo sostenible y respeto a pueblos indígenas u originarios.
+              </div>
+            
+
+              <div class="content-text">
+                Sistema de cumplimiento, prevención de soborno y lavado de activos: Canal de integridad para reportes; medidas disciplinarias y reporte a autoridades competentes.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=2804" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:46:44)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.3</span>
+              <span class="subsection-title">Cierre de la sesión y pausa para actividad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Propuesta de continuar con un descanso y volver a las 09:00: Organización de la actividad práctica y recordatorio de disponibilidad de documentos en plataforma.
+              </div>
+            
+
+              <div class="content-text">
+                Confirmación de asistencia y seguimiento: Invitación a participar en la siguiente parte, levantar dudas y preparar la actividad práctica.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=3054" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:50:54)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Actividad práctica: políticas éticas en el área de compras</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Organización de grupos y dinámica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Formación de grupos para la actividad: inicialmente dos grupos, luego un solo grupo por asistencia: Indicaciones para integrar participantes y organizar salas virtuales. Tiempo asignado: 40 minutos para la lluvia de ideas y formulación de políticas específicas.
+              </div>
+            
+
+              <div class="content-text">
+                Rol de expositores y coordinación: Distribución de tareas entre miembros para exponer puntos específicos. Uso de presentación compartida para apoyar exposición de ideas.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=4269" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:11:09)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Resultados de la lluvia de ideas: problemas éticos detectados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Identificación de problemas principales en compras: soborno, corrupción, intereses personales y competencia irregular: Nepotismo y uso de empresas vinculadas a empleados. Impactos negativos en medio ambiente y comunidades; violación de confidencialidad; vulneración de derechos laborales y humanos.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=6629" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:50:29)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Políticas propuestas, experiencias reales y riesgos identificados</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Políticas propuestas por los participantes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                De control ético y transparencia interna: Política de integridad y transparencia: Promover honestidad y transparencia en todas las transacciones; implementar auditorías regulares. Política antisoborno y anticorrupción: Prohibición de aceptación de regalos, favores o compensaciones; establecer procedimientos de reporte y manejo de casos. Política de conflicto de interés: Exigir divulgación de conflictos por empleados y medidas de mitigación. Política de competencia justa y antinepotismo: Asegurar igualdad de oportunidades para proveedores; prohibir manipulación de especificaciones y favoritismo. Política de confidencialidad de información: Proteger información sensible de compras y proveedores; sanciones claras por uso indebido.
+              </div>
+            
+
+              <div class="content-text">
+                De gestión y cumplimiento de proveedores: Políticas de verificación y cumplimiento de proveedores: Verificar cumplimiento legal y ético de proveedores; auditorías periódicas y requisitos mínimos de antigüedad en el mercado. Política de sostenibilidad y responsabilidad ambiental: Priorizar compras sostenibles; evaluar impacto ambiental como criterio de selección. Política de derechos laborales y humanos: Asegurar que proveedores respeten derechos laborales y humanos; promover responsabilidad social. Política de calidad y cumplimiento: Establecer estándares claros de calidad y mecanismos de control, devolución o compensación por incumplimiento. Política de apoyo a proveedores locales: Fomentar la participación de proveedores locales que cumplan requisitos y estándares.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=6635" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:50:35)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Experiencias reales y riesgos identificados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Caso de favoritismo y autocreación de proveedores: Ejemplo en Buenaventura: secretaria que gestionaba línea de compras favoreció empresa familiar, ganando licitaciones por conocimiento interno. Medida aplicada: despido y requisitos posteriores para proveedores (antigüedad mínima).
+              </div>
+            
+
+              <div class="content-text">
+                Riesgo de relaciones exclusivas con proveedores: Jefe que favorecía a un proveedor único por conveniencia técnica o preferencia personal. Necesidad de transparencia en justificación técnica y alternativas en base a mercado.
+              </div>
+            
+
+              <div class="content-text">
+                Señales de corrupción en pruebas y selección: Envío sistemático de pruebas a condiciones extremas para provocar fallos y descartar competidores. Técnica de bloquear entrada de nuevos proveedores y manipular resultados de evaluación.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=7052" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:57:32)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Ejemplo técnico de insumo crítico y prácticas inapropiadas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Ejemplo técnico: explicación de un insumo crítico</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Presentación del espliset como insumo de sostenimiento en mina: Descripción: perno de fricción compuesto por tubo hueco y placa; se instala en roca y se inyecta chocret para expandir y sostener. Importancia: asegurar especificaciones técnicas, calidad y múltiples proveedores certificados para evitar dependencia y riesgos operativos.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=7147" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:59:07)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Casos adicionales y prácticas inapropiadas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Monopolio de proveedores y volumen oculto: Ejemplo: consumo mensual elevado de split sets (~20,000 unidades) con precios bajos por unidad que generan montos significativos y dependencia de un único proveedor. Rotación de jefes que revela favoritismos previos y conflictos de interés por pagos o convenios ocultos.
+              </div>
+            
+
+              <div class="content-text">
+                Usos indebidos de identidad y órdenes informales: Proveedores que ingresan material a almacén alegando relación con altos directivos y luego exigen pago sin orden de compra. Importancia de controlar recepción en almacenes y exigir documentación previa.
+              </div>
+            
+
+              <div class="content-text">
+                Abuso de activos y apropiación de herramientas: Casos de jubilados que utilizan herramientas costosas (marca Snap-on) adquiridas por la empresa para actividades privadas o talleres personales. Necesidad de control de inventarios, seguimiento de uso y verificación del usuario.
+              </div>
+            
+
+              <div class="content-text">
+                Gastos inflados y uso indebido de caja chica: Empleados que solicitan taxis o gastos frecuentes sin justificación y los cargan a caja chica. Recomendación de auditorías y límites claros en reembolsos.
+              </div>
+            
+
+              <div class="content-text">
+                Influencia indebida por cercanía a la dirección: Proveedores que presumen relaciones personales con directivos para obtener ventajas. Reiteración de la regla: todo respaldo debe estar por escrito y autorizado.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=7210" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:10)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Cierre de la segunda parte y continuidad</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Observaciones finales y preparación para siguientes sesiones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Evaluación de las políticas propuestas y retroalimentación del instructor: Relación entre políticas prácticas y experiencias reales compartidas.
+              </div>
+            
+
+              <div class="content-text">
+                Invitación a continuar con exposición de otros grupos y seguir documentando políticas en la plataforma: Recordatorio de seguimiento, participación en próximas sesiones y revisión de materiales en Edumina.
+              </div>
+            
+
+              <div class="content-text">
+                Adelanto de la próxima sesión: debida diligencia y profundización en ética (02:10:08): Próxima clase abordará procesos de debida diligencia aplicados a compras y proveedores.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=7041" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:57:21)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Recomendaciones prácticas y conductas preventivas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Papel de la documentación y autorización: Mantener correos, órdenes de compra y registros como respaldo ante decisiones y solicitudes. Levantar la mano y consultar cuando exista duda; no actuar sin autorización escrita.
+              </div>
+            
+
+              <div class="content-text">
+                Uso de canales formales de denuncia y pruebas: Denunciar con evidencia; evitar acusaciones sin sustento para no exponerse legalmente.
+              </div>
+            
+
+              <div class="content-text">
+                Cultura personal e integridad profesional: Cuidar la reputación personal; comportarse de manera que futuros empleadores lo recomienden. Entender que en empresas familiares puede existir sesgo hacia amigos del dueño y tomar precauciones administrativas.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=7200" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.3</span>
+              <span class="subsection-title">Cierres, despedida y agradecimientos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">
+                Mensaje final del instructor: repasar políticas, preguntar y aplicar controles: Agradecimiento por la participación y despedida.
+              </div>
+            
+
+              <div class="content-text">
+                Recordatorio de seguimiento y próxima reunión: Próxima sesión el martes para profundizar en debida diligencia y ética.
+              </div>
+              <a href="https://www.youtube.com/watch?v=uC4gYqotKQs&start=7821" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:10:21)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 37: CONSIDERACIONES ÉTICAS Y SOCIALES EN LA GESTIÓN DE COMPRAS - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

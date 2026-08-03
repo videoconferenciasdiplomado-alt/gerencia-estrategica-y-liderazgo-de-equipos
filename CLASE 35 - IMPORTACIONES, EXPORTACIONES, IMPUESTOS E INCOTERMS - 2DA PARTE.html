@@ -1,0 +1,1719 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Caso práctico: Proforma de importación torres de iluminación</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Detalles del embarque y valores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Proveedor: Posada Perú, importación para consumo por vía marítima desde Callao: Mercancía: torres de iluminación, peso bruto ~5.500 kg. Valores reportados: FOB 51.403 USD; flete ~2.000 USD; seguro y partida arancelaria indicada.</div>
+              <div class="content-text">Conceptos para cálculo del valor imponible y costos: Valor SIF/CIF = FOB + flete + seguro. Partida arancelaria mencionada: 9405409000 (relacionada a torres/iluminación).</div>
+              <div class="content-text">Costos locales y desglose inicial: Derechos e impuestos: IGB (16%), IPM (2%) y percepción. Gastos a terceros: vistos buenos, devolución/retorno de contenedor, almacenaje (en dólares).</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=0" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Gastos de agencia de aduanas y composición del total</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Componentes cobrados por la agencia: comisión, ITF, gastos operativos y logísticos de entrega: Comisión de agencia por servicio de agenciamiento. ITF como gasto de transferencia financiera; gastos operativos y de entrega al cliente.</div>
+              <div class="content-text">Tratamiento del IGV/IGB en la proforma: IGB aplicado separadamente sobre importación y sobre gastos de agencia. Total de derechos = suma de aranceles más IGB correspondiente.</div>
+              <div class="content-text">Total estimado en proforma: Total derechos: 11.297 USD (ejemplo del ejercicio). Total costos/proforma: 13.594 USD (suma de todos los costos locales).</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=43" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:43)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Régimen de percepciones IGV/IGB aplicado a importaciones</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Naturaleza y cálculo de la percepción</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Definición: percepción como pago adelantado del IGV/IGB aplicado por la aduana: Se aplica sobre la operación de importación como anticipo del impuesto.</div>
+              <div class="content-text">Base y procedimiento de cálculo: Base = valor aduanero (CIF/SIF) + todos los tributos aplicables (IGB + IPM). Percepción se calcula aplicando el procedimiento normado sobre esa base.</div>
+              <div class="content-text">Ejemplo aplicado en el caso real: Base = CIF + 18% (IGB 16% + IPM 2%); percepción se aplica sobre ese importe.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=311" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:05:11)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Aplicación y compensación de la percepción</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Forma de deducción de la percepción: La percepción puede deducirse mensualmente contra otras percepciones hasta el último día del periodo de declaración.</div>
+              <div class="content-text">Implicaciones para importadores primerizos: Importaciones iniciales pueden enfrentar percepciones elevadas (ej. ~2.000 USD) según base imponible y reglas aplicables. Recomendación: revisar normativa y cálculo previo para anticipar flujo de caja.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=371" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:06:11)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Selección de agente de aduanas: criterios y caso práctico</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Conceptos a evaluar al comparar agentes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Comisión por agenciamiento: Se expresa como porcentaje del valor CIF/CIF Callao del embarque. Suele incluir un mínimo (comisión mínima absoluta en USD).</div>
+              <div class="content-text">Gastos operativos fijos por embarque: Monto en dólares por embarque que cubre movilidad del despachador, comunicaciones, fotocopias, etc. Diferencia entre comisión variable y gastos operativos fijos.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=393" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:06:33)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Perfil de operaciones y su influencia en la elección</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Tipología de meses: meses normales vs meses de campaña: Meses normales: menor número de operaciones y valor SIF promedio más bajo. Meses de campaña (febrero, marzo, septiembre, octubre): mayor número de operaciones y mayor valor SIF por operación.</div>
+              <div class="content-text">Datos operativos del caso: Mes normal: 25 operaciones/mes; valor SIF por operación 18.000 USD. Mes campaña: 68 operaciones/mes; valor SIF por operación 25.000 USD.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=476" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:56)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Ejercicio comparativo entre dos agencias</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Parámetros y cotizaciones presentadas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Agencia 1: comisión 0,40% sobre SIF; comisión mínima 90 USD; gastos operativos fijos 55,00 USD: Agencia 2: comisión 0,48% sobre SIF; comisión mínima 90 USD; gastos operativos fijos 49,50 USD.</div>
+              <div class="content-text">Objetivo: calcular costo anual total considerando meses normales y meses de campaña y elegir la opción más conveniente</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=622" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:10:22)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Metodología de cálculo y resultados del ejercicio</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Cálculo por embarque y por mes: Comisión calculada = porcentaje * valor SIF; comisión aplicada = máximo(comisión calculada, comisión mínima). Costo operativo total por embarque = comisión aplicada + gastos operativos fijos. Costos mensuales = número de operaciones * costo operativo por embarque.</div>
+              <div class="content-text">Observaciones y conciliación de cálculos: Diferencias entre alumnos debidas a redondeos, aplicación de mínimo y conteo de meses. Revisión conjunta permitió validar que Agencia 1 era más óptima en costo anual en el ejercicio.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=2783" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:46:23)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.3</span>
+              <span class="subsection-title">Resultados comparativos integrados con detalle adicional</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">En mes normal la comisión teórica es 0,40% * 18.000 = 72 USD, por lo que se aplica la comisión mínima de 90 USD: En mes de campaña la comisión es 0,40% * 25.000 = 100 USD, se aplica 100 USD (mayor que mínimo).</div>
+              <div class="content-text">Supuestos anuales: 8 meses normales (25 embarques/mes) y 4 meses de campaña (68 embarques/mes)</div>
+              <div class="content-text">Cálculo anual ejemplo para Agencia 1: Comisión anual mes normal = 90 USD * 25 embarques * 8 meses = 18.000 USD. Comisión anual mes campaña = 100 USD * 68 embarques * 4 meses = 27.200 USD. Gastos operativos anual mes normal = 55 USD * 25 * 8 = 11.000 USD. Gastos operativos anual mes campaña = 55 USD * 68 * 4 = 14.960 USD. Total anual Agencia 1 = 18.000 + 27.200 + 11.000 + 14.960 = 71.160 USD (ajustes en clase llevaron a 70.700–79.000 por aproximaciones).</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=7201" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:01)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Dinámica de clase y organización temporal del ejercicio</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Desarrollo práctico y tiempos asignados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Instrucciones para los alumnos: Tomar capturas de pantalla de la información; abrir Excel y reproducir cálculos como en clase anterior. Tiempo sugerido para realizar el caso: 40–45 minutos.</div>
+              <div class="content-text">Modalidad de trabajo en equipo y entrega: Comparar soluciones entre compañeros; compartir pantalla para revisar diferencias. Profesor revisa y expone su solución para conciliar resultados.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=686" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:11:26)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Pausa y cierre parcial de la sesión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Pausa de 15 minutos programada para cena y reanudación a las 21:00: Indicaciones breves de reanudación y agradecimientos frecuentes durante la clase.</div>
+              <div class="content-text">Cierre del bloque práctico antes de continuar con contenido normativo y leyes en la siguiente parte</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=3051" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:50:51)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Peso volumétrico y densidad en los fletes</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Concepto y tablas de equivalencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Definición: peso volumétrico como cociente entre peso y volumen que determina si se cobra por peso real o por volumen: Transportistas aplican una densidad mínima según medio: marítimo, terrestre, aéreo.</div>
+              <div class="content-text">Equivalencias típicas por medio: Marítimo: 1 tonelada = 1 m³ (densidad mínima 1 t/m³). Terrestre: 1 tonelada = 2 m³ (densidad mínima 0.5 t/m³). Aéreo: 1 tonelada = 6 m³ (densidad mínima ~0.167 t/m³).</div>
+              <div class="content-text">Uso de la tabla: Si la densidad de la carga es menor que la mínima, se cobra por volumen; si mayor o igual, se cobra por peso.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=3975" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:06:15)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Ejemplo práctico de cálculo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Ejemplo marítimo: volumen 12 m³, peso real 10 t: Densidad = 10 t / 12 m³ = 0.833 t/m³ (menor que 1). Se cobra por volumen: peso volumétrico = 12 t. Si la tarifa es 40 USD por tonelada, flete = 12 * 40 = 480 USD.</div>
+              <div class="content-text">Implicaciones operativas: El mayor entre peso real y peso volumétrico determina el cobro. Documentación reflejará el flete registrado y servirá para la declaración aduanera.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=4108" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:08:28)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Agentes y documentos que intervienen en la importación</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Actores en el proceso de importación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Participantes típicos: Proveedor (exportador), importador (comprador), agente embarcador, naviera/transportista en origen. Agente de aduanas, SUNAT, transportista local desde el Callao, bancos, entidades reguladoras (MTC, PRODUCE, IPEN).</div>
+              <div class="content-text">Roles esenciales: Agente embarcador emite aviso de llegada; agente de aduanas gestiona DUA y trámites; bancos gestionan garantías y cartas de crédito.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=4414" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:13:34)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Proceso de nacionalización y canal aduanero</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Despacho anticipado obligatorio: Documentos deben presentarse antes del arribo del medio de transporte; tributos se provisionan anticipadamente.</div>
+              <div class="content-text">Canales de revisión: Canal verde: despacho normal. Canal naranja: revisión documentaria (requiere envío de PDFs o documentos digitales). Canal rojo: revisión física de la mercancía (inspección en sitio).</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=4466" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:14:26)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Documentos de importación: tipos y uso</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Documentos principales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Factura comercial y lista de empaque (packing list): Detallan cantidad, descripción y valores de la mercancía.</div>
+              <div class="content-text">Fichas técnicas y certificados: Fichas técnicas para verificación de composición; certificados de origen para beneficios arancelarios.</div>
+              <div class="content-text">Documentos de transporte y seguro: Guía aérea (AWB), conocimiento de embarque (BL), guía terrestre/cartaporte, póliza de seguro.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=4548" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:15:48)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Volante de despacho, DUA y guía del transportista</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Volante de despacho: Documento emitido por depósito temporal que certifica llegada, número de bultos y estado (daños). Sirve como prueba de recepción en suelo peruano y es fundamental para reclamos por daños.</div>
+              <div class="content-text">Declaración Única Aduanera (DUA): Desglosa partidas, valores, impuestos y detalle por producto; se consulta en la plataforma de SUNAT.</div>
+              <div class="content-text">Guía del transportista: Documento local para traslado desde Callao hasta almacén del importador.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=4646" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:17:26)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Casos reales y advertencias logísticas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Incidencias en descarga y responsabilidades</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Ejemplo de retraso y pérdida por no descargar contenedor: Caso relatado: carga no descargada en puerto y nave partió a otro país, causando retraso y penalizaciones al cliente.</div>
+              <div class="content-text">Importancia de documentar daños y estado en volante de despacho: Tomar fotos y registrar daños en el instante para preservar derecho a reclamo contra transportista o naviera.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=4697" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:18:17)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Transbordos y riesgos de rutas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Recomendación sobre embarques directos: Evitar transbordos cuando sea posible para minimizar riesgos de desviaciones y demoras; considerar prohibir transbordos en la carta de crédito salvo que la ruta lo exija.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=5993" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:39:53)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="10">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">10</span>
+          <span class="section-title">Guía aérea y conocimiento de embarque (BL/AWB)</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.1</span>
+              <span class="subsection-title">Guía aérea (AWB)</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Función y contenido: Acredita contrato de transporte aéreo internacional; sirve como recibo para el remitente y evidencia del contrato. Datos: expedidor, destinatario, número de vuelo, aeropuertos de salida y llegada, peso, volumen, tarifa, flete pagado (origen/destino), número de AWB y fecha.</div>
+              <div class="content-text">Legalidad y uso: Documento legal que acredita propiedad de mercancía; permite reclamar la carga en destino.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=4805" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:20:05)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.2</span>
+              <span class="subsection-title">Conocimiento de embarque (BL)</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Definición y características: Documento que justifica contrato de transporte marítimo entre puerto de salida y destino; se emiten usualmente tres originales y copias. Funciones: recibo de mercancías embarcadas, prueba del contrato de transporte y título negociable aceptado por bancos.</div>
+              <div class="content-text">Endoso y negociabilidad: BL endosable permite transferir propiedad de la mercancía; uno de los originales puede quedar retenido por bancos si existe carta de crédito.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=4880" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:21:20)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="11">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">11</span>
+          <span class="section-title">Carta de crédito: tipos, riesgos y procedimiento</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.1</span>
+              <span class="subsection-title">Definición y propósito</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Carta de crédito (crédito documentario): Compromiso bancario, en nombre del comprador, de pagar al vendedor a cambio de documentos que acrediten el embarque y condiciones pactadas. Utilizada cuando existe desconfianza entre las partes o en primeras operaciones; es costosa pero reduce riesgo comercial.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=5188" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:26:28)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.2</span>
+              <span class="subsection-title">Tipos y cláusulas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Condiciones habituales: Irrevocable: no puede modificarse sin consentimiento de todas las partes. Confirmada vs no confirmada: confirmada añade garantía del banco corresponsal; se recomienda confirmada cuando el banco exterior es de dudosa solvencia. Intransferible: impide que el beneficiario transfiera el crédito a terceros. A la vista: pago inmediato al presentar documentos conformes.</div>
+              <div class="content-text">Cláusulas adicionales: Cláusula roja: permite financiamiento al exportador antes del embarque (riesgosa). Cláusula verde: adelanto condicionado, exige garantías adicionales (p. ej. carta fianza) para proteger al importador.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=5364" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:29:24)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.3</span>
+              <span class="subsection-title">Procedimiento de cobranza y documentos requeridos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Flujo general: Firma contrato y emisión de orden de compra; banco emite carta de crédito; exportador embarca y presenta documentos al banco emisor o corresponsal; bancos verifican documentos y proceden al pago contra entrega de documentos al importador.</div>
+              <div class="content-text">Documentación típica exigida: Factura comercial (tres originales), conocimiento de embarque o AWB (tres originales), póliza de seguro (si aplica), certificado de origen (si aplica).</div>
+              <div class="content-text">Consideraciones y riesgos: Bancos cobran comisiones por emisión y modificaciones; errores documentarios pueden invalidar pagos; no hay garantía absoluta sobre contenido físico (recomendación: supervisores independientes o inspección previa).</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=5636" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:33:56)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="12">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">12</span>
+          <span class="section-title">Operativa y herramientas electrónicas para importadores</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.1</span>
+              <span class="subsection-title">Consulta de importaciones en SUNAT y uso de la DUA</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Plataforma SUNAT: consulta de importaciones por importador o DUA: Permite ver país de origen, valor FOB/SIF, impuestos, peso, número de bultos y detalle por partida arancelaria.</div>
+              <div class="content-text">Reportes y detalle: Posibilidad de ver cada artículo importado, partida arancelaria y ver si requiere permisos o restricciones.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=6271" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:44:31)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.2</span>
+              <span class="subsection-title">Ventanilla única y permisos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">BUCE (ventanilla única de comercio exterior): Canaliza solicitudes de permisos de importación ante entidades como MTC, PRODUCE y otros; facilita emisión de autorizaciones y certificados.</div>
+              <div class="content-text">Verificación de partidas arancelarias y requisitos: Herramientas para identificar aranceles aplicables, impuestos (IGB, ISC) y restricciones o requisitos de homologación (ej. equipos de telecomunicaciones con MTC).</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=6990" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:56:30)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="13">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">13</span>
+          <span class="section-title">Recursos, links y apoyo adicional</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">13.1</span>
+              <span class="subsection-title">Enlaces y herramientas presentadas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">SUNAT: consulta de importaciones, DUA y normatividad aduanera: Permite revisar detalle de importaciones por empresa, valores y partidas.</div>
+              <div class="content-text">BUCE: ventanilla única para permisos y trámites electrónicos: Registro de empresas y solicitud de autorizaciones ante entidades regulatorias.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=6271" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:44:31)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">13.2</span>
+              <span class="subsection-title">Materiales bancarios y formatos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Formatos de carta de crédito y tarifas bancarias: Ejemplo de formato mostrado en clase con condiciones (confirmada, irrevocable, intransferible, a la vista), tolerancias y vencimientos. Costos por modificación y comisiones bancarias: consultar tarifas del banco emisor y corresponsal.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=5873" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:37:53)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="14">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">14</span>
+          <span class="section-title">Clasificación arancelaria y ejemplos prácticos</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">14.1</span>
+              <span class="subsection-title">Búsqueda de partidas y restricciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Uso práctico de la herramienta de partidas: Buscar por descripción para identificar la partida arancelaria, impuesto aplicable y si requiere permiso o está restringida.</div>
+              <div class="content-text">Ejemplos tratados en clase: Bolas de acero para molinos: partida con aplicación de IGB y sin ISC. Teléfonos celulares: requieren homologación ante MTC si no han sido registrados previamente.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=6654" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:50:54)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">14.2</span>
+              <span class="subsection-title">Consejos operativos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Si la clasificación resulta compleja, apoyarse en agente de aduanas para evitar errores: Verificar requisitos de permisos y certificaciones antes de la compra para evitar demoras y costos adicionales.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=6681" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:51:21)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">14.3</span>
+              <span class="subsection-title">Preguntas finales y disponibilidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Espacio para consultas sobre logística, cartas de crédito y resolución del caso práctico: Profesor ofreció mostrar resolución detallada del caso 6 si los alumnos lo solicitan.</div>
+              <div class="content-text">Recomendaciones finales: Verificar partidas, planificar flujo de caja para percepciones, considerar inspección previa en operaciones con carta de crédito y optar por cláusulas y bancos que minimicen riesgos.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=7118" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:58:38)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="15">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">15</span>
+          <span class="section-title">Clausura y anuncios finales</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">15.1</span>
+              <span class="subsection-title">Resumen de cierre y datos finales del ejercicio</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Revisión final de cálculos y confirmación de resultados: Profesor explicó paso a paso el cálculo de comisiones y gastos operativos para obtener el costo anual por agencia. Confirmación de la aplicación de comisión mínima en meses normales y de la comisión calculada en meses de campaña.</div>
+              <div class="content-text">Ejemplo numérico sintetizado: Mes normal: comisión efectiva 90 USD por embarque; 25 embarques/mes por 8 meses. Mes campaña: comisión efectiva 100 USD por embarque; 68 embarques/mes por 4 meses. Gastos operativos: 55 USD por embarque aplicados con la misma distribución mensual. Suma de comisiones y gastos operativos da un total anual aproximado en el rango analizado en clase (ej. ~71.160 USD; variaciones por redondeo y asunciones pueden elevar ese total hasta ~79.000 USD).</div>
+              <div class="content-text">Invitación a replicar cálculos: Alumnos incentivados a reproducir la fórmula en Excel y verificar cada término (comisión, mínimo, gastos fijos, número de embarques, meses).</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=7200" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">15.2</span>
+              <span class="subsection-title">Próxima clase y tema a desarrollar</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Anuncio del siguiente tema: Próxima sesión: consideraciones éticas y sociales en la gestión de compras.</div>
+              <div class="content-text">Mensaje final y despedida: Agradecimientos, confirmación de próxima reunión y cierre de la clase con deseos de buen fin de semana.</div>
+              <a href="https://www.youtube.com/watch?v=zbvXPUFB1fo&start=7430" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:03:50)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 35: IMPORTACIONES, EXPORTACIONES, IMPUESTOS E INCOTERMS - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

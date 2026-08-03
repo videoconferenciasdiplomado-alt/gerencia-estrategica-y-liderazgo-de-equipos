@@ -1,0 +1,1572 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Inicio y dinámica de la clase</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Participación y actividad inicial</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Saludos, llegada de participantes y espera de más asistentes: Algunos alumnos se conectan tarde por trabajo o gestiones personales. Se decide esperar brevemente y luego comenzar la actividad.</div>
+              <div class="content-text">Juego de preguntas rápidas para repasar contenidos previos: Competencia con marcador y clasificación de participantes. Preguntas sobre valorización de concentrado y términos comerciales.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=8" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:08)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Resultados del juego y transición a contenidos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Ganadores y cierre del juego: Primer puesto: Mijalil; otros clasificados: Ronald, Ishael, Jinx.</div>
+              <div class="content-text">Cambio a presentación de diapositivas y anuncio del tema central: Enfoque en tecnología e innovación aplicadas a la minería. Estructura: panorama general hoy; aplicación práctica en clase siguiente.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=480" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:08:00)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Conceptos básicos: innovación y tecnología</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Definición y ejemplos de innovación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Innovar como crear o introducir algo nuevo: Raíz latina/lexema "nova" implica novedad. Innovación orientada a mejorar procesos, tareas o resolver necesidades.</div>
+              <div class="content-text">Ejemplos prácticos en minería mencionados por alumnos: Sensores y cámaras en camiones para monitorear cansancio y seguridad. Upgrades a maquinaria para protección y eficiencia.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=731" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:12:11)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Definición y alcance de la tecnología</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Tecnología como conjunto ordenado de conocimientos científicos aplicados: Incluye física, química, biología, geología y otras ramas. No solo dispositivos electrónicos; también herramientas históricas (piedra, hueso).</div>
+              <div class="content-text">Tecnología como transformación y solución de problemas: Dispositivos, equipos y software que facilitan control y gestión de procesos. Importancia de la ciencia y el conocimiento detrás de los artefactos.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=916" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:16)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.3</span>
+              <span class="subsection-title">Innovación tecnológica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Cambio técnico-científico aplicado a bienes, servicios y procesos empresariales: Objetivo: mejorar eficiencia, reducir costos y optimizar métodos de trabajo.</div>
+              <div class="content-text">Necesidad como motor de la innovación: Problemas concretos impulsan la búsqueda de soluciones tecnológicas.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=1432" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:23:52)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Revoluciones industriales y la Industria 4.0</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Resumen histórico de las revoluciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Industria 1.0 (finales siglo XVIII): Introducción de maquinaria mecánica impulsada por agua y vapor. Salto desde trabajo manual y tracción animal hacia mecanización.</div>
+              <div class="content-text">Industria 2.0 (circa 1870): Electricidad y petróleo como fuentes para producción masiva. Aparición de la cadena de producción y división del trabajo.</div>
+              <div class="content-text">Industria 3.0 (décadas de 1970): Automatización con electrónica y primeras computadoras. Uso incipiente de robótica y tecnologías de la información.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=1771" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:29:31)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Industria 4.0: definición y características</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Definición: producción automatizada e interconectada basada en CPS: CPS: sistemas físico-cibernéticos que integran máquinas y software.</div>
+              <div class="content-text">Fundamentación en digitalización y virtualización de procesos: Integración de hardware, software y redes para fábrica inteligente. Búsqueda de optimización de métodos y reducción de costos.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=2116" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:35:16)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.3</span>
+              <span class="subsection-title">Beneficios y factores habilitadores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Objetivos: eficiencia, reducción de costos y aumento de margen empresarial: La tecnología aplicada optimiza métodos y estrategia operativa.</div>
+              <div class="content-text">Condiciones necesarias para adopción: Avances en procesamiento de datos, conectividad y redes. Desarrollo paralelo de hardware y software para que soluciones sean viables.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=2337" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:38:57)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Herramientas y aplicaciones clave en la Industria 4.0</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Digitalización y virtualización</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Digitalización como conversión de información a formato digital: Transformar documentos, sonidos e imágenes en datos procesables. Lenguaje binario (ceros y unos) como base para el tratamiento por máquinas.</div>
+              <div class="content-text">Virtualización de procesos para simulación y monitoreo: Posibilidad de monitoreo remoto y visualización virtual de equipos. Uso en capacitación y operaciones sin necesidad de presencia física.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=2441" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:40:41)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Internet de las Cosas (IoT)</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Definición: interconexión de dispositivos y servidores a través de internet: Dispositivos con sensores que capturan datos (temperatura, frecuencia cardíaca, etc.). Transferencia a la nube para análisis y toma de decisiones automatizadas.</div>
+              <div class="content-text">Aplicaciones y ejemplos: Cámaras de videovigilancia accesibles desde el móvil para monitoreo en tiempo real. Electrodomésticos y vehículos conectados que intercambian datos y actúan.</div>
+              <div class="content-text">Escala y proyección del IoT: Crecimiento de dispositivos conectados y expectativa de uso en hogares, ciudades y minería. Necesidad de infraestructura y formación para una adopción inclusiva.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=2921" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:48:41)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.3</span>
+              <span class="subsection-title">Big Data</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Concepto y valor estratégico de los datos: Big Data: gestión y análisis de enormes volúmenes de datos que no pueden tratarse con herramientas convencionales. Los datos considerados recurso clave; quien domina la información puede dominar mercados.</div>
+              <div class="content-text">Usos prácticos y ejemplos: Personalización de anuncios (Apple, Amazon, Google) y campañas políticas (ej. Obama 2012). Predicción de delitos y toma de decisiones en tiempo real.</div>
+              <div class="content-text">Riesgos y seguridad: Vulnerabilidad frente a hackers y robos masivos de datos (casos Sony, eBay). Necesidad de sistemas de ciberseguridad y regulación para proteger datos personales.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=3604" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:04)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.4</span>
+              <span class="subsection-title">Inteligencia Artificial</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Definición y capacidades: Capacidad de computadores para percibir, razonar, resolver problemas, usar lenguaje y aprender. Herramientas como ChatGPT: apoyo en tareas complejas, aún lejos de la conciencia humana.</div>
+              <div class="content-text">Impactos laborales y éticos: Automatización de tareas riesgosas y aumento de eficiencia. Debate sobre reemplazo laboral, límites de control humano y riesgos de uso indebido.</div>
+              <div class="content-text">Riesgos de suplantación y fraude: Imitación de voz y deepfakes usados para estafas y desinformación. Importancia de controles y verificación ante contenidos digitalmente generados.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=4311" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:11:51)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.5</span>
+              <span class="subsection-title">Computación en la nube (Cloud Computing)</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Concepto y ventajas operativas: Almacenamiento y ejecución remota de datos y aplicaciones en servidores distribuidos. Sincronización entre dispositivos, recuperación ante pérdida o robo del dispositivo local.</div>
+              <div class="content-text">Aplicaciones prácticas y adopción: Uso de OneDrive, Google Drive; límite gratuito y opciones de pago para mayor capacidad. Software como servicio (SaaS) que evita instalaciones locales y facilita acceso remoto.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=4804" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:20:04)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.6</span>
+              <span class="subsection-title">Sensórica, robótica y simulación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Sensórica y captura de datos: Sensores para temperatura, presión, video y otros que alimentan sistemas de control. Integración con IA para activación automática de sistemas o avisos al operador.</div>
+              <div class="content-text">Robótica avanzada: Robots humanoides y cuadrúpedos para tareas de búsqueda, desarme o entornos peligrosos. Evolución desde robótica básica hacia sistemas conectados y autónomos.</div>
+              <div class="content-text">Realidad aumentada y realidad virtual: RA: superposición de información en entornos reales para navegación y datos contextuales. RV y simuladores para capacitación segura y planificación sin riesgo ni alto costo.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=5602" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:33:22)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.7</span>
+              <span class="subsection-title">Conectividad: 5G y redes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Rol de 5G en la Industria 4.0: Transmisión inalámbrica de alta velocidad y baja latencia para datos en tiempo real. Aplicación relevante en minería y operaciones que requieren gran volumen de transferencia.</div>
+              <div class="content-text">Diferenciación con Wi‑Fi y generaciones previas: 2G/3G/4G como protocolos celulares; Wi‑Fi distinto; 5G no masificado pero clave para empresas.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=5451" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:30:51)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Condiciones sociales y desafíos de adopción</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Brechas de infraestructura y acceso</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Limitaciones en zonas alejadas impiden despliegue masivo de tecnologías: Falta de cobertura 4G/5G y conectividad estable en áreas rurales o mineras.</div>
+              <div class="content-text">Necesidad de inversiones en redes y centros de operaciones remotos: Salas de control y centros neurálgicos requieren conectividad y seguridad.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=3471" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:57:51)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Alfabetización digital y resistencia al cambio</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Importancia de capacitación y formación: Resistencia de personas mayores o acostumbradas a métodos analógicos. Ejemplos prácticos: adopción de billeteras digitales y sincronización en la nube.</div>
+              <div class="content-text">Transformación organizacional como requisito: Implementar tecnología implica cambio cultural, capacitación masiva y reconfiguración de procesos.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=3471" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:57:51)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Futuro: industria 5.0 y consideraciones finales</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Industria 5.0: visión y differences</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Enfoque en simbiosis humano-máquina: Mejora de la interacción para aumentar capacidades humanas y mejorar condiciones laborales.</div>
+              <div class="content-text">Pilares: centrado en la persona, sostenible y resiliente: Sistemas de fabricación cognitivos y adaptativos potenciados por IA.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=5687" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:34:47)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Reflexiones finales sobre riesgos y oportunidades</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Equilibrio entre beneficios y lado oscuro de la tecnología: Mayor eficiencia, seguridad y sostenibilidad frente a riesgos de pérdida de empleos, fraude y suplantación.</div>
+              <div class="content-text">Necesidad de límites, ética y control humano: Mantener la tecnología como herramienta, con regulación, formación y medidas de seguridad apropiadas.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=5819" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:36:59)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Aplicaciones de la Industria 4.0 en la minería</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Minería 4.0: definición y alcance</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Integración de tecnologías digitales en operaciones mineras: Digitalización y automatización de procesos productivos; generación y uso intensivo de data. Uso de IoT, IA, Big Data, robótica, realidad aumentada/virtual y sensórica aplicada a la cadena de valor.</div>
+              <div class="content-text">Proyección de adopción: Informe estima que para 2025 el 70% de empresas mineras habrán implementado soluciones de transformación digital.</div>
+              <div class="content-text">Toma de decisiones en tiempo real: Información disponible casi inmediatamente para priorizar y agilizar respuestas. Estructura organizacional evolucionada con derechos de decisión claros para acelerar acciones.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=6066" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:41:06)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Beneficios operativos y ambientales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Aumento de eficiencia y productividad: Máquinas automatizadas trabajan 24 horas, reducen errores humanos y costos operativos. Mejora de rentabilidad al reducir costos en un mercado con precios internacionales fijados.</div>
+              <div class="content-text">Gestión sostenible y reducción de impacto ambiental: Monitoreo en tiempo real para prevenir fugas, derrames o emisiones; reducción de CO2 mediante sensores inteligentes.</div>
+              <div class="content-text">Seguridad y salud ocupacional: Automatización de tareas peligrosas, especialmente en minería subterránea, disminuye exposición y accidentes.</div>
+              <div class="content-text">Mantenimiento predictivo y continuidad operativa: Sensores que informan el estado de equipos permiten intervenciones a tiempo y reducen paradas imprevistas. Maximización de la utilización de activos y reducción de variabilidad en procesos.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=6448" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:47:28)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Impacto económico, empleo y tasas de adopción tecnológica</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Impacto económico y empleo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Proyecciones de impacto comercial y social: Ejemplos de cifras: impacto comercial y social en millones, reducción de emisiones y efecto neto en puestos de trabajo.</div>
+              <div class="content-text">Efectos en empleo: Automatización puede reducir tareas manuales pero crea demanda de perfiles para control, mantenimiento y análisis de sistemas.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=6841" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:54:01)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Tecnologías con distintas tasas de adopción</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Sensores inteligentes y centros de operaciones remotos: alta adopción prevista: Monitoreo centralizado y salas de control para supervisar operaciones en tiempo real.</div>
+              <div class="content-text">Operaciones autónomas y vehículos autónomos: adopción moderada-creciente: Camiones mineros autónomos y equipos remotos ya presentes en algunos países (ej. China).</div>
+              <div class="content-text">Realidad virtual y otras: adopción inicial o moderada según caso: Simuladores para entrenamiento y visualización 3D de yacimientos con adopción variable.</div>
+              <div class="content-text">Integración de ERPs y software especializado: Plataformas integradas (ERPs, módulos de operación y seguridad) para gestionar operaciones y generación de reportes.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=6841" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:54:01)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Minería inteligente y transformación organizacional</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Definición y dominios de la minería inteligente</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Concepto ampliado más allá de digitalizar equipos: Minería inteligente implica transformación organizacional integral, capacitación y cambio cultural.</div>
+              <div class="content-text">Tres dominios clave: Operaciones inteligentes: automatización y digitalización de procesos productivos. Centro neurálgico: integración de datos a lo largo de la cadena de valor para decisiones unificadas. Empresa inteligente: digitalización de procesos de soporte y optimización organizacional.</div>
+              <div class="content-text">Cobertura de la cadena de valor: Exploración y planeamiento; extracción y procesamiento; logística; adquisición de bienes; ventas y marketing como soporte.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=7018" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:56:58)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Requisitos y retos para la implementación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Capacitación y participación del personal: Involucramiento de toda la fuerza laboral y formación en nuevas competencias digitales. Coordinación estrecha con recursos humanos; modelo operativo y gobernanza necesarias.</div>
+              <div class="content-text">Ciberseguridad y gobernanza de datos: Protección frente a hackeos, control de accesos y políticas para uso legítimo de Big Data.</div>
+              <div class="content-text">Sostenibilidad y resiliencia: Diseñar sistemas que reduzcan impacto ambiental y se adapten a cambios operativos y regulatorios.</div>
+              <div class="content-text">Enfoque de implementación práctico: Pensar en grande, comenzar en pequeño, escalar rápido; foco en el valor y acompañamiento cultural.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=7078" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:57:58)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="10">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">10</span>
+          <span class="section-title">Cierre, preguntas y experiencias de campo</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.1</span>
+              <span class="subsection-title">Interacciones finales y preguntas de los alumnos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Discusión sobre experiencias prácticas en minas: Consultas sobre grado de automatización, comunicaciones y uso de dispatch. Compartición de casos: digitalización de operaciones, uso de software Ciclope para integrar operación y seguridad.</div>
+              <div class="content-text">Asistencia y logística de cierre: Toma de asistencia y recordatorio de próximos pasos del módulo y examen. Invitación a compartir observaciones sobre tecnologías vistas en sus lugares de trabajo.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=7204" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:04)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.2</span>
+              <span class="subsection-title">Conclusiones de la sesión y próximos pasos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Resumen de beneficios clave de minería inteligente: Toma de decisiones rápida por disponibilidad de información casi en tiempo real. Integración de personas, cultura, procesos y tecnología para generar valor.</div>
+              <div class="content-text">Próxima clase y finalización del módulo: Continuación del tema en la siguiente sesión y cierre del módulo con examen práctico/teórico pendiente.</div>
+              <a href="https://www.youtube.com/watch?v=OMPlqtrL-1o&start=7262" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:01:02)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 07: TENDENCIAS TECNOLÓGICAS E INNOVACIÓN EN LA INDUSTRIA MINERA - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

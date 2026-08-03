@@ -1,0 +1,1550 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Saludo, repaso inicial y rotación de mercadería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Saludo y repaso inicial</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Bienvenida y verificación de asistencia: Invitación a plantear dudas sobre la clase anterior sobre indicadores logísticos. Confirmación de comprensión por parte de los asistentes.</div>
+                  <div class="content-text">Anécdota del Tropari Pajari como ejemplo práctico: Descripción del instrumento: brújula con cronómetro para medir inclinación de pozos. Contexto de uso: topografía y medición de perforaciones en minería. Ejemplo de compra y rareza del equipo, marca Pajari y referencia histórica.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=9" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:09)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Rotación de mercadería</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: controlar salidas por referencia y recuperar capital invertido: Definición: proporción entre ventas o salidas totales e inventario promedio. Fórmulas: ventas acumuladas / inventario promedio o total de salidas / inventario promedio.</div>
+                  <div class="content-text">Uso práctico y presentación: Aplicar a nivel total, por familias y por producto para evitar promedios engañosos. Periodicidad mensual, responsables de inventarios y compras, presentación primeros cinco días.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=225" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:03:45)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Duración y vejez del inventario no apto</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Duración del inventario</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: controlar días de inventario disponible en almacén: Definición y cálculo: inventario final / salidas promedio × 30. Alternativa: usar total de salidas en lugar de ventas si aplica a consumo interno.</div>
+                  <div class="content-text">Interpretación y benchmarking: Indicador inverso a rotación: más días implica mayor riesgo de obsolescencia y capital inmovilizado. Comparación histórica o políticas internas (ejemplo: máximo un mes para productos críticos).</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=560" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:09:20)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Vejez de inventario / mercancía no apta</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: identificar mercancía no disponible por obsolescencia, deterioro o vencimiento: Fórmula clásica: unidades dañadas + obsoletas + vencidas / unidades disponibles. Enfoque alternativo del profesor: calcular antigüedad por fecha de último movimiento y agrupar por rangos (0–3, 3–6 meses, etc.).</div>
+                  <div class="content-text">Uso operativo: Determinar inventario para baja o remate y presentar mensual a gerencia para acciones correctivas.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=699" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:11:39)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Valor económico e índice de confiabilidad de inventarios</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Valor económico del inventario</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: controlar valor de mercancía en almacén respecto a ventas: Definición: porcentaje del costo del inventario físico dentro del costo de venta. Fórmula: costo de ventas del mes / valor de inventario físico.</div>
+                  <div class="content-text">Impacto: Evitar que inventarios superen costos de ventas, controlar capital inmovilizado y costos asociados.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=918" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:18)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Índice de confiabilidad de inventarios (control físico vs lógico)</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: medir discrepancias entre inventario físico y sistema: Definición y cálculo: diferencia en valor monetario entre inventario físico y valor lógico / valor total × 100. Procedimiento: muestreo mensual (ABC, pareto), conteo físico de referencias seleccionadas.</div>
+                  <div class="content-text">Interpretación y objetivos: Identificar errores de sistema, robos o fallas operativas; meta cercana a 99–100% de concordancia.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=1053" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:17:33)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Costos por unidad almacenada y despachada</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Costo por unidad almacenada</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: controlar costo unitario del almacenamiento propio o tercerizado: Fórmula: costo total de almacenamiento / número de unidades almacenadas. Componentes del costo: servicios, sueldos, mantenimiento de equipos, combustible, consumibles.</div>
+                  <div class="content-text">Aplicaciones: Comparar con ofertas de tercerización (costo por m² o por unidad) y decidir conservar o tercerizar.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=1371" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:22:51)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Costo por unidad despachada</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: calcular costo unitario por manejo y despacho de unidades: Fórmula: costo operativo del almacén / número total de unidades despachadas. Ajustes: excluir gastos no operativos (vigilancia) si se desea precisión en la operación.</div>
+                  <div class="content-text">Uso práctico: Controlar evolución mensual y detectar causas de incremento (picos de ventas, alquiler de terceros).</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=1564" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:26:04)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Costos por metro cuadrado y eficiencia por despachador</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Costo por metro cuadrado</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: cuantificar costo del área de almacenamiento por m²: Fórmula: costo total operativo del almacén / metros cuadrados utilizados por almacén. Datos requeridos: medir área real de uso y separar espacios no destinados a almacenamiento.</div>
+                  <div class="content-text">Ejemplo real y consideraciones: Cálculo práctico con plano y exclusión de oficinas/talleres; comparar con cotizaciones de terceros. Decisión estratégica: aunque costo propio sea mayor, considerar ventajas operativas en emergencias.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=1778" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:29:38)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Costos de despacho por empleado y eficiencia por despachador</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: conocer contribución de cada empleado al costo de despacho: Fórmula básica: costo total operativo de bodega / número de empleados del almacén. Variantes: afinar a despachadores específicos, relacionar con número de despachos o valor monetario despachado.</div>
+                  <div class="content-text">Uso para gestión y control: Implementar incentivos, detectar ineficiencias en rutas o tiempos (ejemplo: conductores que alargan rutas). Complementar con GPS y KPIs adicionales para medir productividad y costos por despacho.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=2558" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:42:38)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Gestión de transporte, su impacto y costos sobre ventas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Gestión de transporte y su impacto</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Importancia: alta inversión en flota propia y efecto directo en nivel de servicio: La última milla es crítica: fallo en entrega anula esfuerzos previos de aprovisionamiento y almacenamiento. Decisión entre flota propia o tercerización según costos y capacidad de respuesta ante emergencias.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=3005" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:50:05)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Costo de transporte versus ventas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: controlar gasto en transporte relativo a las ventas: Fórmula: costo de transporte / ventas totales × 100. Componentes del costo: peajes, combustibles, mantenimiento; no incluir costo de adquisición de activos.</div>
+                  <div class="content-text">Interpretación: Monitorizar mes a mes y justificar picos por eventos (alquiler de camiones, picos de ventas).</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=3064" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:51:04)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Costo operativo por conductor y nivel de cumplimiento</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Costo operativo por conductor</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: identificar el costo que genera cada conductor en la operación de transporte: Fórmula: costo total de transporte / número de conductores. Uso: evaluar contribución individual y controlar gastos por conductor.</div>
+                  <div class="content-text">Presentación y visualización: Gráficas por conductor; posibilidad de presentar en torta o barras según preferencia.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=3178" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:52:58)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Nivel de cumplimiento y entregas perfectas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: medir eficacia de despachos y calidad de entrega al cliente: Definición de entrega perfecta: completa en cantidad, a tiempo, documentación correcta, sin daños y con transporte adecuado. Fórmula: pedidos entregados perfectos / total de pedidos entregados.</div>
+                  <div class="content-text">Medición práctica y meta: Dificultad operativa: registrar entregas perfectas en sistema; alternativa por devoluciones: 1 − (devoluciones / total de pedidos). Metas habituales: >95% y objetivo estricto del profesor 99% para garantizar servicio y evitar pérdidas operativas.</div>
+                  <div class="content-text">Alternativa por rechazo: Calcular por pedidos rechazados: pedidos rechazados / total pedidos entregados, y usar 1 − rechazo para obtener entregas perfectas. Ventaja operativa: medir rechazos es más sencillo en campo y permite inferir el mismo nivel de cumplimiento.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=2818" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:46:58)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Entregas a tiempo y completas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Entregas a tiempo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: controlar la cantidad de pedidos entregados en la fecha comprometida: Definición: nivel de cumplimiento para realizar la entrega en la fecha acordada por pedido. Fórmula: pedidos entregados a tiempo / total de pedidos entregados × 100.</div>
+                  <div class="content-text">Requisitos de registro y medición: Tener en el sistema la fecha comprometida por orden de compra y la fecha de remisión/despacho. Comparar fecha acordada versus fecha real de entrega; si diferencia ≥0 → entrega a tiempo.</div>
+                  <div class="content-text">Consideraciones operativas: Registrar ambas fechas en ERP o sistema; si no es posible, usar Excel pero considerando el costo en horas hombre. Priorizar indicadores indispensables y evitar sobrecargar al equipo con mediciones muy costosas de mantener.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=3724" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:02:04)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Entregas completas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: medir eficacia de despachos en cuanto a completar los pedidos solicitados: Definición: porcentaje de pedidos enviados con todos los ítems y cantidades correctas. Fórmula: pedidos entregados completos / total pedidos × 100.</div>
+                  <div class="content-text">Medición práctica y uso: Alternativa práctica: medir devoluciones por faltantes como proxy para entregas completas. Responsables y periodicidad: jefe de almacenes y jefe de distribución; reporte a gerencia general dentro de los cinco primeros días del mes.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=4019" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:06:59)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Costos logísticos sobre ventas e importación/exportación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Costos logísticos versus ventas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: controlar los costos de la operación logística respecto a las ventas generadas: Definición: costos logísticos totales / ventas totales × 100. Componentes: transporte, operación de almacén y otros gastos logísticos recurrentes.</div>
+                  <div class="content-text">Interpretación e impacto: Monitorizar mes a mes para evitar que costos logísticos crezcan por encima de la capacidad de las ventas. Uso para decisiones estratégicas y seguimiento de tendencias mediante gráficos y promedios.</div>
+                  <div class="content-text">Ejemplo práctico integrado (02:00:38): Objetivo: evaluar eficiencia y rentabilidad logística con un umbral (ejemplo: mantener &lt;8% de ventas). Cálculo de ejemplo: ventas 1,000,000 con costos logísticos 70,000 → 7% indica operación eficiente. Periodicidad trimestral y responsable: finanzas supervisan y reportan para controlar márgenes.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=4101" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:08:21)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Costo unitario de importación/exportación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: conocer el costo unitario asociado a importar o exportar cada producto: Definición: costo total de mercancía importada/exportada / total de unidades importadas/exportadas. Cálculo: desagregar por artículo para evitar promedios que oculten variaciones por producto.</div>
+                  <div class="content-text">Responsables y uso: Área de logística e importaciones, compras y finanzas; reporte a gerencia general dentro de los cinco primeros días del mes. Impacto: ayuda a fijar precios de venta adecuados y entender el peso del costo de importación/exportación dentro del costo total del producto.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=4299" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:11:39)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Otros indicadores operativos y conclusiones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Indicadores complementarios mencionados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Listado de KPIs operativos adicionales: Unidades despachadas, unidades separadas, despachos por empleado. Costos de despachos por empleado, nivel de cumplimiento por despacho, control de incidencias.</div>
+                  <div class="content-text">Indicadores de productividad y ocupación: Eficiencia en la recepción, productividad de picking. Porcentaje de ocupación de almacén: ubicaciones ocupadas / ubicaciones disponibles × 100.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=4439" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:13:59)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Recomendaciones prácticas y balance</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Selección y automatización de indicadores: Priorizar 2–3 KPIs por área salvo que el sistema esté automatizado para más. Extraer datos desde ERP/SAP o llevar controles en Excel si no existe automatización, considerando el costo en horas hombre.</div>
+                  <div class="content-text">Simplicidad y coste-beneficio: No invertir tiempo excesivo en indicadores difíciles de obtener si no aportan valor operativo directo. Solicitar desarrollos al proveedor del ERP sólo si el beneficio justifica el costo.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=3917" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:05:17)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.3</span>
+                  <span class="subsection-title">Actividad práctica y cierre</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Dinámica grupal para aplicar conceptos: Formar dos grupos, definir tres KPIs generales con objetivo general, objetivo específico, definición, cálculo, periodicidad, responsable, fuente de información y impacto. Tiempo asignado: 25 minutos para la elaboración y presentación.</div>
+                  <div class="content-text">Ejemplo de actividad resultados (01:59:11): Índice de cumplimiento de entregas: objetivo medir eficiencia de la cadena; ejemplo práctico: 950 entregas correctas de 1000 → 95% cumplimiento.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=5480" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:31:20)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Periodicidad, responsables y KPIS presentados por equipos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Periodicidad, responsables e impacto de KPIs</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Periodicidad de medición: Puede ser diaria, semanal, mensual, trimestral o anual según la naturaleza del KPI y frecuencia de pedidos. Ejemplos: índice de cumplimiento puede calcularse diariamente o semanalmente; costo logístico suele revisarse trimestralmente.</div>
+                  <div class="content-text">Responsables: Equipo de logística o gestión de la cadena de suministros monitorea KPIs operativos. Finanzas supervisa indicadores económicos como costo logístico respecto a ventas.</div>
+                  <div class="content-text">Impacto general: Un índice de cumplimiento de entrega del 95% indica cumplimiento efectivo de compromisos, mayor satisfacción del cliente y reputación positiva. KPIs bien gestionados permiten optimizar inventarios, horas hombre y renovar contratos con clientes mineros.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=7205" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:05)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">KPIs presentados por equipos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Índice de rotación de inventario: Objetivo: medir eficiencia en convertir inventario en ventas y minimizar obsolescencia. Definición y cálculo: costo de ventas / inventario promedio (ejemplo: 2,400,000 / 400,000 = 6 veces al año). Periodicidad anual, responsable: equipo de logística y gestión de inventario; impacto: mayor liquidez y menor riesgo de obsolescencia.</div>
+                  <div class="content-text">Disponibilidad del personal: Objetivo: controlar disponibilidad de personal para operaciones logísticas según servicios contratados. Definición y fórmula: personal requerido / personal disponible × 100. Responsable y fuente: planners y supervisores de servicio; impacto: asegurar cobertura operativa y continuidad del servicio.</div>
+                  <div class="content-text">Tiempo de ejecución: Objetivo: controlar horas hombre efectivas frente a horas planeadas y horas muertas. Definición: tiempo total para ejecutar trabajo incluyendo imprevistos. Responsable: supervisores de servicio; impacto: optimizar recursos, mejorar expectativas al cliente y facilitar renovación de contratos.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=7312" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:01:52)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Aspectos operativos, factores de tiempo y cierre de clases</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Aspectos operativos y factores que afectan tiempos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Imprevistos en operación minera: Trabajos simultáneos de terceros, bloqueos y esperas que prolongan la ejecución. Considerar tiempo planeado más tiempo de imprevistos en la fórmula para reflejar la realidad operacional.</div>
+                  <div class="content-text">Reuniones post-servicio y comunicación: Reuniones al fin de paradas de planta para consolidar datos de tiempo de ejecución y lecciones aprendidas. Presentación de indicadores al residente y jefe del área para seguimiento.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=7599" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:06:39)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Cierre, anuncios y próximas clases</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Anuncio de evento y networking: Evento el 15 de junio, 9 a 12, Hotel Pullman, Flores; tema: negociación entre proveedores y compradores mineros. Invitación a registrarse vía link compartido en el chat para networking y contacto con proveedores y compradores.</div>
+                  <div class="content-text">Temas a tratar en próximas clases: Análisis de costos en la cadena de suministros, licitaciones CAPEX/OPEX, importaciones/exportaciones. Conciencias éticas, debida diligencia en aprovisionamiento, auditoría y reportes de sostenibilidad, tendencias futuras en gestión de compras.</div>
+                  <div class="content-text">Cierre y agradecimientos: Indicaciones para publicar material en el área virtual y despedida final; confirmación de próxima sesión el martes siguiente.</div>
+                  <a href="https://www.youtube.com/watch?v=Jxha6h8lFR4&start=7841" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:10:41)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 29: LOGÍSTICA MINERA E IDENTIFICACIÓN DE KPIS EN LA CADENA DE ABASTECIMIENTO - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

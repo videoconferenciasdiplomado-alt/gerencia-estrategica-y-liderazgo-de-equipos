@@ -1,0 +1,1865 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Introducción y apertura de la clase</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Bienvenida y consultas iniciales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Saludo del profesor y verificación de asistencia: Pregunta sobre dudas o logística pendiente de la clase anterior.</div>
+            
+
+              <div class="content-text">Comentario de la alumna Jennifer sobre examen pendiente del módulo anterior: Muestra preocupación del grupo por el cambio de fecha del examen.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=1" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:01)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Presentación de los objetivos de la sesión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Tema general: análisis de costos en la cadena de suministro: Tres subtemas a abordar: modelo de costo total de pertenencia (TCO), matriz de conversión de criterios y otros sistemas de costos en minería.</div>
+            
+
+              <div class="content-text">Enfoque del primer segmento: explicación del TCO como modelo de selección de proveedores: Principio: costos de propiedad incluyen más que el precio de compra inicial.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=60" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:01:00)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Modelo de Costo Total de Pertenencia (TCO) — concepto y componentes</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Definición y principio básico</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">TCO como modelo para seleccionar proveedor con menor costo total de uso: Identifica y cuantifica todas las dimensiones que afectan el costo de utilizar un proveedor.</div>
+            
+
+              <div class="content-text">Idea central: además del precio de compra existen costos asociados durante la vida útil del bien: Costos para garantizar funcionamiento correcto a lo largo de la vida útil.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=70" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:01:10)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Componentes que se consideran en el TCO</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Costos de uso y mantenimiento: Ejemplos: formación de personal, soporte, costos de operación.</div>
+            
+
+              <div class="content-text">Costos de consultoría y adecuaciones: Ejemplos: trabajos de consultoría, adecuaciones especiales de infraestructura.</div>
+            
+
+              <div class="content-text">Costos por rendimiento y fallas: Ejemplos: pruebas de servicio, periodos de prueba, pérdidas por menor performance, incumplimientos.</div>
+            
+
+              <div class="content-text">Costos operativos y logísticos adicionales: Ejemplos: consumo eléctrico, consignamientos, espacio ocupado, desarrollo y repuestos.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=85" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:01:25)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Ejemplos audiovisuales y explicación práctica del TCO</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Video promocional de Invera sobre reducción del TCO</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Mensaje clave: el precio de adquisición representa ~30% del TCO: Resto del costo se distribuye en etapas del ciclo de vida.</div>
+            
+
+              <div class="content-text">Resultados reportados por la empresa: Reducción del 85% del consumo de energía en enfriadores en 8 años. Reducción del 40% del costo de mantenimiento en 6 años. Resultado: 76% de reducción del TCO de equipos en últimos años.</div>
+            
+
+              <div class="content-text">Llamado a identificar el TCO propio de los equipos del cliente.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=218" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:03:38)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Video explicativo sobre TCO y su historia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Definición ampliada: análisis financiero del ciclo de vida de compras de capital: Evalúa precio de compra y costos operativos de largo plazo.</div>
+            
+
+              <div class="content-text">Origen del uso del TCO: Adopción en los 80 para validar adquisiciones de TI por multiplicación de costos de soporte.</div>
+            
+
+              <div class="content-text">Interesados y aplicación del TCO: Equipos de compras, áreas técnicas, finanzas, ventas y mantenimiento.</div>
+            
+
+              <div class="content-text">Componentes y uso práctico: Fases incluidas: adquisición, financiamiento, gestión, soporte, formación, tiempo de inactividad. Ejemplo específico: cálculo del TCO para sistemas informáticos y UPS. Variables para UPS: compra, instalación, servicios y repuestos, electricidad, baterías. Distribución ejemplo para 8 años: equipo 28%, instalación 6%, servicios+repuestos 20%, electricidad 33%, baterías 13%.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=342" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:05:42)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Transición a metodología práctica y selección de proveedores</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Presentación de un ejercicio práctico por el instructor</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Introducción de un caso práctico sobre selección de proveedor usando TCO.</div>
+            
+
+              <div class="content-text">Uso de Excel como herramienta de soporte.</div>
+            
+
+              <div class="content-text">Objetivo: ejemplificar selección más allá del precio inicial mediante cálculo de costos a lo largo del tiempo.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=691" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:11:31)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Primer caso: adquisición de un molino SAG — datos iniciales (Caso A)</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Descripción del equipo y función: Molino SAG: cilindro grande con bolas de acero para molienda en proceso de chancado.</div>
+            
+
+              <div class="content-text">Ofertas de tres proveedores: datos proporcionados: Proveedor 1: Precio ex fábrica: 180,000 USD. Garantía máxima considerada: 5 años. Mantenimiento anual: 25,000 USD. Transporte a mina (pagado por comprador): 10,000 USD. Instalación: 5,000 USD. Proveedor 2: Precio puesto en mina: 150,000 USD. Garantía: 4 años. Mantenimiento anual: 15,000 USD. Instalación: 3,000 USD. Proveedor 3: Precio puesto en almacén mina: 200,000 USD. Garantía: 3 años. Mantenimiento anual: 10,000 USD. Instalación: 1,000 USD.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=727" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:12:07)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Caso A — cálculo simple y decisión inicial</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Enfoque del cálculo año por año</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Horizonte usado: 5 años, igual a la garantía máxima ofertada.</div>
+            
+
+              <div class="content-text">Año 0 corresponde a adquisición e instalación; años 1–5 incluyen mantenimiento anual.</div>
+            
+
+              <div class="content-text">Método de sumar todos los costos cuantificables a lo largo de los 5 años.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=852" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:14:12)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Resultados del ejemplo y comparación simple</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Suma de costos totales por proveedor (resumen presentado por el docente): Proveedor 1: suma total aproximada 320,000 USD. Proveedor 2: suma total aproximada 228,000 USD. Proveedor 3: suma total aproximada 250,000 USD.</div>
+            
+
+              <div class="content-text">Conclusión bajo TCO simple: Proveedor 2 resulta ser la opción más económica en el ejemplo.</div>
+            
+
+              <div class="content-text">Observación sobre comparaciones superficiales: Comparar solo precio de compra (año 0) habría seleccionado proveedor 2 también, pero el ejercicio recalca incluir mantenimientos y otros costos.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=900" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:00)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Caso B — información adicional de fallas y costos de parada</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Nueva información cualitativa y probabilística por proveedor</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Proveedor 1: Rara vez presenta fallas dentro del periodo de garantía. Si falla dentro de garantía, reparación a cargo del proveedor pero molino debe enviarse a taller en Lima. Transporte: 10,000 USD ida y 10,000 USD vuelta (20,000 USD total) en caso de fallas que requieran traslado.</div>
+            
+
+              <div class="content-text">Proveedor 2: Casos conocidos de fallas después de 2 años. Probabilidad: 30% a los 2 años, incrementa 10% cada año posterior. Si falla dentro de la garantía, el proveedor repara pero requiere envío a Lima con coste de transporte 10,000 USD (ida y vuelta 20,000 USD).</div>
+            
+
+              <div class="content-text">Proveedor 3: Casos conocidos de fallas después de 3 años. Probabilidad: 40% a los 3 años, incrementa 10% cada año posterior. Si falla dentro de la garantía, reparación in situ sin coste de transporte.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=1045" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:17:25)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Costos adicionales a considerar en el análisis</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Costo de parada por cada evento de falla: Valor declarado: 80,000 USD por vez.</div>
+            
+
+              <div class="content-text">Costo de reparación en caso de falla fuera de cobertura: Estimado: 80% del valor del equipo.</div>
+            
+
+              <div class="content-text">Implicaciones para el TCO: Incluir probabilidad de falla, coste de transporte, coste de parada y coste de reparación cambia la decisión de proveedor. Requiere modelación probabilística año por año en Excel.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=1139" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:18:59)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Inicio de salas, verificaciones y desarrollo práctico con probabilidades</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Inicio de salas y verificaciones finales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Creación de una sala de trabajo, petición a los alumnos para ingresar y comenzar: Mensajes de confirmación sobre participantes presentes y ausentes.</div>
+            
+
+              <div class="content-text">Repetición de agradecimientos y saludos por parte de asistentes durante la configuración de salas.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=1289" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:21:29)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Desarrollo práctico con probabilidades y supuestos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Modelación de eventos de falla y su impacto acumulado en costos: Ejemplo: primera falla al año 2 implica 80% del costo del equipo + transporte ida y vuelta + desinstalación e instalación + parada. Segunda falla eleva significativamente costos acumulados (ejemplo presentado: 668,000; otros escenarios alcanzan 812,000 o 842,000 soles según cantidad de fallas).</div>
+            
+
+              <div class="content-text">Supuestos sobre comportamiento después de reparación: Consideración de que, tras reparación en taller, el equipo vuelve a funcionar con baja probabilidad de nueva falla durante periodo restante. Decisión de modelar sólo la falla ocurrida dentro del horizonte de garantía por simplicidad.</div>
+            
+
+              <div class="content-text">Efecto de incluir probabilidades en la decisión final: Con información probabilística la decisión puede cambiar: análisis inicialmente favorecía proveedor 2, pero con probabilidades y costos de falla puede favorecer proveedor 1 o 3 según supuestos. Importancia de ajustar horizonte de análisis (5 años por garantía versus vida útil contable hasta 30 años) y consultar proveedores sobre mantenimiento post-garantía.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=3720" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:02:00)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Organización de la actividad práctica y trabajo en grupos</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Formación de grupos y distribución del ejercicio</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">El profesor asigna grupos de tres alumnos para resolver la parte B del caso: Indicaciones para capturar pantallas y tomar datos.</div>
+            
+
+              <div class="content-text">Tiempo de trabajo sugerido: Sesión práctica de aproximadamente 30 minutos, posibilidad de terminar antes.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=1160" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:19:20)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Soporte y materiales compartidos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">El docente comparte la hoja Excel de la parte A para facilitar replicación del modelo: Recomendación de capturar pantalla y transferir datos a Excel o Word.</div>
+            
+
+              <div class="content-text">Instrucciones para entrar en sala de trabajo y comenzar el ejercicio: Coordinación de asistentes y comprobación de integrantes en sala.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=1216" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:20:16)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.3</span>
+              <span class="subsection-title">Punto final del extracto transcrito</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Últimas marcas en la transcripción muestran reiteradas expresiones de agradecimiento: Indican interacción, entradas y salidas de participantes durante la práctica.</div>
+            
+
+              <div class="content-text">Fin del segmento provisto en la fuente con marcas de agradecimiento alrededor del minuto 59:44.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=3584" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:59:44)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Ampliación: segunda parte del material — selección por costos totales aplicado a otros casos</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Introducción al segundo bloque y mensaje docente</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Revisión del principio: quien sabe comprar, sabe vender; compras afectan fuertemente costos y competitividad: Compras representan >50% del costo en sector productivo; en servicios ~20%.</div>
+            
+
+              <div class="content-text">Objetivos del área de compras: Flujo ininterrumpido de recursos, estandarización de materiales, mantener calidad, desarrollar proveedores, posiciones competitivas y cantidades de compra adecuadas.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=5581" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:33:01)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Métodos de evaluación de proveedores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Dos modelos principales presentados: Método basado en costos totales (TCO). Matriz de comparación de criterios (se anuncia para entrega posterior).</div>
+            
+
+              <div class="content-text">Enfoque didáctico: casos prácticos en Excel 365 para aplicar TCO y escenarios.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=5786" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:36:26)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="10">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">10</span>
+          <span class="section-title">Caso 2 — pintura: enunciado, solución y escenarios</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.1</span>
+              <span class="subsection-title">Enunciado y datos básicos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Área a pintar: 18,500 m² (escenarios alternativos: 16,800 y 21,500 m²).</div>
+            
+
+              <div class="content-text">Tres proveedores A, B, C con marcas de pintura diferentes: Datos por proveedor: costo por galón, rendimiento (m²/galón), duración en años, rendimiento de pintor (m²/h) y costo por hora hombre (base 12 USD; escenarios varían).</div>
+            
+
+              <div class="content-text">Objetivo: seleccionar proveedor y marca con menor costo total ponderado por duración; evaluar tres escenarios (moderado/pesimista/optimista).</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=5869" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:37:49)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.2</span>
+              <span class="subsection-title">Metodología en Excel y pasos de cálculo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Cálculo de número de galones: área / rendimiento por galón, redondeo hacia arriba.</div>
+            
+
+              <div class="content-text">Cálculo del costo de pintura: galones * precio por galón.</div>
+            
+
+              <div class="content-text">Cálculo de horas hombre: área / rendimiento por hora (no redondeado): Costo de mano de obra: horas * costo por hora.</div>
+            
+
+              <div class="content-text">Costo total: pintura + mano de obra: Anualización: costo total / duración (años) para comparar equivalentes anuales.</div>
+            
+
+              <div class="content-text">Ranking y formato condicional para identificar menor costo anualizado.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=6180" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:43:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.3</span>
+              <span class="subsection-title">Escenarios y uso de buscarX</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Implementación de escenarios por lista (moderado/pesimista/optimista): Cambio automático de área y costo por hora mediante buscarX (o buscarV como alternativa).</div>
+            
+
+              <div class="content-text">Observación práctica: proveedor con menor costo total simple puede no ser el mejor al anualizar por duración; en el ejemplo el proveedor B resulta mejor al considerar duración.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=6564" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:49:24)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="11">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">11</span>
+          <span class="section-title">Caso 3 — split sets y licitación anual</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.1</span>
+              <span class="subsection-title">Enunciado y parámetros logísticos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Producto: split sets (paquetes de 50 unidades), licitación por 1 año, volumen total 180,000 unidades: Consumo mensual por mina y 4 minas consideradas.</div>
+            
+
+              <div class="content-text">Almacén de tránsito: San Juan de Lurigancho: Transporte al almacén: 0.40 USD por unidad (dato del caso). Capacidad de camión: 24,000 kg (aprox. 9,000–7,000 unidades según peso).</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=6822" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:53:42)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.2</span>
+              <span class="subsection-title">Propuestas de proveedores y costos comparativos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Proveedor 1: Precio por juego: 2.95 USD, no incluye transporte al almacén (transporte 0.40 USD/unidad). Precio puesto al almacén: 3.35 USD.</div>
+            
+
+              <div class="content-text">Proveedor 2: Precio por juego: 3.25 USD, transporte incluido (puesto al almacén: 3.25 USD).</div>
+            
+
+              <div class="content-text">Proveedor 3: Precio por juego: 3.45 USD, transporte incluido. Incluye capacitación mensual valorizada en 1,000 USD y controles mensuales de rendimiento en 500 USD como plus.</div>
+            
+
+              <div class="content-text">Cálculo de costo anual: multiplicación cantidad por precio + transporte; resultados presentados: Costos totales anuales aproximados: proveedor 1 → 603,000 USD; proveedor 2 → 585,000 USD; proveedor 3 → 621,000 USD.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=6996" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:56:36)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">11.3</span>
+              <span class="subsection-title">Interpretación y decisión preliminar</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Comparativa simple favorece al proveedor 2 por menor costo anual: Sin embargo, se recomienda incluir otros factores: costo del servicio adicional (capacitación/controles), pruebas técnicas previas, costos logísticos de despacho por camión y riesgos operacionales.</div>
+            
+
+              <div class="content-text">Aplicación del TCO: sumar ítems (precio, transporte, capacitación, pruebas, control de calidad) y ponderar por riesgos y duración para decisión final.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=7149" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:59:09)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="12">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">12</span>
+          <span class="section-title">Conversación adicional sobre valoración de servicios adicionales y opciones de inclusión en el análisis</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.1</span>
+              <span class="subsection-title">Métodos para incorporar valores agregados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Dos enfoques para incluir servicios que el proveedor ofrece (capacitación, control de rendimiento).</div>
+            
+
+              <div class="content-text">Incluir el costo del servicio como un ítem adicional en el TCO de todos los proveedores para comparar "papas con camotes": Buscar precio de mercado (p. ej. laboratorios, certificaciones) y asignarlo a proveedores que no lo incluyen. Ejemplo numérico: imputar 2,000 USD por control y 1,000 USD por otras pruebas para equilibrar comparación.</div>
+            
+
+              <div class="content-text">Considerarlo como un descuento o valorizador negativo si se asume que el proveedor lo entrega "gratis": Restar el valor equivalente al precio cuando el proveedor lo ofrece como servicio incluido.</div>
+            
+
+              <div class="content-text">Recomendación práctica: Decidir con gerencia qué criterio adoptar (incluir como costo, imputar mercado, o tratar como descuento). Si no se pueden cotizar costos externos, opción válida es asumir el mismo costo que declara el proveedor.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=7202" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:02)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">12.2</span>
+              <span class="subsection-title">Efecto de ambos enfoques en la decisión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Resultado en el caso práctico: En el ejemplo mostrado, ambos métodos (sumar costo externo o imputarlo como descuento) mantienen al proveedor 2 como opción más económica. Explicación: la ventaja del precio del proveedor 2 fue suficientemente grande para superar los valores agregados ofertados por proveedor 3.</div>
+            
+
+              <div class="content-text">Observaciones sobre fiabilidad de datos: Verificar cifras de rendimiento y efectividad que los proveedores reportan, pues pueden inflarse. Recomendación: contrastar con cotizaciones de terceros (SGS, Bureau Veritas, laboratorios) cuando sea posible.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=7304" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:01:44)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="13">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">13</span>
+          <span class="section-title">Conclusiones didácticas y recomendaciones para presentación a gerencia</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">13.1</span>
+              <span class="subsection-title">Impacto de nueva información en la decisión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Agregar probabilidades de falla y costos de parada puede cambiar la elección del proveedor: Caso mostrado: con información limitada la elección inicial pudo ser proveedor 2; al incorporar probabilidades y costos de falla la elección cambió a proveedor 1 en algunos supuestos.</div>
+            
+
+              <div class="content-text">Relevancia de supuestos y horizonte de análisis: Elegir horizonte de 5 años por garantía o extender hasta vida útil contable (ej.: 30 años) según política contable y disponibilidad de datos.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=4269" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:11:09)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">13.2</span>
+              <span class="subsection-title">Buenas prácticas al presentar evaluaciones a gerencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Documentar supuestos, probabilidades y fuentes de datos: Consultar a proveedores sobre mantenimiento post-garantía y periodicidad de intervenciones.</div>
+            
+
+              <div class="content-text">Mostrar sensibilidad y escenarios (optimista/pesimista/moderado): Presentar alternativas y recomendaciones basadas en resultados anualizados y efectos de riesgos.</div>
+            
+
+              <div class="content-text">Usar hojas de cálculo con celdas de referencia y buscarX para facilitar escenarios y actualización de datos.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=4299" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:11:39)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="14">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">14</span>
+          <span class="section-title">Cierre y logística de continuación de la clase</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">14.1</span>
+              <span class="subsection-title">Plan de trabajo restante y pausas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Organización del caso 2 en tres partes; posibilidad de pausa de 10–15 minutos antes de continuar.</div>
+            
+
+              <div class="content-text">Se fijó retorno a las 09:25 (hora de la grabación) según votación del grupo.</div>
+            
+
+              <div class="content-text">Invitación a descargar y revisar archivos de trabajo (enunciado y solución) para replicar modelos.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=4450" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:14:10)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">14.2</span>
+              <span class="subsection-title">Interacciones finales y agradecimientos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Múltiples expresiones de agradecimiento y comunicaciones entre participantes.</div>
+            
+
+              <div class="content-text">Mensajes de coordinación para iniciar el caso 2 y validación de presencia de alumnos (p. ej. Jennifer, Edwin).</div>
+            
+
+              <div class="content-text">Cierre del segmento con indicación de continuar en la siguiente sesión para partes pendientes del caso práctico.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=4505" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:15:05)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="15">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">15</span>
+          <span class="section-title">Comunicaciones finales, recursos y oportunidades de networking</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">15.1</span>
+              <span class="subsection-title">Entrega de materiales y soporte post-clase</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Profesor ofrece enviar archivos Excel por correo o LinkedIn si no están disponibles en la plataforma virtual: Indicaciones para inscribirse y solicitud de contactos por chat o correo.</div>
+            
+
+              <div class="content-text">Confirmación de carga de materiales en la clase virtual y explicación sobre problemas de compartición en Google Meet: Alternativa: profesor comparte correo y LinkedIn para remitir los archivos manualmente.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=7449" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:04:09)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">15.2</span>
+              <span class="subsection-title">Invitación a workshop y oportunidades profesionales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Anuncio de workshop con networking y dos talleres: negociación con compradores mineros y optimización de procesos de importaciones: Participación de compradores de mineras y proveedores del sector.</div>
+            
+
+              <div class="content-text">Valor agregado del workshop: Oportunidad de ampliar networking, conocer proveedores, enviar currículums y aprender temas prácticos aplicables al sector. Oferta de preventa con descuento y recomendación de inversión para quienes desean ampliar contactos profesionales.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=7713" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:08:33)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">15.3</span>
+              <span class="subsection-title">Preparación para continuar el Caso B en la siguiente clase</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Instrucción de capturar pantallas y preparar datos para resolver la parte B en la próxima sesión: Confirmación de que se retomará el análisis probabilístico y la matriz de comparación de criterios.</div>
+            
+
+              <div class="content-text">Mensaje de cierre del profesor y agradecimientos finales: Saludos, confirmación de próxima clase y disposición para dudas posteriores via correo o LinkedIn.</div>
+              <a href="https://www.youtube.com/watch?v=4KEWZmBcelg&start=7540" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:05:40)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 30: ANÁLISIS DE COSTOS EN LA CADENA DE SUMINISTRO MINERA - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

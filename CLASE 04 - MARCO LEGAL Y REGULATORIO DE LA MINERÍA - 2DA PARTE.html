@@ -1,0 +1,1466 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Bienvenida y organización de la sesión</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Instrucciones administrativas y materiales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Indicación de ingreso con cuenta institucional: Caso práctico: Roberto Carlos entró sin cuenta institucional y debe corregirlo. Profesor gestionará solución si hay problemas de acceso.</div>
+              <div class="content-text">Disponibilidad de material del curso en aula digital: Solo están cargadas las diapositivas de la semana 1 en la plataforma según participantes. Profesor enviará carpeta compartida en Drive con normas legales y material complementario. Profesor confirmó que subirá las diapositivas a la plataforma y ya compartió carpetas con materiales adicionales.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=6" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:06)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Dinámica del juego y preguntas clave</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Activación del juego y participación de estudiantes: Participantes: Ellard, Wille, Anabela, Anthony, otros. Marcadores y orden de participación actualizado tras cada pregunta.</div>
+              <div class="content-text">Preguntas revisadas sobre normativa minera básica: Actividades que no requieren concesión: cateo, prospección y comercialización. Aclaración: exploración, explotación, beneficio y labores generales sí requieren concesión. Naturaleza de la concesión minera: inmueble distinto y separado del predio superficial. Implica derechos sobre el subsuelo, no sobre la superficie que puede pertenecer a terceros. Pago anual por vigencia de concesión: 3 USD por hectárea. Fecha típica de pago: junio. Instrumentos de gestión ambiental según impacto. Proyectos con impactos leves: herramienta aplicable (DIA/estudio semidesarrollado según contexto). Impactos moderados requieren Estudio de Impacto Ambiental (EIA).</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=311" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:05:11)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Marco legal sobre comunidades y consulta previa</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Ley General de Comunidades Campesinas y Constitución</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Reconocimiento constitucional y derechos (Art. 89 Constitución 1993): Comunidades campesinas y nativas tienen existencia legal y personería jurídica. Autonomía en organización y uso/libre disposición de sus tierras.</div>
+              <div class="content-text">Ley 24.656 (Ley General de Comunidades Campesinas, 1987): Define comunidades como organizaciones de interés público integradas por familias con vínculo territorial, cultural y económico. Propiedad comunal de la tierra: imprescriptible e inembargable según texto original. Nota de contraste: algunos términos (inalienable, disposición por ley) entran en conflicto con la Constitución de 1993. Régimen de disposición de tierras: enajenación posible por acuerdo de 2/3 en asamblea general y requisitos formales. Observación: exigencia de ley adicional para enajenación se considera desactualizada.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=786" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:13:06)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Ley de Consulta Previa y convenio OIT 169</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Origen internacional: Convenio 169 de la OIT (art. 15): Obliga a los gobiernos a establecer procedimientos de consulta cuando la propiedad de recursos corresponda al Estado y exista riesgo de perjuicio a pueblos interesados. Consulta previa debe determinar si los intereses del pueblo serían perjudicados y en qué medida antes de autorizar prospección o explotación.</div>
+              <div class="content-text">Ley 29785 y reglamento DS-001-2012-MC (Ministerio de Cultura) (00:39:17): Derecho a la consulta previa para pueblos indígenas respecto de medidas que afecten derechos colectivos: existencia física, identidad cultural, calidad de vida o desarrollo. Aplicación obligatoria de la consulta implementada por el Estado; el reglamento detalla el procedimiento. Consulta se aplica a planes, programas y proyectos de desarrollo nacional y regional que afecten directamente dichos derechos.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=2166" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:36:06)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.3</span>
+              <span class="subsection-title">Interpretaciones judiciales y tensiones normativas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Resolución del Tribunal Constitucional sobre consulta previa (punto 72) (00:42:35): Señala que la concesión minera requerirá consulta previa únicamente cuando se advierta afectación directa a un pueblo indígena u originario. No exige consulta en todos los casos, lo cual busca evitar demoras innecesarias.</div>
+              <div class="content-text">Recomendaciones del Tribunal y vacío normativo: Exhorta al Congreso, Ministerio de Cultura y Ministerio de Energía y Minas a legislar y coordinar reglamentación para clarificar el derecho a la consulta y la participación ciudadana. Subraya necesidad de publicaciones culturalmente adecuadas y notificaciones sobre solicitudes y otorgamientos de concesiones en territorios indígenas.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=2555" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:42:35)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Conflictos sociales vinculados a la minería y causas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Tipos y ejemplos de conflictos conocidos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Casos emblemáticos citados por participantes: Conga: rechazo por temor a contaminación de tierras y lagunas. La Pampa (Tambopata): problema con minería informal e ilegal en zona de amortiguamiento. Las Bambas: conflicto por corredor minero y demandas de comunidades a lo largo del corredor. Tía María: oposición por proximidad a áreas agrícolas y preocupaciones sobre uso del agua y antecedentes de contaminación (SAE/SAUDA).</div>
+              <div class="content-text">Clasificación breve de conflictos: Conflictos por riesgo ambiental: contaminación de agua y suelos, pérdida de recursos hídricos. Conflictos por manejo de accesos y vías (corredores): discrepancias sobre vías nacionales y uso del territorio. Conflictos por demandas económicas y expectativas de beneficios: solicitudes individuales vs. políticas de desarrollo comunal.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=2923" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:48:43)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Causas profundas y dinámicas internas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Orígenes múltiples y acumulativos: Antecedentes históricos de contaminación y mala gestión generan desconfianza en comunidades. Vacíos y desactualización normativa generan interpretaciones contrapuestas sobre derechos y procedimientos.</div>
+              <div class="content-text">Factores de movilización y dirección de conflictos: Liderazgos y dirigentes que buscan beneficios económicos individuales o privilegios. Peticiones recurrentes: maquinaria, obras comunales, bienes individuales (electrodomésticos), presiones por empleo. Estrategias empresariales y de ingreso al territorio. Ejemplo negativo: intentos de ingreso "a la fuerza" o sin diálogo previo que exacerban rechazo.</div>
+              <div class="content-text">Gestión comunitaria y empresarial: Prácticas de responsabilidad social empresarial (construcción de postas, colegios, puestos de trabajo) no siempre evitan conflictos. Necesidad de diálogo equilibrado, respeto a identidad cultural y procesos de consulta adecuados para acuerdos duraderos.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=3073" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:51:13)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Prevención social, percepciones y movilización</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Perspectivas sobre desarrollo y percepción comunitaria</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Argumentos a favor de la minería como motor de desarrollo: Minería puede generar grandes ingresos y empleo si se administra bien, lo que se reflejaría en obras y servicios comunitarios. Avances tecnológicos reducen niveles de contaminación respecto a décadas pasadas, mitigando riesgos cuando se aplican buenas prácticas.</div>
+              <div class="content-text">Orígenes de la oposición y aprovechamientos políticos: Movilizaciones pueden ser impulsadas por intereses políticos o grupos contrarios a la minería, algunas veces vinculados a minería ilegal. Necesidad de distinguir preocupaciones fundadas (daños ambientales tangibles) de quejas infundadas o manipuladas.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=3600" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:00)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Prevención práctica en territorio</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Cómo prevenir conflictos sociales en la práctica: Generar trabajo mediante inversión en lugar de depender de bonos estatales; comunicar beneficios y medidas de mitigación. Implementar medidas proactivas de control ambiental y de tránsito (regulación de velocidades, riego para controlar polvo) para prevenir que quejas locales escalen. Uso de la guía RM265 como referencia para diseñar estrategias de prevención aplicables por empresas y autoridades.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=3753" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:02:33)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Prevención y gestión de conflictos socioambientales: guía RM265</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Objeto, alcance y definiciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Objetivo de la guía RM265 (2023) del MINAM: Brindar pautas y orientaciones sobre la prevención y gestión de conflictos socioambientales en el marco de las competencias del MINAM. Aplicación obligatoria para unidades, programas, proyectos especiales y organismos públicos adscritos al MINAM.</div>
+              <div class="content-text">Definición de conflicto socioambiental: Proceso complejo donde sectores de la sociedad, Estado y empresas perciben contradicción entre objetivos, intereses, valores o necesidades que pueden implicar riesgo de daño ambiental. Se identifican conflictos latentes (sin manifestaciones públicas relevantes) y manifiestos (con protestas, marchas o enfrentamientos).</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=3821" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:03:41)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Enfoques y actores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Enfoques principales de la guía: Enfoque en derechos humanos, territorial, transformativo, intercultural y de género. Enfoque preventivo privilegiando acciones anticipadas antes de que surjan manifestaciones.</div>
+              <div class="content-text">Clasificación de actores: Actores primarios: directamente involucrados (empresa y población afectada). Actores secundarios: involucrados indirectamente. Terceros imparciales: mediadores o facilitadores (iglesia, autoridades, mediadores técnicos).</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=4128" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:08:48)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.3</span>
+              <span class="subsection-title">Mecanismos de intervención: prevención, tratamiento y seguimiento</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Prevención: acciones previas para anticipar y evitar que un posible problema genere conflicto social: Ejemplos: identificar infraestructura en riesgo (rellenos sanitarios, tuberías antiguas), evaluar impactos potenciales y planificar medidas antes de que aparezcan quejas públicas. Vinculación con el Sistema Nacional de Gestión Ambiental y escalamiento institucional.</div>
+              <div class="content-text">Tratamiento: gestión cuando el conflicto ya se ha manifestado: Instrumentos: mesas de diálogo y alternativas de solución que buscan gestionar factores conflictivos y fortalecer soluciones técnicas y sociales. Ejemplo: mesas de diálogo para problemas de cuencas o polución generada por tránsito de camiones.</div>
+              <div class="content-text">Seguimiento: monitoreo y verificación del cumplimiento de acuerdos: Acciones de entidades del SNGA para vigilar compromisos, plazos y medidas pactadas en mesas de diálogo. Importancia de seguimiento para evitar la reactivación del conflicto por incumplimiento.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=4395" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:13:15)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Ley y normativa sobre cierre de minas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Fundamento y contenido del plan de cierre de minas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Ley 28090 y definición de plan de cierre de minas: Instrumento de gestión ambiental que establece medidas técnicas para rehabilitar áreas perturbadas por la actividad minera. Objetivo: alcanzar características de ecosistema compatible con un ambiente saludable y preservación paisajística.</div>
+              <div class="content-text">Alcance temporal del plan: Rehabilitación mediante medidas antes, durante y después del cierre de operaciones; el plan debe diseñarse desde el inicio de la actividad minera. Presentación del plan es obligatoria para todo titular en operación, en fase de desarrollo o producción, y para quienes reinicien operaciones tras suspensión, incluso si la ley no estaba vigente al inicio.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=5677" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:34:37)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Autoridades competentes, obligaciones y garantías</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Autoridades y fiscalización: Ministerio de Energía y Minas: aprobación para mediana y gran minería. OEFA y SINARMIN: funciones de supervisión y fiscalización según competencia. Gobiernos regionales: aprobación para pequeña minería y minería artesanal; supervisión que puede verse limitada por capacidad técnica y corrupción.</div>
+              <div class="content-text">Obligaciones del titular minero: Presentar plan de cierre dentro del plazo máximo de un año desde la aprobación del Estudio de Impacto Ambiental. Implementar el plan desde el inicio de operaciones y actualizarlo periódicamente. Reportar semestralmente al MINEM o autoridad competente sobre avance de labores, montos ejecutados y porcentaje de avance. Constituir una garantía ambiental que cubra el costo estimado del plan de cierre y medidas vinculadas a impactos ambientales identificados. No constituir la garantía implica la desaprobación del plan.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=6006" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:40:06)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.3</span>
+              <span class="subsection-title">Actualización, participación ciudadana y transparencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Plazos y actualizaciones del plan: Presentación inicial: máximo un año tras aprobación del EIA. Actualización: primera revisión a los tres años y, posteriormente, cada cinco años; actualizar también si se modifica el EIA o hay cambios sustantivos en el proceso productivo.</div>
+              <div class="content-text">Información y participación de la comunidad: Publicación del plan de cierre en el diario oficial y en el diario de la capital regional; remisión de ejemplares a autoridades regionales, provinciales y distritales. Organizaciones ciudadanas con personería jurídica y personas naturales directamente afectadas pueden formular observaciones fundamentadas al plan. Objetivo: permitir seguimiento local, control ciudadano y evitar pasivos ambientales no gestionados.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=6677" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:51:17)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Riesgos asociados a la fiscalización y experiencias prácticas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Capacidades locales y fallas de supervisión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Limitaciones de gobiernos regionales: Falta de personal, capacitación y recursos que reduce efectividad de fiscalización en pequeña minería y minería artesanal. Casos de accidentes por supervisión insuficiente (ej.: explosión en mina calificada como pequeña minería con víctimas).</div>
+              <div class="content-text">Rol de organismos nacionales: OEFA y SINARMIN intervienen en supervisión de mediana y gran minería; Sunafil puede actuar en seguridad laboral cuando corresponde.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=6068" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:41:08)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Responsabilidad y seguimiento post-acuerdo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Importancia del seguimiento para evitar reactivación de conflictos: Verificar cumplimiento de compromisos de mesas de diálogo (instalación de mitigaciones, plazos). Consecuencia del incumplimiento: reaparición del conflicto y pérdida de confianza comunitaria.</div>
+              <div class="content-text">Herramientas para garantizar cumplimiento: Reportes semestrales, garantías ambientales y mecanismos de fiscalización son instrumentos para asegurar ejecución de medidas pactadas.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=5483" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:31:23)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Ejecución y responsabilidades del plan de cierre de minas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Exigibilidad y mantenimiento de derechos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Presentación y exigibilidad del plan de cierre: Obligación exigible para todo titular de actividad minera en operación, en desarrollo o producción, y para quienes reinicien operaciones tras suspensión. Titulares con actividades interrumpidas deben presentar el plan para ponerse al día y cumplir la normativa vigente.</div>
+              <div class="content-text">Conservación de la concesión y derechos del titular: El inicio de la ejecución del plan de cierre y rehabilitación no implica pérdida de la concesión. Derechos de uso minero y demás derechos adquiridos se mantienen según lo dispuesto en el título originario.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=7202" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:02)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Uso alternativo de instalaciones y transferencia de responsabilidades</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Procedimiento para uso alternativo: Comunidades o gobiernos que quieran dar un uso público y económicamente viable a instalaciones deben solicitarlo conjuntamente con el titular al Ministerio de Energía y Minas. Solicitud por escrito ante la Dirección General de Minería debe incluir acuerdo emitido por la máxima instancia decisoria del solicitante y documentación sustentatoria.</div>
+              <div class="content-text">Efectos sobre compromisos y garantías: Si se excluye una instalación del plan de cierre por uso alternativo, el monto correspondiente no se considerará para el establecimiento de garantías y será detraído de las mismas. Beneficiarios que asumen las instalaciones deben asumir la responsabilidad ambiental y liberan al titular minero de esa obligación, siempre que no exista riesgo para la salud humana o daños ambientales no gestionados.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=7298" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:01:38)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Etapas de ejecución y cierre de la sesión</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Etapas de ejecución: cierre progresivo, postcierre y certificación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Cierre progresivo: Aplicación gradual conforme se dejan de explotar o operar áreas específicas; incluye cierre, mantenimiento y monitoreo continuos. Posibilidad de certificados de cumplimiento progresivo a medida que se cumplen etapas y se reduce la garantía.</div>
+              <div class="content-text">Postcierre: Período mínimo de cinco años o hasta alcanzar la estabilización física y química de residuos y componentes. Requiere mantenimiento financiero y técnico sostenido; la responsabilidad del titular persiste durante este período salvo acuerdo de transferencia.</div>
+              <div class="content-text">Certificados de cumplimiento y cierre final: Emisión de certificados de cumplimiento progresivo y, al final, certificado de cierre final tras verificación de cumplimiento de todas las obligaciones. La garantía se va reduciendo conforme se verifican las obligaciones cumplidas y se devuelven montos pertinentes.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=7452" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:04:12)</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Recomendaciones pedagógicas y uso de la normativa</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Lectura y familiarización con RM265 y Ley 28090: Estudiantes deben conocer la existencia de normativa aplicable para fundamentar decisiones gerenciales. No es necesario memorizar todo, sí tener presente las obligaciones legales y dónde encontrarlas.</div>
+              <div class="content-text">Recursos entregados y próximas actividades: Profesor compartirá anexo RM265, Ley de cierre de minas y reglamentos/modificatorias en la carpeta de Drive. Actividad práctica: lectura guiada de páginas clave (prevención, tratamiento y seguimiento) y posterior explicación por parte de participantes en clase. Sesión finalizó con recordatorio de asistencia y programación de próxima clase el martes; profesor pidió revisar el material en la carpeta y preguntas finales quedaron resueltas.</div>
+              <a href="https://www.youtube.com/watch?v=0vkRe83ckVM&start=5600" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:33:20)</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 04: MARCO LEGAL Y REGULATORIO DE LA MINERÍA - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

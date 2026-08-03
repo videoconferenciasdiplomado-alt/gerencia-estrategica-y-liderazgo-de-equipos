@@ -1,0 +1,1549 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+ <div class="container">
+  <div class="mind-map animacion-contenido" id="mindMap">
+    <div class="section" data-section="1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">1</span>
+          <span class="section-title">Introducción al marco legal y regulatorio minero</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.1</span>
+              <span class="subsection-title">Actividad interactiva: Kahoot</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Uso de Kahoot para repasar contenidos de la clase anterior: Envío del enlace en el chat y participación de estudiantes. Resultados y marcador: ganador Jin Bazán, segundo Ronald, tercero Wille.</div>
+              <div class="content-text">Preguntas tratadas en el juego: Comparación ritmos de producción: tajo abierto vs subterránea. Clasificación por capacidad de producción: gran minería (>5000 t/d). Diferencia minería ilegal vs informal: actividad en zonas no permitidas. Clasificación por área: minería artesanal hasta 1000 ha. Equipos: Sculptran como equipo para minería subterránea.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=77" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:01:17)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">1.2</span>
+              <span class="subsection-title">Normas y alcance general</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Normas principales a revisar en la sesión: Ley General de Minería (TS-014-92 y actualizaciones), Ley de Promoción de Inversiones, Ley General del Ambiente, Ley de Formalización y promoción de la pequeña minería y minería artesanal. Sistema de Evaluación de Impacto Ambiental y regulación ambiental sectorial.</div>
+              <div class="content-text">Observación sobre amplitud del tema: Tema amplio que requiere cursos específicos para cubrirlo en detalle. Se abordarán puntos más relevantes y ejemplos prácticos.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=573" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:09:33)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">2</span>
+          <span class="section-title">Ley General de Minería: título preliminar y principios</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.1</span>
+              <span class="subsection-title">Objetivo, ámbito y exclusiones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Ámbito de aplicación de la ley: Aprovechamiento de sustancias minerales del suelo, subsuelo y dominio marítimo. Exclusiones: hidrocarburos, petróleo, depósitos de guano, recursos geotérmicos, aguas medicinales.</div>
+              <div class="content-text">Recursos como propiedad del Estado (inalienable e imprescriptible): El Estado evalúa y preserva recursos, desarrolla información básica para fomentar inversiones. Promoción de inversión y fiscalización según principio de simplificación administrativa.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=1007" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:16:47)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">2.2</span>
+              <span class="subsection-title">Régimen de concesiones y efectos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Régimen de concesiones como mecanismo exclusivo para explotación (salvo actividades libres): Concesión minera obliga a trabajo e inversión para producción de sustancias minerales. Distinción entre concesión (subsuelo) y derecho sobre superficie (propiedad distinta). Fuente frecuente de conflictos sociales por derechos de superficie y comunidades.</div>
+              <div class="content-text">Industria minera como utilidad pública e interés nacional: Promoción de inversiones vista como beneficio para la población y generación de recursos para obras.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=1246" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:20:46)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">3</span>
+          <span class="section-title">Actividades mineras y etapas</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.1</span>
+              <span class="subsection-title">Cateo, prospección y exploración</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Cateo: búsqueda inicial y muestreos básicos: Métodos simples (pico, pala), sin tecnología sofisticada. Actividad libre: no requiere concesión ni autorización estatal, pero sí permiso del propietario de la superficie cuando aplique.</div>
+              <div class="content-text">Prospección: análisis más avanzado que cateo: Uso de equipos, envío de muestras a laboratorio para análisis químicos/físicos. Aún puede realizarse antes de obtener concesión.</div>
+              <div class="content-text">Exploración: etapa avanzada dentro de concesión: Requiere concesión y uso de perforadoras y tecnología para estimar recursos y trazar plan minero.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=1524" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:25:24)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">3.2</span>
+              <span class="subsection-title">Explotación, labor general, beneficio, comercialización y transporte</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Explotación: inicio de la operación minera y construcción de infraestructura: Incluye labores necesarias para extraer mineral de la concesión.</div>
+              <div class="content-text">Labor general: servicios auxiliares entre concesiones: Ejemplo: sistemas de ventilación en minería subterránea.</div>
+              <div class="content-text">Beneficio: tratamiento para obtener producto comercial: Procesos físicos y químicos, plantas de concentración, fundición y refinería.</div>
+              <div class="content-text">Comercialización: etapa tratada en clase posterior</div>
+              <div class="content-text">Transporte minero: transporte no convencional: Mineroductos, fajas transportadoras y sistemas continuos concesionables. Distinción con transporte convencional (camión, tren).</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=1862" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:31:02)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">4</span>
+          <span class="section-title">Concesiones mineras: definición, clasificación y trámite</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.1</span>
+              <span class="subsection-title">Definición, delimitación y registro</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Concesión minera: derecho a explorar y explotar recursos minerales concedidos: Delimitación por planos verticales y coordenadas UTM; sistema de cuadrículas. La concesión es inmueble distinto y separado de la superficie.</div>
+              <div class="content-text">Herramientas y procedimientos para verificar disponibilidad: Uso de Geocadmin (INGEMMET) y Google Earth para consultar concesiones y cuadrículas. Ingreso de coordenadas UTM y verificación de superposición antes de peticionar.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=2465" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:41:05)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.2</span>
+              <span class="subsection-title">Tipos de concesiones y restricciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Clasificación por sustancia: metálicas y no metálicas: Metálicas: cobre, zinc, plomo, hierro, etc. No metálicas: materiales para cemento, mármol, agregados.</div>
+              <div class="content-text">Restricciones para concesiones no metálicas: No se podrán establecer ni prorrogar sobre áreas agrícolas intangibles ni tierras rústicas de uso agrícola (salvo pastos naturales).</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=2960" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:49:20)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">4.3</span>
+              <span class="subsection-title">Otras concesiones relacionadas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Concesión de beneficio: Derecho a extraer o concentrar la parte valiosa de minerales, fundir, purificar o refinar.</div>
+              <div class="content-text">Concesión de labor general: Derecho a prestar servicios auxiliares entre dos o más concesiones mineras.</div>
+              <div class="content-text">Concesión de transporte minero: Derecho a instalar y operar sistemas continuos de transporte masivo (mineroductos) entre centros mineros y puertos o plantas.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=3072" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:51:12)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="5">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">5</span>
+          <span class="section-title">Procedimiento, registro y sanciones</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.1</span>
+              <span class="subsection-title">Trámite y plazos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Decreto Legislativo 708 y sistema catastral minero: Otorgamiento de concesiones basado en cuadrículas orientadas y coordenadas UTM; tramitación ante INGEMMET.</div>
+              <div class="content-text">Plazo de resolución tras publicaciones: Autoridad debe otorgar título de concesión dentro de 30 días hábiles posteriores a publicaciones, salvo oposición de terceros.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=3230" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:53:50)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.2</span>
+              <span class="subsection-title">Inscripción y oponibilidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Título de concesión oponible a terceros y al Estado: Requisito: inscripción en la Superintendencia Nacional de Registros Públicos (SUNARP) para su oponibilidad y validez jurídica.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=3378" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:56:18)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">5.3</span>
+              <span class="subsection-title">Derecho de vigencia y caducidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Pago anual del derecho de vigencia: Obligación de los titulares: abonar antes del 30 de junio un monto de 3 USD por hectárea o su equivalente en soles.</div>
+              <div class="content-text">Penalidad por incumplimiento: Incumplimiento del pago durante dos años consecutivos causa la caducidad de la concesión y la pérdida del derecho, quedando el área disponible para terceros.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=3486" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:58:06)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="6">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">6</span>
+          <span class="section-title">Obligaciones de inversión, producción mínima y penalidades</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.1</span>
+              <span class="subsection-title">Obligación de trabajo e inversión y plazo de producción</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Titulares obligados a invertir y a trabajar la concesión; no es para "colección": Deben obtener, a más tardar, al término del décimo año (contado a partir del año siguiente al otorgamiento del título) una producción anual mínima por hectárea.</div>
+              <div class="content-text">Producción mínima exigida: Sustancias metálicas: mínimo de 1 UIT por hectárea por año. Sustancias no metálicas: 10% de la UIT por hectárea por año (régimen de mediana y gran escala). Valor UIT variable; ejemplo 2024 = 5,150 soles.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=3602" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:02)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.2</span>
+              <span class="subsection-title">Penalidades por no alcanzar la producción mínima</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Escala de penalidades según años sin cumplir mínimo: A partir del año 11: penalidad del 2% de la producción mínima (2% de 1 UIT = 0.02 UIT por hectárea). A partir del año 15: penalidad del 5% de la producción mínima. A partir del año 20: penalidad del 10% de la producción mínima.</div>
+              <div class="content-text">Excepción por inversión: Si el titular invierte no menos de 10 veces el monto de la penalidad correspondiente, la penalidad no se aplicará.</div>
+              <div class="content-text">Caducidad por incumplimiento prolongado: Si no se alcanza la producción mínima al expirar el año 30, la caducidad de la concesión será declarada por la autoridad competente.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=3787" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:03:07)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">6.3</span>
+              <span class="subsection-title">Ejercicio práctico sobre cálculo de penalidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Caso: concesión metálica al cabo de 11 años alcanza 0.85 UIT/ha/año: Determinación: debe pagar penalidad por no alcanzar 1 UIT. Cálculo: penalidad = 2% de la producción mínima = 0.02 UIT/ha; en soles sería 0.02 × valor UIT. Aplicación por hectárea y multiplicada por número de hectáreas del título.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=3995" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:06:35)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="7">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">7</span>
+          <span class="section-title">Actividades regulatorias y ambientales aplicables</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.1</span>
+              <span class="subsection-title">Marco institucional ambiental y evolución normativa</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Leyes relevantes y disponibilidad: Ley General del Ambiente (Ley 28611) y Ley del Sistema Nacional de Evaluación de Impacto Ambiental (Ley 27446) disponibles en internet.</div>
+              <div class="content-text">Evolución histórica: Normativa ambiental consolidada desde finales del siglo XX; ministerio del ambiente creado recientemente (aprox. 2011). Antes de estas leyes, prácticas mineras contaminantes eran frecuentes; hoy la normativa busca mitigar y corregir impactos.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=4606" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:16:46)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.2</span>
+              <span class="subsection-title">Instrumentos de gestión ambiental y categorías</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Aprobación previa necesaria para proyectos que puedan generar impactos: Instrumentos de gestión ambiental (IGA) deben ser aprobados por autoridad competente.</div>
+              <div class="content-text">Categorías de IGA según riesgo/impacto: Categoría 1: Declaración de Impacto Ambiental (DIA) — impactos leves. Categoría 2: Estudio de Impacto Ambiental Semi-Detallado (EIA-SD) — impactos moderados. Categoría 3: Estudio de Impacto Ambiental de Categoría (EIAT) — impactos altos.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=4979" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:22:59)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.3</span>
+              <span class="subsection-title">Organismos competentes y funciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Servicio Nacional de Certificación Ambiental para las Inversiones Sostenibles (SENACE): Autoridad competente para aprobar estudios detallados (categoría 3 / EIAT).</div>
+              <div class="content-text">Dirección General de Asuntos Ambientales Mineros (DGAAM) del Ministerio de Energía y Minas: Autoridad para aprobar EIA-SD y DIA relacionados con minería.</div>
+              <div class="content-text">Organismo de Evaluación y Fiscalización Ambiental (OEFA): Supervisión y fiscalización del cumplimiento de obligaciones y compromisos ambientales.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=5275" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:27:55)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">7.4</span>
+              <span class="subsection-title">Límite de la aprobación ambiental y otras licencias</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">La aprobación del IGA no autoriza per se el inicio de actividades: Titular debe obtener además licencias, autorizaciones y permisos sectoriales y locales. Ejemplo crítico: licencia social como requisito no regulado formalmente pero esencial en la práctica; su ausencia puede impedir proyectos (caso Tía María).</div>
+              <div class="content-text">Confianza y transparencia con comunidades: Desconocimiento o desconfianza de los estudios por parte de comunidades agrava conflictos; incorporar mecanismos de participación y comunicación.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=5519" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:31:59)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="8">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">8</span>
+          <span class="section-title">Regulación ambiental sectorial y permisos adicionales</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.1</span>
+              <span class="subsection-title">Normativa sectorial específica para minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Reglamentos principales: Reglamento de protección y gestión ambiental para explotación, beneficio, labor general, transporte y almacenamiento — DS 040-2014-EM. Reglamento de protección ambiental para actividades de exploración — DS 042-2017-EM.</div>
+              <div class="content-text">Normas sectoriales complementarias: Normas de seguridad y salud ocupacional (ej. DS 024-2016-MEM) y otras específicas por actividad.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=5869" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:37:49)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.2</span>
+              <span class="subsection-title">Permisos y autorizaciones exigidos por otras entidades</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Certificado de Inexistencia de Restos Arqueológicos (CIRA): Otorgado por el Ministerio de Cultura; requisito previo y posible exigencia de monitoreo arqueológico si se detectan vestigios.</div>
+              <div class="content-text">Derechos de uso de agua y autorizaciones de la Autoridad Nacional del Agua (ANA): Permisos para captación, vertimiento y reuso de aguas residuales; evaluación de impactos hídricos y compatibilidad con uso agrícola y poblacional. Ejemplos: plantas de tratamiento y reuso de agua (p. ej. Cerro Verde) como medidas de mitigación y cooperación con comunidades.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=6026" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:40:26)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">8.3</span>
+              <span class="subsection-title">Otros registros y autorizaciones sectoriales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Registro de consumidor directo de combustibles y autorización para tanques de almacenamiento: Supervisión por OSINERGMIN u organismos sectoriales para consumo y almacenamiento de hidrocarburos.</div>
+              <div class="content-text">Registro de bienes fiscalizados ante SUNAT: Control sobre adquisición, uso y almacenamiento de insumos químicos fiscalizados (mercurio, cianuro, hidróxido de sodio, peróxido de hidrógeno). Importancia del control formal vs. ausencia de control en minería ilegal y sus impactos ambientales.</div>
+              <div class="content-text">Autorización para vertimiento y reuso de efluentes: Requiere plantas de tratamiento y permisos de la ANA; permite reutilizar aguas tratadas en procesos mineros.</div>
+              <div class="content-text">Autorización para desbosque y manejo forestal: Otorgada por el Servicio Nacional Forestal y de Fauna Silvestre; puede requerir programas de reforestación compensatoria.</div>
+              <div class="content-text">Autorización para uso de explosivos: Controlada por la Superintendencia Nacional de Control de Servicios de Seguridad, Armas, Municiones y Explosivos (SUCAMEC). Requisitos incluyen instalación segura de polvorines y cumplimiento de condiciones para almacenamiento y traslado. Riesgo en minería ilegal: explosivos y cartuchos ingresan por contrabando, sin permisos ni condiciones de seguridad, representando peligro elevado.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=6513" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:48:33)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="9">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">9</span>
+          <span class="section-title">Concesiones mineras: obligaciones administrativas y cierre</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.1</span>
+              <span class="subsection-title">Inscripción, oponibilidad y vigencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Requisitos formales para validez jurídica: Inscripción en SUNARP para oponibilidad; cumplimiento de pagos y obligaciones administrativas.</div>
+              <div class="content-text">Plazos y efectos de publicaciones: Resolución de títulos y disponibilidad del área tras caducidades o incumplimientos.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=6830" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:53:50)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">9.2</span>
+              <span class="subsection-title">Caducidad, multas y recuperación del área</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Causas de pérdida del derecho: Incumplimiento de pago de derecho de vigencia por dos años consecutivos; no cumplimiento de producción mínima tras plazos legales.</div>
+              <div class="content-text">Procedimiento de declaración de caducidad: Determinación y declaración por la autoridad competente; área queda disponible para terceros.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=7086" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:58:06)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-section="10">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div style="display: flex; align-items: center">
+          <span class="section-number">10</span>
+          <span class="section-title">Cierre y próximos pasos</span>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="section-content">
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.1</span>
+              <span class="subsection-title">Materiales y evaluación final</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Disponibilidad de diapositivas y normativas en el aula virtual e internet: Materiales subirán al sistema y se informará alcance de examen teórico y práctico del módulo.</div>
+              <div class="content-text">Recomendación de consulta de normas: Descargar y revisar Ley General del Ambiente, Ley de Evaluación de Impacto Ambiental, reglamentos sectoriales y decretos supremos mencionados.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=5408" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:30:08)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.2</span>
+              <span class="subsection-title">Reflexiones finales sobre regulación y responsabilidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Importancia de mitigar impactos y adoptar tecnologías modernas: Minería actual requiere cumplimiento ambiental, social y técnico para reducir huellas históricas de daño.</div>
+              <div class="content-text">Rol del profesional minero: Integrar obligaciones legales, diálogo con comunidades y buenas prácticas ambientales para viabilizar proyectos sostenibles.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=4743" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:19:03)</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSubsection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="subsection-number">10.3</span>
+              <span class="subsection-title">Cierre de clase y asistencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="subsection-content">
+            <div class="content-item">
+              <div class="content-text">Control de asistencia y dinámica final: Profesor tomó asistencia llamando a estudiantes; se regularizó asistencia de la semana anterior. Algunos estudiantes presentes respondieron en voz o chat; ausencias registradas (ej. Luz Laurita, Raúl).</div>
+              <div class="content-text">Indicaciones de conducta en clase virtual: Pedidos de cerrar micrófonos cuando no intervengan para mantener orden.</div>
+              <div class="content-text">Continuidad y próximos encuentros: Clase finaliza y se anuncia continuación del Marco Legal en la siguiente sesión del jueves. Tiempo para preguntas: no surgieron consultas finales; despedida y buenos días/noches entre participantes.</div>
+              <a href="https://www.youtube.com/watch?v=QLw6U85gcig&start=7203" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:03)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GERENCIA ESTRATÉGICA Y LIDERAZGO DE EQUIPOS EN LA MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 03: MARCO LEGAL Y REGULATORIO DE LA MINERÍA - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>
